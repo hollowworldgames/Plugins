@@ -22,7 +22,7 @@ APawn* UBoxSpawnPointComponent::Spawn_Implementation(const TScriptInterface<ISpa
 
 bool UBoxSpawnPointComponent::IsOccupied()
 {
-	return Occupant;
+	return Occupant != nullptr;
 }
 
 FVector UBoxSpawnPointComponent::GetLocation()

@@ -26,7 +26,7 @@ struct DAMAGE_API FComponentHealth
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FComponentDamaged, const FComponentHealth&, Health);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class COMMON_API UDamageReceiverComponent : public UActorComponent
+class DAMAGE_API UDamageReceiverComponent : public UActorComponent
 {
 	GENERATED_BODY()
 

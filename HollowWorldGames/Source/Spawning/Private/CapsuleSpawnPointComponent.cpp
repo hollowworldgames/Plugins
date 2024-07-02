@@ -22,7 +22,7 @@ APawn* UCapsuleSpawnPointComponent::Spawn_Implementation(const TScriptInterface<
 
 bool UCapsuleSpawnPointComponent::IsOccupied()
 {
-	return Occupant;
+	return Occupant != nullptr;
 }
 
 FVector UCapsuleSpawnPointComponent::GetLocation()
