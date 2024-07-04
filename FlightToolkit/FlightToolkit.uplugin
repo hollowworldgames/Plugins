@@ -2,7 +2,7 @@
 	"FileVersion": 3,
 	"Version": 1,
 	"VersionName": "1.0",
-	"FriendlyName": "HollowWorldGames",
+	"FriendlyName": "FlightToolkit",
 	"Description": "",
 	"Category": "Other",
 	"CreatedBy": "",
@@ -16,39 +16,24 @@
 	"Installed": false,
 	"Modules": [
 		{
-			"Name": "Common",
+			"Name": "Flight",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
 		},
 		{
-			"Name": "Gameplay",
+			"Name": "Campaign",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
 		},
 		{
-			"Name": "ViewPoints",
-			"Type": "Runtime",
-			"LoadingPhase": "Default"
-		},
-		{
-			"Name": "Interactions",
-			"Type": "Runtime",
-			"LoadingPhase": "Default"
-		},
-		{
-			"Name": "Damage",
-			"Type": "Runtime",
-			"LoadingPhase": "Default"
-		},
-		{
-			"Name": "Spawning",
+			"Name": "Terrain",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
 		}
 	],
 	"Plugins": [
 		{
-			"Name": "GameplayAbilities",
+			"Name": "HollowWorldGames",
 			"Enabled": true
 		},
 		{
@@ -56,7 +41,7 @@
 			"Enabled": true
 		},
 		{
-			"Name": "XRBase",
+			"Name": "GameplayAbilities",
 			"Enabled": true
 		}
 	]
