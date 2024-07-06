@@ -14,7 +14,8 @@ class FLIGHT_API UAfterburningJetEngineDefinition : public UJetEngineDefinition
 {
 	GENERATED_BODY()
 public :
-	virtual void TickEngine(float DeltaTime, float Airpressure, float Airspeed) override;
+	virtual void TickEngine(float DeltaTime, float AirPressure, float AirSpeed) override;
+	virtual void TickEngine(float DeltaTime, float AirPressure, TObjectPtr<USkeletalMeshComponent> Root) override;
 	virtual float GetNeeded() override;
 	virtual float Provided(float Amount) override;
 protected :

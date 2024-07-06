@@ -12,6 +12,16 @@ void UAfterburningJetEngineDefinition::TickEngine(float DeltaTime, float Airpres
 	}
 }
 
+void UAfterburningJetEngineDefinition::TickEngine(float DeltaTime, float AirPressure,
+	TObjectPtr<USkeletalMeshComponent> Root)
+{
+	Super::TickEngine(DeltaTime, AirPressure, Root);
+	if(BurnerFuel > 0)
+	{
+		Force += BurnerThrust.GetValueAtLevel(BurnerFuel);
+	}
+}
+
 float UAfterburningJetEngineDefinition::GetNeeded()
 {
 	float Needed = Super::GetNeeded();

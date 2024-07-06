@@ -77,16 +77,12 @@ Set##IncomingAttributeName(0);\
 Set##HealthAttributeName(Get##HealthAttributeName() + Damage);\
 }
 
-#define PROCESS_INCOMING_DAMAGE(IncomingAttributeName, HealthAttributeName, Data, Notify) \
+#define PROCESS_INCOMING_DAMAGE(IncomingAttributeName, HealthAttributeName, Data) \
 if(Data.EvaluatedData.Attribute == Get##IncomingAttributeName##Attribute()) \
 {\
 float Damage = Get##IncomingAttributeName();\
 Set##IncomingAttributeName(0);\
 Set##HealthAttributeName(Get##HealthAttributeName() - Damage);\
-if(Get##HealthAttributeName() == 0) \
-{\
-	Notify.Broadcast();\
-}\
 }
 
 #define PROCESS_INCOMING_DAMAGE_NOTIFY(IncomingAttributeName, HealthAttributeName, Data, Notify) \

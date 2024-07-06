@@ -35,7 +35,9 @@ public :
 	virtual void SetControlValue(float Value);
 	virtual float GetControlValue() const { return ControlValue; }
 	virtual void TickControl(float AirPressure, float Airspeed, FVector WindDirection, FVector Forward, FVector Up);
-	float GetForce() const { return Force; }
+	virtual void TickControl(float AirPressure, TObjectPtr<USkeletalMeshComponent> Root);
+	FVector GetForce() const { return Force; }
+	FVector GetRotation() const { return Rotation; }
 	FGameplayTag GetParentSurface() const { return ParentSurface; }
 protected :
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Settings)
@@ -43,11 +45,21 @@ protected :
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Status)
 	float ControlValue = 0;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Status)
-	float Force = 0;
+	FVector Force = FVector::Zero();
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Settings)
 	FGameplayTag ParentSurface;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Settings)
 	bool Right = true;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Status)
 	float HydraulicPressure = 0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Status)
+	FVector Rotation = FVector::Zero();
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Settings)
+	FVector Location;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Settings)
+	FName Bone;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Settings)
+	FScalableFloat ForceFromAirspeed;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Settings)
+	double MaxForce = 100;
 };

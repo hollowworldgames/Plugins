@@ -9,7 +9,8 @@ public class Spacecraft : ModuleRules
         PublicDependencyModuleNames.AddRange(
             new string[]
             {
-                "Core",
+                "Core", "GameplayAbilities","GameplayTasks",
+                "GameplayTags"
             }
         );
 
@@ -20,7 +21,10 @@ public class Spacecraft : ModuleRules
                 "Engine",
                 "Slate",
                 "SlateCore",
-                "Common"
+                "Common",
+                "Gameplay",
+                "GameplayTasks",
+                "GameplayTags"
             }
         );
     }

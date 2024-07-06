@@ -14,7 +14,8 @@ class FLIGHT_API UJetEngineDefinition : public UEngineDefinition
 {
 	GENERATED_BODY()
 public :
-	virtual void TickEngine(float DeltaTime, float Airpressure, float Airspeed) override;
+	virtual void TickEngine(float DeltaTime, float AirPressure, float AirSpeed) override;
+	virtual void TickEngine(float DeltaTime, float AirPressure, TObjectPtr<USkeletalMeshComponent> Root) override;
 protected :
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Settings)
 	FScalableFloat Compression;

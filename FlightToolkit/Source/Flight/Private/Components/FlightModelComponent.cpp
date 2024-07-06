@@ -65,6 +65,7 @@ void UFlightModelComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	AAircraftPawn * Aircraft = GetOwner<AAircraftPawn>();
 	if(ensure(Aircraft))
 	{
+		USkeletalMeshComponent * Root = Cast<USkeletalMeshComponent>(Aircraft->GetRootComponent());
 		//update controls
 		float CurrentPitch = ConsumePitchInput();
 		float CurrentRoll = ConsumeRollInput();
@@ -79,13 +80,21 @@ void UFlightModelComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 		float Airspeed =Velocity.Length();
 		float AirPressure = GetAirPressure();
 
+		FVector Force = FVector::Zero();
+		FVector Rotation = FVector::Zero();
+		
 		//update Engines
 		for(TObjectPtr<UEngineDefinition> Engine : Engines)
 		{
 			if(Engine)
 			{
 				Engine->SetThrottle(CurrentThrottle);
-				Engine->TickEngine(DeltaTime, AirPressure, Airspeed);
+				if(Root)
+				{
+					Engine->TickEngine(DeltaTime, AirPressure, Root);
+					Engine->ApplyForce(Root);
+				}
+				
 			}
 		}
 		
@@ -144,8 +153,8 @@ void UFlightModelComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 		//Update Surfaces
 		for(TObjectPtr<ULiftSurfaceDefinition> Surface : Surfaces)
 		{
-			Surface->TickSurface(AirPressure, Wind , Aircraft->GetActorForwardVector(),
-				GetOwner()->GetActorUpVector(), Airspeed);
+			Surface->TickSurface(AirPressure, Root);
+			
 		}
 	}
 }

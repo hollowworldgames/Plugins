@@ -3,6 +3,7 @@
 
 #include "Definitions/Engines/EngineDefinition.h"
 
+#include "SkeletalMeshAttributes.h"
 #include "UtilityStatics.h"
 #include "Interfaces/Source.h"
 
@@ -22,10 +23,21 @@ void UEngineDefinition::Stop()
 	}
 }
 
-void UEngineDefinition::TickEngine(float DeltaTime, float Airpressure, float Airspeed)
+void UEngineDefinition::TickEngine(float DeltaTime, float AirPressure, float AirSpeed)
 {
 	Throttle = UUtilityStatics::MoveTowardTargetValue(Throttle, ThrottleTarget, 1, DeltaTime, 0, 1);
 	Boost = UUtilityStatics::MoveTowardTargetValue(Boost, BoostTarget, 1, DeltaTime, 0, 1);
+}
+
+void UEngineDefinition::TickEngine(float DeltaTime, float AirPressure, TObjectPtr<USkeletalMeshComponent> Root)
+{
+	Throttle = UUtilityStatics::MoveTowardTargetValue(Throttle, ThrottleTarget, 1, DeltaTime, 0, 1);
+	Boost = UUtilityStatics::MoveTowardTargetValue(Boost, BoostTarget, 1, DeltaTime, 0, 1);
+}
+
+void UEngineDefinition::ApplyForce(TObjectPtr<USkeletalMeshComponent> Root)
+{
+	Root->AddForceAtLocation(Root->GetBoneQuaternion(Bone).GetForwardVector() * Force, Root->GetBoneLocation(Bone), Bone);
 }
 
 EResource UEngineDefinition::GetNeededResource()

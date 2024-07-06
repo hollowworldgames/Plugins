@@ -35,5 +35,23 @@
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
 		}
+	],
+	"Plugins": [
+	{
+		"Name": "GameplayAbilities",
+		"Enabled": true
+	},
+	{
+		"Name": "EnhancedInput",
+		"Enabled": true
+	},
+	{
+		"Name": "XRBase",
+		"Enabled": true
+	},
+	{
+		"Name": "HollowWorldGames",
+		"Enabled": true
+	}
 	]
 }

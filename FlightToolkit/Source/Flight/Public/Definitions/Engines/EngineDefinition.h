@@ -32,7 +32,9 @@ public :
 	EEngineState GetEngineState() const { return State; }
 	virtual void Start();
 	virtual void Stop();
-	virtual void TickEngine(float DeltaTime, float Airpressure, float Airspeed);
+	virtual void TickEngine(float DeltaTime, float AirPressure, float AirSpeed);
+	virtual void TickEngine(float DeltaTime, float AirPressure, TObjectPtr<USkeletalMeshComponent> Root);
+	virtual void ApplyForce(TObjectPtr<USkeletalMeshComponent> Root);
 	virtual EResource GetNeededResource() override;
 	virtual float GetNeeded() override;
 	virtual float Provided(float Amount) override;
@@ -60,6 +62,8 @@ protected:
 	float Boost = 0;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Status)
 	float BoostTarget = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Settings)
+	FName Bone;
 };
 
 
