@@ -8,11 +8,14 @@
 void USpaceCraftAttributes::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME_CONDITION_NOTIFY(USpaceCraftAttributes, HullLevel, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(USpaceCraftAttributes, HullHealth, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(USpaceCraftAttributes, MaxHullHealth, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(USpaceCraftAttributes, HullCriticalDefense, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(USpaceCraftAttributes, ShieldOn, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(USpaceCraftAttributes, ShieldLevel, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(USpaceCraftAttributes, ShieldHealth, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(USpaceCraftAttributes, ShieldCriticalDefense, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(USpaceCraftAttributes, MaxShieldHealth, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(USpaceCraftAttributes, FrontShieldHealth, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(USpaceCraftAttributes, MaxFrontShieldHealth, COND_None, REPNOTIFY_Always);
@@ -70,15 +73,18 @@ void USpaceCraftAttributes::PostGameplayEffectExecute(const FGameplayEffectModCa
 	PROCESS_INCOMING_DAMAGE(IncomingEngineDamage, EngineHealth, Data);
 }
 
+ATTRIBUTE_IMPLEMENT(USpaceCraftAttributes, HullLevel);
 ATTRIBUTE_IMPLEMENT(USpaceCraftAttributes, HullHealth);
 ATTRIBUTE_IMPLEMENT(USpaceCraftAttributes, MaxHullHealth);
 ATTRIBUTE_IMPLEMENT(USpaceCraftAttributes, HullPhysicalMitigation);
 ATTRIBUTE_IMPLEMENT(USpaceCraftAttributes, HullEnergyMitigation);
+ATTRIBUTE_IMPLEMENT(USpaceCraftAttributes, HullCriticalDefense);
 
 ATTRIBUTE_IMPLEMENT(USpaceCraftAttributes, ShieldOn);
 ATTRIBUTE_IMPLEMENT(USpaceCraftAttributes, ShieldLevel);
 ATTRIBUTE_IMPLEMENT(USpaceCraftAttributes, ShieldHealth);
 ATTRIBUTE_IMPLEMENT(USpaceCraftAttributes, MaxShieldHealth);
+ATTRIBUTE_IMPLEMENT(USpaceCraftAttributes, ShieldCriticalDefense);
 ATTRIBUTE_IMPLEMENT(USpaceCraftAttributes, FrontShieldHealth);
 ATTRIBUTE_IMPLEMENT(USpaceCraftAttributes, MaxFrontShieldHealth);
 ATTRIBUTE_IMPLEMENT(USpaceCraftAttributes, BackShieldHealth);

@@ -16,8 +16,12 @@ class SPACECRAFT_API USpaceCraftAttributes : public UAttributeSet
 {
 	GENERATED_BODY()
 public :
+	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, HullLevel);
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, HullHealth);
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, MaxHullHealth);
+	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, HullCriticalDefense);
+	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, HullEnergyMitigationBoost);
+	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, HullPhysicalMitigationBoost);
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, ShieldLevel);
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, ShieldOn);
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, ShieldBoost);
@@ -28,6 +32,9 @@ public :
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, ShieldEnergyMitigationBoost);
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, ShieldHealth);
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, MaxShieldHealth);
+	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, ShieldCriticalDefense);
+	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, ShieldPhysicalMitigation);
+	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, ShieldEnergyMitigation);
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, FrontShieldHealth);
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, MaxFrontShieldHealth);
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, BackShieldHealth);
@@ -36,14 +43,19 @@ public :
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, HullEnergyMitigation);
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, IncomingHullEnergyDamage);
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, IncomingHullPhysicalDamage);
+	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, IncomingHullHealing);
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, IncomingFrontEnergyDamage);
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, IncomingFrontPhysicalDamage);
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, IncomingBackEnergyDamage);
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, IncomingBackPhysicalDamage);
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, IncomingReactorDamage);
+	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, IncomingReactorHealing);
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, IncomingShieldDamage);
+	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, IncomingShieldHealing);
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, IncomingBatteryDamage);
+	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, IncomingBatteryHealing);
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, IncomingEngineDamage);
+	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, IncomingEngineHealing);
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, ReactorLevel);
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, ReactorBoost);
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, ReactorHealthBoost);
@@ -72,32 +84,52 @@ public :
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, EngineThrust);
 protected :
 	//Health Attributes
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_HullHealth, Category=Health)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_HullLevel, Category=Health)
+	FGameplayAttributeData HullLevel;
+	UFUNCTION()
+	void OnRep_HullLevel(const FGameplayAttributeData& OldHullLevel) const;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Shield)
+	FGameplayAttributeData HullBoost;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Shield)
+	FGameplayAttributeData HullPhysicalMitigationBoost;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Shield)
+	FGameplayAttributeData HullEnergyMitigationBoost;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_HullHealth, Category=Health)
 	FGameplayAttributeData HullHealth;
 	UFUNCTION()
 	void OnRep_HullHealth(const FGameplayAttributeData& OldHullHealth) const;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_MaxHullHealth, Category=Health)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_MaxHullHealth, Category=Health)
 	FGameplayAttributeData MaxHullHealth;
 	UFUNCTION()
 	void OnRep_MaxHullHealth(const FGameplayAttributeData& OldMaxHullHealth) const;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_HullPhysicalMitigation, Category=Health)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_HullPhysicalMitigation, Category=Health)
 	FGameplayAttributeData HullPhysicalMitigation;
 	UFUNCTION()
 	void OnRep_HullPhysicalMitigation(const FGameplayAttributeData& OldHullPhysicalMitigation) const;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_HullEnergyMitigation, Category=Health)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_HullEnergyMitigation, Category=Health)
 	FGameplayAttributeData HullEnergyMitigation;
 	UFUNCTION()
 	void OnRep_HullEnergyMitigation(const FGameplayAttributeData& OldHullEnergyMitigation) const;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_HullCriticalDefense, Category=Health)
+	FGameplayAttributeData HullCriticalDefense;
+	UFUNCTION()
+	void OnRep_HullCriticalDefense(const FGameplayAttributeData& OldHullCriticalDefense) const;
+	
     //Shield Attributes
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_ShieldOn, Category=Shield)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_ShieldOn, Category=Shield)
 	FGameplayAttributeData ShieldOn;
 	UFUNCTION()
 	void OnRep_ShieldOn(const FGameplayAttributeData& OldShieldOn) const;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_ShieldLevel, Category=Shield)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_ShieldLevel, Category=Shield)
 	FGameplayAttributeData ShieldLevel;
 	UFUNCTION()
 	void OnRep_ShieldLevel(const FGameplayAttributeData& OldShieldLevel) const;
@@ -121,49 +153,54 @@ protected :
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Shield)
 	FGameplayAttributeData ShieldEnergyMitigationBoost;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_ShieldHealth, Category=Shield)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_ShieldHealth, Category=Shield)
 	FGameplayAttributeData ShieldHealth;
 	UFUNCTION()
 	void OnRep_ShieldHealth(const FGameplayAttributeData& OldShieldHealth) const;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_MaxShieldHealth, Category=Shield)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_MaxShieldHealth, Category=Shield)
 	FGameplayAttributeData MaxShieldHealth;
 	UFUNCTION()
 	void OnRep_MaxShieldHealth(const FGameplayAttributeData& OldMaxShieldHealth) const;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_ShieldCriticalDefense, Category=Shield)
+	FGameplayAttributeData ShieldCriticalDefense;
+	UFUNCTION()
+	void OnRep_ShieldCriticalDefense(const FGameplayAttributeData& OldShieldCriticalDefense) const;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_FrontShieldHealth, Category=Shield)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_FrontShieldHealth, Category=Shield)
 	FGameplayAttributeData FrontShieldHealth;
 	UFUNCTION()
 	void OnRep_FrontShieldHealth(const FGameplayAttributeData& OldFrontShieldHealth) const;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_MaxFrontShieldHealth, Category=Shield)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_MaxFrontShieldHealth, Category=Shield)
 	FGameplayAttributeData MaxFrontShieldHealth;
 	UFUNCTION()
 	void OnRep_MaxFrontShieldHealth(const FGameplayAttributeData& OldMaxFrontShieldHealth) const;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_BackShieldHealth, Category=Shield)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_BackShieldHealth, Category=Shield)
 	FGameplayAttributeData BackShieldHealth;
 	UFUNCTION()
 	void OnRep_BackShieldHealth(const FGameplayAttributeData& OldBackShieldHealth) const;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_MaxBackShieldHealth, Category=Shield)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_MaxBackShieldHealth, Category=Shield)
 	FGameplayAttributeData MaxBackShieldHealth;
 	UFUNCTION()
 	void OnRep_MaxBackShieldHealth(const FGameplayAttributeData& OldMaxFrontBackHealth) const;
 
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_ShieldPhysicalMitigation, Category=Shield)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_ShieldPhysicalMitigation, Category=Shield)
 	FGameplayAttributeData ShieldPhysicalMitigation;
 	UFUNCTION()
 	void OnRep_ShieldPhysicalMitigation(const FGameplayAttributeData& OldShieldPhysicalMitigation) const;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_ShieldEnergyMitigation, Category=Shield)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_ShieldEnergyMitigation, Category=Shield)
 	FGameplayAttributeData ShieldEnergyMitigation;
 	UFUNCTION()
 	void OnRep_ShieldEnergyMitigation(const FGameplayAttributeData& OldShieldEnergyMitigation) const;
 
 	//Power Attributes
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_ReactorLevel, Category=Power)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_ReactorLevel, Category=Power)
 	FGameplayAttributeData ReactorLevel;
 	UFUNCTION()
 	void OnRep_ReactorLevel(const FGameplayAttributeData& OldReactorLevel) const;
@@ -174,17 +211,17 @@ protected :
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Power)
 	FGameplayAttributeData ReactorHealthBoost;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_ReactorHealth, Category=Power)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_ReactorHealth, Category=Power)
 	FGameplayAttributeData ReactorHealth;
 	UFUNCTION()
 	void OnRep_ReactorHealth(const FGameplayAttributeData& OldReactorHealth) const;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_MaxReactorHealth, Category=Power)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_MaxReactorHealth, Category=Power)
 	FGameplayAttributeData MaxReactorHealth;
 	UFUNCTION()
 	void OnRep_MaxReactorHealth(const FGameplayAttributeData& OldMaxHealth) const;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_BatteryLevel, Category=Power)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_BatteryLevel, Category=Power)
 	FGameplayAttributeData BatteryLevel;
 	UFUNCTION()
 	void OnRep_BatteryLevel(const FGameplayAttributeData& OldBatteryLevel) const;
@@ -196,63 +233,63 @@ protected :
 	FGameplayAttributeData BatteryHealthBoost;
 
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_BatteryHealth, Category=Power)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_BatteryHealth, Category=Power)
 	FGameplayAttributeData BatteryHealth;
 	UFUNCTION()
 	void OnRep_BatteryHealth(const FGameplayAttributeData& OldBatteryHealth) const;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_MaxBatteryHealth, Category=Power)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_MaxBatteryHealth, Category=Power)
 	FGameplayAttributeData MaxBatteryHealth;
 	UFUNCTION()
 	void OnRep_MaxBatteryHealth(const FGameplayAttributeData& OldMaxHealth) const;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_PowerGenerated, Category=Power)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_PowerGenerated, Category=Power)
 	FGameplayAttributeData PowerGenerated;
 	UFUNCTION()
 	void OnRep_PowerGenerated(const FGameplayAttributeData& OldPowerGenerated) const;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_BatteryPower, Category=Power)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_BatteryPower, Category=Power)
 	FGameplayAttributeData BatteryPower;
 	UFUNCTION()
 	void OnRep_BatteryPower(const FGameplayAttributeData& OldBatteryPower) const;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_MaxBatteryPower, Category=Power)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_MaxBatteryPower, Category=Power)
 	FGameplayAttributeData MaxBatteryPower;
 	UFUNCTION()
 	void OnRep_MaxBatteryPower(const FGameplayAttributeData& OldMaxBatteryPower) const;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_WeaponDistribution, Category=Power)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_WeaponDistribution, Category=Power)
 	FGameplayAttributeData WeaponDistribution;
 	UFUNCTION()
 	void OnRep_WeaponDistribution(const FGameplayAttributeData& OldWeaponDistribution) const;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_WeaponPower, Category=Power)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_WeaponPower, Category=Power)
 	FGameplayAttributeData WeaponPower;
 	UFUNCTION()
 	void OnRep_WeaponPower(const FGameplayAttributeData& OldWeaponPower) const;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_EngineDistribution, Category=Power)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_EngineDistribution, Category=Power)
 	FGameplayAttributeData EngineDistribution;
 	UFUNCTION()
 	void OnRep_EngineDistribution(const FGameplayAttributeData& OldEngineDistribution) const;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_EnginePower, Category=Power)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_EnginePower, Category=Power)
 	FGameplayAttributeData EnginePower;
 	UFUNCTION()
 	void OnRep_EnginePower(const FGameplayAttributeData& OldEnginePower) const;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_ShieldDistribution, Category=Power)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_ShieldDistribution, Category=Power)
 	FGameplayAttributeData ShieldDistribution;
 	UFUNCTION()
 	void OnRep_ShieldDistribution(const FGameplayAttributeData& OldShieldDistribution) const;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_ShieldPower, Category=Power)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_ShieldPower, Category=Power)
 	FGameplayAttributeData ShieldPower;
 	UFUNCTION()
 	void OnRep_ShieldPower(const FGameplayAttributeData& OldShieldPower) const;
 
 	//Engine Attributes
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_EngineLEvel, Category=Engine)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_EngineLEvel, Category=Engine)
 	FGameplayAttributeData EngineLevel;
 	UFUNCTION()
 	void OnRep_EngineLevel(const FGameplayAttributeData& OldEngineLevel) const;
@@ -263,31 +300,34 @@ protected :
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Engine)
 	FGameplayAttributeData EngineHealthBoost;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_EngineHealth, Category=Engine)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_EngineHealth, Category=Engine)
 	FGameplayAttributeData EngineHealth;
 	UFUNCTION()
 	void OnRep_EngineHealth(const FGameplayAttributeData& OldEngineHealth) const;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_MaxEngineHealth, Category=Engine)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_MaxEngineHealth, Category=Engine)
 	FGameplayAttributeData MaxEngineHealth;
 	UFUNCTION()
 	void OnRep_MaxEngineHealth(const FGameplayAttributeData& OldMaxEngineHealth) const;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_EngineOn, Category=Engine)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_EngineOn, Category=Engine)
 	FGameplayAttributeData EngineOn;
 	UFUNCTION()
 	void OnRep_EngineOn(const FGameplayAttributeData& OldEngineOn) const;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_EngineThrust, Category=Engine)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_EngineThrust, Category=Engine)
 	FGameplayAttributeData EngineThrust;
 	UFUNCTION()
 	void OnRep_EngineThrust(const FGameplayAttributeData& OldEngineThrust) const;
-	//Incoming Damage Attributes
+	//Incoming Damage & Healing Attributes
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Damage)
 	FGameplayAttributeData IncomingHullPhysicalDamage;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Damage)
 	FGameplayAttributeData IncomingHullEnergyDamage;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Damage)
+	FGameplayAttributeData IncomingHullHealing;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Damage)
 	FGameplayAttributeData IncomingFrontPhysicalDamage;
@@ -305,13 +345,25 @@ protected :
 	FGameplayAttributeData IncomingShieldDamage;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Damage)
+	FGameplayAttributeData IncomingShieldHealing;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Damage)
 	FGameplayAttributeData IncomingEngineDamage;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Damage)
+	FGameplayAttributeData IncomingEngineHealing;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Damage)
 	FGameplayAttributeData IncomingReactorDamage;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Damage)
+	FGameplayAttributeData IncomingReactorHealing;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Damage)
 	FGameplayAttributeData IncomingBatteryDamage;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Damage)
+	FGameplayAttributeData IncomingBatteryHealing;
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;

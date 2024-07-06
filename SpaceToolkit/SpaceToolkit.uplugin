@@ -34,24 +34,29 @@
 			"Name": "TerraSuite",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "Character",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
 		}
 	],
 	"Plugins": [
-	{
-		"Name": "GameplayAbilities",
-		"Enabled": true
-	},
-	{
-		"Name": "EnhancedInput",
-		"Enabled": true
-	},
-	{
-		"Name": "XRBase",
-		"Enabled": true
-	},
-	{
-		"Name": "HollowWorldGames",
-		"Enabled": true
-	}
+		{
+			"Name": "GameplayAbilities",
+			"Enabled": true
+		},
+		{
+			"Name": "EnhancedInput",
+			"Enabled": true
+		},
+		{
+			"Name": "XRBase",
+			"Enabled": true
+		},
+		{
+			"Name": "HollowWorldGames",
+			"Enabled": true
+		}
 	]
 }

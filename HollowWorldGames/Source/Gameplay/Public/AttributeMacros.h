@@ -42,6 +42,26 @@ FAggregatorEvaluateParameters EvaluateParameters;\
 EvaluateParameters.SourceTags = Spec.CapturedSourceTags.GetAggregatedTags();\
 EvaluateParameters.TargetTags = Spec.CapturedTargetTags.GetAggregatedTags();
 
+#define INITIALIZE_EXECUTION_CALC2(SourceClass, TargetClass, ExecutionParams) \
+const UAbilitySystemComponent * SourceComponent = ExecutionParams.GetSourceAbilitySystemComponent();\
+const UAbilitySystemComponent * TargetComponent = ExecutionParams.GetTargetAbilitySystemComponent();\
+const SourceClass * Source = Cast<SourceClass>(SourceComponent->GetAvatarActor());\
+const TargetClass * Target = Cast<TargetClass>(TargetComponent->GetAvatarActor());\
+const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();\
+FAggregatorEvaluateParameters EvaluateParameters;\
+EvaluateParameters.SourceTags = Spec.CapturedSourceTags.GetAggregatedTags();\
+EvaluateParameters.TargetTags = Spec.CapturedTargetTags.GetAggregatedTags();
+
+#define GET_EXECUTION_SOURCE_OWNER(SourceClass) \
+const SourceClass * SourceOwner = Cast<SourceClass>(SourceComponent->GetOwnerActor());
+
+#define GET_EXECUTION_TARGET_OWNER(TargetClass) \
+const TargetClass * TargetOwner = Cast<TargetClass>(TargetComponent->GetOwnerActor());
+
+#define GET_EXECUTION_OWNERS(SourceClass , TargetClass) \
+const SourceClass * SourceOwner = Cast<SourceClass>(SourceComponent->GetOwnerActor());\
+const TargetClass * TargetOwner = Cast<TargetClass>(TargetComponent->GetOwnerActor());
+
 #define GET_EXECUTION_ATTRIBUTE(Attribute, ExecutionParams) \
 float Attribute = 0; \
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(Attribute##Def, EvaluateParameters, Attribute );
