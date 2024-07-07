@@ -24,7 +24,7 @@ public class Spacecraft : ModuleRules
                 "Common",
                 "Gameplay",
                 "GameplayTasks",
-                "GameplayTags"
+                "GameplayTags", "EnhancedInput"
             }
         );
     }

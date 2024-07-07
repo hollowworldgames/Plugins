@@ -14,16 +14,15 @@ class SPACECRAFT_API AStationPawn : public APawn
 public:
 	// Sets default values for this pawn's properties
 	AStationPawn();
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+	virtual void SetOwningShip(TObjectPtr<AActor> OwningShip);
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Owner)
+	TObjectPtr<AActor> OwningShip;
 };

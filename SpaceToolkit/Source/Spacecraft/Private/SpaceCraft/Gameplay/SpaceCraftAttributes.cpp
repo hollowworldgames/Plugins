@@ -46,6 +46,7 @@ void USpaceCraftAttributes::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 	DOREPLIFETIME_CONDITION_NOTIFY(USpaceCraftAttributes, EngineHealth, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(USpaceCraftAttributes, MaxEngineHealth, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(USpaceCraftAttributes, EngineThrust, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(USpaceCraftAttributes, EngineAgility, COND_None, REPNOTIFY_Always);
 }
 
 void USpaceCraftAttributes::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
@@ -115,3 +116,4 @@ ATTRIBUTE_IMPLEMENT(USpaceCraftAttributes, EngineLevel);
 ATTRIBUTE_IMPLEMENT(USpaceCraftAttributes, EngineHealth);
 ATTRIBUTE_IMPLEMENT(USpaceCraftAttributes, MaxEngineHealth);
 ATTRIBUTE_IMPLEMENT(USpaceCraftAttributes, EngineThrust);
+ATTRIBUTE_IMPLEMENT(USpaceCraftAttributes, EngineAgility);

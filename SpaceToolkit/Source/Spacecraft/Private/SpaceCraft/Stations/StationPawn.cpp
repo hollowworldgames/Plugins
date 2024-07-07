@@ -32,3 +32,8 @@ void AStationPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 }
 
+void AStationPawn::SetOwningShip(TObjectPtr<AActor> Ship)
+{
+	OwningShip = Ship;
+}
+

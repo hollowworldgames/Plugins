@@ -82,6 +82,7 @@ public :
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, EngineHealth);
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, MaxEngineHealth);
 	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, EngineThrust);
+	ATTRIBUTE_ACCESSORS(USpaceCraftAttributes, EngineAgility);
 protected :
 	//Health Attributes
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_HullLevel, Category=Health)
@@ -319,6 +320,11 @@ protected :
 	FGameplayAttributeData EngineThrust;
 	UFUNCTION()
 	void OnRep_EngineThrust(const FGameplayAttributeData& OldEngineThrust) const;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_EngineAgility, Category=Engine)
+	FGameplayAttributeData EngineAgility;
+	UFUNCTION()
+	void OnRep_EngineAgility(const FGameplayAttributeData& OldEngineAgility) const;
 	//Incoming Damage & Healing Attributes
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Damage)
 	FGameplayAttributeData IncomingHullPhysicalDamage;
