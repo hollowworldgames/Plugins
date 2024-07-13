@@ -1,19 +1,15 @@
 ﻿using UnrealBuildTool;
 
-public class Character : ModuleRules
+public class DataAccess : ModuleRules
 {
-    public Character(ReadOnlyTargetRules Target) : base(Target)
+    public DataAccess(ReadOnlyTargetRules Target) : base(Target)
     {
         PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
         PublicDependencyModuleNames.AddRange(
             new string[]
             {
-                "Core",
-                "Common",
-                "Gameplay",
-                "Interactions",
-                "DataAccess"
+                "Core"
             }
         );
 
@@ -23,11 +19,7 @@ public class Character : ModuleRules
                 "CoreUObject",
                 "Engine",
                 "Slate",
-                "SlateCore",
-                "GameplayAbilities",
-                "GameplayTasks",
-                "GameplayTags",
-                "AIModule", "EnhancedInput"
+                "SlateCore"
             }
         );
     }

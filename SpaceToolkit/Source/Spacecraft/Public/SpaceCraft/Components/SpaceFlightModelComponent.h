@@ -30,7 +30,6 @@ struct FThrusterSet
 	void UpdateThrottleValue(float DeltaTime, float ChangeRate);
 };
 
-
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class SPACECRAFT_API USpaceFlightModelComponent : public UActorComponent
 {

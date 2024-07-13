@@ -3,12 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
+#include "Actors/DataCharacter.h"
 #include "AbilitySystemInterface.h"
 #include "SpaceCharacter.generated.h"
 
 UCLASS()
-class CHARACTER_API ASpaceCharacter : public ACharacter, public IAbilitySystemInterface
+class CHARACTER_API ASpaceCharacter : public ADataCharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 

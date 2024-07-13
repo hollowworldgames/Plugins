@@ -40,3 +40,13 @@ UAbilitySystemComponent* ASpaceCraftActor::GetAbilitySystemComponent() const
 	return AbilitySystemComponent;
 }
 
+void ASpaceCraftActor::ToggleGear()
+{
+	OnGearToggle.Broadcast();
+}
+
+void ASpaceCraftActor::TogglePower()
+{
+	OnPowerToggle.Broadcast();
+}
+

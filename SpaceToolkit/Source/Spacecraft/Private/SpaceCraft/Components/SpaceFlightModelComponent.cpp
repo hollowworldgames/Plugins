@@ -209,3 +209,4 @@ float USpaceFlightModelComponent::ConsumeThrottleInput()
 	Throttle = 0;
 	return OutputThrottle;
 }
+

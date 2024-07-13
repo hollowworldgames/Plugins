@@ -1,7 +1,7 @@
 // (c) Copyright 2024 Hollow World Games llc All Rights Reserved
 
 
-#include "WeaponAttributeSet.h"
+#include "SpaceCraft/Gameplay/WeaponAttributeSet.h"
 
 #include "Net/UnrealNetwork.h"
 

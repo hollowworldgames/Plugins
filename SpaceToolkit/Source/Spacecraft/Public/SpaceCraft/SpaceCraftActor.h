@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "AbilitySystemInterface.h"
+#include "Interface/SpaceCraftInterface.h"
 #include "SpaceCraftActor.generated.h"
 
 class USpaceCraftAttributes;
@@ -13,8 +14,11 @@ class UNavigationSystemComponent;
 class UTacticalSystemComponent;
 class USpaceFlightModelComponent;
 
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FToggle);
+
 UCLASS()
-class SPACECRAFT_API ASpaceCraftActor : public AActor, public IAbilitySystemInterface
+class SPACECRAFT_API ASpaceCraftActor : public AActor, public IAbilitySystemInterface, public ISpaceCraftInterface
 {
 	GENERATED_BODY()
 	
@@ -24,6 +28,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	virtual UAbilitySystemComponent * GetAbilitySystemComponent() const override;
+	virtual void ToggleGear() override;
+	virtual void TogglePower() override;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -39,4 +45,8 @@ protected:
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
 	TObjectPtr<USpaceCraftAttributes> Attributes;
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category=Events)
+	FToggle OnGearToggle;
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category=Events)
+	FToggle OnPowerToggle;
 };

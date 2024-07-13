@@ -9,7 +9,7 @@
 
 class USpaceFlightModelComponent;
 class UInputAction;
-class UInputContext;
+class UInputMappingContext;
 
 UCLASS()
 class SPACECRAFT_API APilotStationPawn : public AStationPawn
@@ -27,6 +27,20 @@ public:
 	void OnLiftSlide(const FInputActionValue& InputActionValue);
 	void OnThrottle(const FInputActionValue& InputActionValue);
 	void OnThrottleIncrement(const FInputActionValue& InputActionValue);
+	void OnGearToggle();
+	void OnStartToggle();
+	UFUNCTION(Server, Unreliable)
+	void OnPitchYaw_Server(float Pitch, float Yaw);
+	UFUNCTION(Server, Unreliable)
+	void OnRoll_Server(float RollValue);
+	UFUNCTION(Server, Unreliable)
+	void OnLiftSlide_Server(float Lift, float Slide);
+	UFUNCTION(Server, Unreliable)
+	void OnSetThrottle_Server(float ThrottleInputValue);
+	UFUNCTION(Server, Reliable)
+	void OnGearToggle_Server();
+	UFUNCTION(Server, Reliable)
+	void OnStartToggle_Server();
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void SetOwningShip(TObjectPtr<AActor> OwningShip) override;
@@ -46,6 +60,13 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input)
 	TObjectPtr<UInputAction> ThrottleIncrement;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input)
+	TObjectPtr<UInputAction> GearToggle;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input)
+	TObjectPtr<UInputAction> StartToggle;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input)
 	TObjectPtr<UInputMappingContext> Context;
 	float ThrottleValue = 0;
 };
+
+
+

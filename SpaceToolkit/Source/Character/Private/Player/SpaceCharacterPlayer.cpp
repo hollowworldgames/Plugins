@@ -93,10 +93,10 @@ void ASpaceCharacterPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInp
 
 UAbilitySystemComponent* ASpaceCharacterPlayer::GetAbilitySystemComponent() const
 {
-	ASpacePlayerState * PlayerState = GetPlayerState<ASpacePlayerState>();
-	if(ensure(PlayerState))
+	ASpacePlayerState * MyPlayerState = GetPlayerState<ASpacePlayerState>();
+	if(ensure(MyPlayerState))
 	{
-		return PlayerState->GetAbilitySystemComponent();
+		return MyPlayerState->GetAbilitySystemComponent();
 	}
 	return nullptr;
 }
@@ -105,10 +105,10 @@ void ASpaceCharacterPlayer::OnRep_PlayerState()
 {
 	Super::OnRep_PlayerState();
 
-	ASpacePlayerState * PlayerState = GetPlayerState<ASpacePlayerState>();
-	if(PlayerState)
+	ASpacePlayerState * MyPlayerState = GetPlayerState<ASpacePlayerState>();
+	if(MyPlayerState)
 	{
-		PlayerState->InitAbilitySystem(this);
+		MyPlayerState->InitAbilitySystem(this);
 	}
 }
 
