@@ -4,6 +4,7 @@
 #include "SpaceCraft/Gameplay/SpaceCraftDamageExecutionCalculation.h"
 
 #include "UtilityStatics.h"
+#include "Components/GameplayAbilitySystemComponent.h"
 #include "Spacecraft/Gameplay/WeaponAttributeSet.h"
 #include "SpaceCraft/SpaceCraftActor.h"
 #include "SpaceCraft/Gameplay/SpaceCraftAttributes.h"

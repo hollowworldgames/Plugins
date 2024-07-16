@@ -5,6 +5,7 @@
 
 #include "Components/GameplayAbilitySystemComponent.h"
 #include "Gameplay/SpaceCharacterAttributes.h"
+#include "Gameplay/SpaceCharacterShipAttributes.h"
 
 ASpacePlayerState::ASpacePlayerState()
 {
@@ -14,6 +15,7 @@ ASpacePlayerState::ASpacePlayerState()
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 	AbilitySystemComponent->SetIsReplicated(true);
 	Attributes = CreateDefaultSubobject<USpaceCharacterAttributes>("Attributes");
+	ShipAttributes = CreateDefaultSubobject<USpaceCharacterShipAttributes>("Ship Attributes");
 }
 
 TObjectPtr<UGameplayAbilitySystemComponent> ASpacePlayerState::GetAbilitySystemComponent() const

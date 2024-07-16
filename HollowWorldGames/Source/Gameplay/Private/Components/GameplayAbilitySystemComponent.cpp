@@ -3,6 +3,7 @@
 
 #include "Components/GameplayAbilitySystemComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "Attributes/AttributeSetBase.h"
 #include "UtilityStatics.h"
 
 FString FGameplayEffectApplied::GetEffectName() const
@@ -154,6 +155,11 @@ void UGameplayAbilitySystemComponent::AddAbilities(TArray<FAbilityData> Abilitie
 		LogStart(LogSeverity::Information, true) << "Ability Added " << *Ability.Tag.ToString() << LogStop();
 		AddAbility(Ability.Ability, Ability.Level, AbilityLockedTag, Ability.Tag);
 	}
+}
+
+void UGameplayAbilitySystemComponent::AddAbility(FAbilityData Ability, bool Locked)
+{
+	AddAbility(Ability.Ability, Ability.Level, (Locked) ? AbilityLockedTag : AbilityEquippedTag, Ability.Tag);
 }
 
 void UGameplayAbilitySystemComponent::AddAbility(TSubclassOf<UGameplayAbility> Ability, int Level, FGameplayTag Status, FGameplayTag AbilityTag)
@@ -342,7 +348,7 @@ void UGameplayAbilitySystemComponent::BindDelegates()
 	OnAbilityEnded.AddUObject(this, &UGameplayAbilitySystemComponent::OnAbilityFinished);
 }
 
-float UGameplayAbilitySystemComponent::GetXPForNextLevel(float Level) const
+/*float UGameplayAbilitySystemComponent::GetXPForNextLevel(float Level) const
 {
 	float needed = 0;
 	FString Context;
@@ -363,7 +369,7 @@ bool UGameplayAbilitySystemComponent::EvaluateXP(float Experience, float Level)
 		return true;
 	}
 	return false;
-}
+}*/
 
 void UGameplayAbilitySystemComponent::RemoveEffect(FGameplayEffectApplied& Effect)
 {
@@ -443,11 +449,34 @@ void UGameplayAbilitySystemComponent::SetDeadState()
 	ApplyGameplayEffect(DeadClass, 1);
 }
 
-bool UGameplayAbilitySystemComponent::HasTag(FGameplayTag GameplayTag)
+bool UGameplayAbilitySystemComponent::HasTag(FGameplayTag GameplayTag) const
 {
 	FGameplayTagContainer Container;
 	GetOwnedGameplayTags(Container);
 	return Container.HasTag(GameplayTag);
+}
+
+UAttributeSetBase* UGameplayAbilitySystemComponent::GetAttributeSet(const TSubclassOf<UAttributeSetBase>& SubClass) const
+{
+	UAttributeSet * Set = const_cast<UAttributeSet*>(GetAttributeSubobject(SubClass));
+	return Cast<UAttributeSetBase>(Set);
+}
+
+float UGameplayAbilitySystemComponent::GetAttributeValue(FGameplayTag Attribute) const
+{
+	const TArray<UAttributeSet*> Attributes = GetSpawnedAttributes();
+	for(UAttributeSet * Set : Attributes)
+	{
+		UAttributeSetBase * SetBase = Cast<UAttributeSetBase>(Set);
+		if(SetBase)
+		{
+			if(SetBase->HasAttribute(Attribute))
+			{
+				return SetBase->GetAttributeValue(Attribute);
+			}
+		}
+	}
+	return 0;
 }
 
 

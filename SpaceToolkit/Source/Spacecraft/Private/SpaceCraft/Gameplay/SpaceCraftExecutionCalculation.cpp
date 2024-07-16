@@ -3,6 +3,7 @@
 
 #include "SpaceCraft/Gameplay/SpaceCraftExecutionCalculation.h"
 
+#include "Components/GameplayAbilitySystemComponent.h"
 #include "SpaceCraft/SpaceCraftActor.h"
 #include "SpaceCraft/Gameplay/SpaceCraftAttributes.h"
 

@@ -7,6 +7,9 @@ GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
 GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
+#define ATTRIBUTE_TAG_ACCESSOR(ClassName, PropertyName) \
+	FGameplayTag Get##PropertyName##Tag() const { return PropertyName##Tag; }
+
 #define DECLARE_ATTRIBUTE(AttributeName, CategoryName)\
 UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing = OnRep_##AttributeName, Category=CategoryName)\
 FGameplayAttributeData AttributeName;\
@@ -33,8 +36,8 @@ Set##AttributeName(FMath::Clamp(Get##AttributeName(), 0.f, MaxValue));\
 }
 
 #define INITIALIZE_EXECUTION_CALC(CharacterClass, ExecutionParams) \
-const UAbilitySystemComponent * SourceComponent = ExecutionParams.GetSourceAbilitySystemComponent();\
-	const UAbilitySystemComponent * TargetComponent = ExecutionParams.GetTargetAbilitySystemComponent();\
+const UGameplayAbilitySystemComponent * SourceComponent = Cast<UGameplayAbilitySystemComponent>(ExecutionParams.GetSourceAbilitySystemComponent());\
+const UGameplayAbilitySystemComponent * TargetComponent = Cast<UGameplayAbilitySystemComponent>(ExecutionParams.GetTargetAbilitySystemComponent());\
 const CharacterClass * Source = Cast<CharacterClass>(SourceComponent->GetAvatarActor());\
 const CharacterClass * Target = Cast<CharacterClass>(TargetComponent->GetAvatarActor());\
 const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();\
@@ -43,8 +46,8 @@ EvaluateParameters.SourceTags = Spec.CapturedSourceTags.GetAggregatedTags();\
 EvaluateParameters.TargetTags = Spec.CapturedTargetTags.GetAggregatedTags();
 
 #define INITIALIZE_EXECUTION_CALC2(SourceClass, TargetClass, ExecutionParams) \
-const UAbilitySystemComponent * SourceComponent = ExecutionParams.GetSourceAbilitySystemComponent();\
-const UAbilitySystemComponent * TargetComponent = ExecutionParams.GetTargetAbilitySystemComponent();\
+const UGameplayAbilitySystemComponent * SourceComponent = Cast<UGameplayAbilitySystemComponent>(ExecutionParams.GetSourceAbilitySystemComponent());\
+const UGameplayAbilitySystemComponent * TargetComponent = Cast<UGameplayAbilitySystemComponent>(ExecutionParams.GetTargetAbilitySystemComponent());\
 const SourceClass * Source = Cast<SourceClass>(SourceComponent->GetAvatarActor());\
 const TargetClass * Target = Cast<TargetClass>(TargetComponent->GetAvatarActor());\
 const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();\
@@ -97,6 +100,27 @@ Set##IncomingAttributeName(0);\
 Set##HealthAttributeName(Get##HealthAttributeName() + Damage);\
 }
 
+#define PROCESS_INCOMING_HEALING(IncomingAttributeName, HealthAttributeName, Data) \
+if(Data.EvaluatedData.Attribute == Get##IncomingAttributeName##Attribute()) \
+{\
+float Damage = Get##IncomingAttributeName();\
+Set##IncomingAttributeName(0);\
+Set##HealthAttributeName(Get##HealthAttributeName() + Damage);\
+}
+
+#define PROCESS_INCOMING_EXPERIENCE(IncomingExperience, Experience, LevelFromExperience, Level, OnLevelChanged, Data)\
+if(Data.EvaluatedData.Attribute == Get##IncomingExperience##Attribute())\
+	{\
+		Set##Experience(Get##Experience() + Get##IncomingExperience());\
+		Set##IncomingExperience(0);\
+		float NewLevel = LevelFromExperience.GetValueAtLevel(GetExperience());\
+		if(NewLevel > GetLevel())\
+		{\
+			Set##Level(NewLevel);\
+			##OnLevelChanged.Broadcast(NewLevel);\
+		}\
+	}
+
 #define PROCESS_INCOMING_DAMAGE(IncomingAttributeName, HealthAttributeName, Data) \
 if(Data.EvaluatedData.Attribute == Get##IncomingAttributeName##Attribute()) \
 {\
@@ -116,3 +140,4 @@ if(Get##HealthAttributeName() == 0) \
 Notify.Broadcast(IncomingAttributeName);\
 }\
 }
+

@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerState.h"
 #include "SpacePlayerState.generated.h"
 
+class USpaceCharacterShipAttributes;
 class USpaceCharacterAttributes;
 class UGameplayAbilitySystemComponent;
 /**
@@ -24,4 +25,6 @@ protected :
 	TObjectPtr<UGameplayAbilitySystemComponent> AbilitySystemComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
 	TObjectPtr<USpaceCharacterAttributes> Attributes;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
+	TObjectPtr<USpaceCharacterShipAttributes> ShipAttributes;
 };

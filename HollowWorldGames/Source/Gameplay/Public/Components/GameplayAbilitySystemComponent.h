@@ -6,6 +6,7 @@
 #include "AbilitySystemComponent.h"
 #include "GameplayAbilitySystemComponent.generated.h"
 
+class UAttributeSetBase;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FGameplayEffectAppliedDelegate, FGameplayTagContainer&, Tags);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityNotify, const FGameplayTag& , Ability);
@@ -49,7 +50,7 @@ struct FGameplayEffectApplied
 };
 
 USTRUCT(BlueprintType)
-struct FAbilityData
+struct GAMEPLAY_API FAbilityData
 {
 	GENERATED_BODY()
 	FAbilityData() {}
@@ -80,6 +81,7 @@ class GAMEPLAY_API UGameplayAbilitySystemComponent : public UAbilitySystemCompon
 	virtual void SetLevel(float Level);
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void AddAbilities(TArray<FAbilityData> Abilities);
+	void AddAbility(FAbilityData Ability,bool Locked);
 	void AddAbility(TSubclassOf<UGameplayAbility> Ability, int Level, FGameplayTag Status, FGameplayTag AbilityTag);
 	bool MapAbility(FGameplayTag Ability, FGameplayTag Input);
 	void UnmapAbility(FGameplayTag Input);
@@ -94,8 +96,8 @@ class GAMEPLAY_API UGameplayAbilitySystemComponent : public UAbilitySystemCompon
 	FGameplayEffectAppliedDelegate& GetEffectApplied() { return OnEffectApplied; }
 	FGameplayEffectAppliedDelegate& GetEffectRemoved() { return OnEffectRemoved; }
 	void BindDelegates();
-	float GetXPForNextLevel(float Level) const;
-	bool EvaluateXP(float Experience, float Level);
+	/*float GetXPForNextLevel(float Level) const;
+	bool EvaluateXP(float Experience, float Level);*/
 	UFUNCTION(BlueprintCallable)
 	void RemoveEffect(FGameplayEffectApplied& Effect);
 	UFUNCTION(BlueprintCallable)
@@ -109,7 +111,9 @@ class GAMEPLAY_API UGameplayAbilitySystemComponent : public UAbilitySystemCompon
 	void ExitCombat();
 	bool IsInCombat() const { return ComponentHasTag(CombatTag.GetTagName()); }
 	void SetDeadState();
-	bool HasTag(FGameplayTag GameplayTag);
+	bool HasTag(FGameplayTag GameplayTag) const;
+	UAttributeSetBase * GetAttributeSet(const TSubclassOf<UAttributeSetBase>& SubClass) const;
+	float GetAttributeValue(FGameplayTag Attribute) const;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Abilities)
 	FGameplayTag CombatTag;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Abilities)
@@ -138,8 +142,8 @@ protected :
 	void OnAbilityFinished(const FAbilityEndedData& Data);
 	FGameplayAbilitySpec * GetAbility(FGameplayTag Ability);
 	void EffectApplied(UAbilitySystemComponent * Component, const FGameplayEffectSpec& Effect, FActiveGameplayEffectHandle ActiveEffectHandle) const;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Settings)
-	FScalableFloat LevelFloat;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Settings)
+	//FScalableFloat LevelFloat;
 	UPROPERTY(EditAnywhere, BlueprintAssignable, Category=Events)
 	FGameplayEffectAppliedDelegate OnEffectApplied;
 	UPROPERTY(EditAnywhere, BlueprintAssignable, Category=Events)
