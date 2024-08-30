@@ -148,12 +148,12 @@ void UGameplayAbilitySystemComponent::TickComponent(float DeltaTime, ELevelTick 
 	}
 }
 
-void UGameplayAbilitySystemComponent::AddAbilities(TArray<FAbilityData> Abilities)
+void UGameplayAbilitySystemComponent::AddAbilities(TArray<FAbilityData> Abilities, float OverrideLevel)
 {
 	for(const FAbilityData Ability : Abilities)
 	{
 		LogStart(LogSeverity::Information, true) << "Ability Added " << *Ability.Tag.ToString() << LogStop();
-		AddAbility(Ability.Ability, Ability.Level, AbilityLockedTag, Ability.Tag);
+		AddAbility(Ability.Ability, (OverrideLevel > 0) ? OverrideLevel : Ability.Level, AbilityLockedTag, Ability.Tag);
 	}
 }
 
@@ -479,6 +479,23 @@ float UGameplayAbilitySystemComponent::GetAttributeValue(FGameplayTag Attribute)
 	return 0;
 }
 
+void UGameplayAbilitySystemComponent::SetAttributeValue(FGameplayTag Attribute, float Value)
+{
+	const TArray<UAttributeSet*> Attributes = GetSpawnedAttributes();
+	for(UAttributeSet * Set : Attributes)
+	{
+		UAttributeSetBase * SetBase = Cast<UAttributeSetBase>(Set);
+		if(SetBase)
+		{
+			if(SetBase->HasAttribute(Attribute))
+			{
+				SetBase->SetAttributeValue(Attribute, Value);
+				break;
+			}
+		}
+	}
+}
+
 
 void UGameplayAbilitySystemComponent::EffectApplied(UAbilitySystemComponent* Component,
                                                     const FGameplayEffectSpec& Effect, FActiveGameplayEffectHandle ActiveEffectHandle) const
@@ -492,6 +509,40 @@ void UGameplayAbilitySystemComponent::EffectApplied(UAbilitySystemComponent* Com
 TArray<FGameplayAbilitySpecHandle> UGameplayAbilitySystemComponent::GetActiveAbilities()
 {
 	return ActiveAbilities;
+}
+
+void UGameplayAbilitySystemComponent::ReportDamage(ECombatRollResult Result, float Damage, const AActor* Attacker,
+	const AActor* Target, FGameplayTag DamageType) const
+{
+	APawn * Character = Cast<APawn>(GetAvatarActor());
+	if(ensure(Character))
+	{
+		switch(Character->GetNetMode())
+		{
+		case NM_Standalone :
+		case NM_ListenServer :
+		case NM_DedicatedServer :
+			{
+				//write to event log
+				break;
+			}
+		default :
+			{
+				break;
+			}
+		}
+		if(Character->IsPlayerControlled())
+		{
+			OnDamageEvent.Broadcast(Result, Damage, Attacker, Target, DamageType);
+			ReportDamage_Client(Result, Damage, Attacker, Target, DamageType);
+		}
+	}
+}
+
+void UGameplayAbilitySystemComponent::ReportDamage_Client_Implementation(ECombatRollResult Result, float Damage,
+	const AActor* Attacker, const AActor* Target, FGameplayTag DamageType) const
+{
+	OnDamageEvent.Broadcast(Result, Damage, Attacker, Target, DamageType);
 }
 
 void UGameplayAbilitySystemComponent::OnAbilityFinished(const FAbilityEndedData& Data)

@@ -17,7 +17,8 @@ enum ECombatRollResult
 	Parry UMETA(DisplayName = "Parry"),
 	Evade UMETA(DisplayName = "Evade"),
 	CriticalHit UMETA(DisplayName = "Critical Hit"),
-	PenetratingHit UMETA(DisplayName = "Penetrating Hit")
+	PenetratingHit UMETA(DisplayName = "Penetrating Hit"),
+	DamageOverTime UMETA(Displayname = "Damage Over Time")
 };
 
 UCLASS()

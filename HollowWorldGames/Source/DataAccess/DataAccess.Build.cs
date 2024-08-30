@@ -9,7 +9,7 @@ public class DataAccess : ModuleRules
         PublicDependencyModuleNames.AddRange(
             new string[]
             {
-                "Core"
+                "Core", "GameplayTags", "ViewPoints"
             }
         );
 

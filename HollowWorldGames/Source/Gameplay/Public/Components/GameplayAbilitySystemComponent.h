@@ -4,12 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
+#include "GameplayUtilities.h"
 #include "GameplayAbilitySystemComponent.generated.h"
 
 class UAttributeSetBase;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FGameplayEffectAppliedDelegate, FGameplayTagContainer&, Tags);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityNotify, const FGameplayTag& , Ability);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_FiveParams(FDamageNotify, ECombatRollResult, Result, float, Damage, const AActor *, Attacker, const AActor *, Target, FGameplayTag, DamageType);
 
 USTRUCT()
 struct FCustomEffectValue
@@ -80,7 +82,7 @@ class GAMEPLAY_API UGameplayAbilitySystemComponent : public UAbilitySystemCompon
 	void ApplyGameplayEffect(TSubclassOf<UGameplayEffect> EffectClass, float Level,TArray<FCustomEffectValue> Values, const AActor * Source = nullptr);
 	virtual void SetLevel(float Level);
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	void AddAbilities(TArray<FAbilityData> Abilities);
+	void AddAbilities(TArray<FAbilityData> Abilities, float OverrideLevel = 0);
 	void AddAbility(FAbilityData Ability,bool Locked);
 	void AddAbility(TSubclassOf<UGameplayAbility> Ability, int Level, FGameplayTag Status, FGameplayTag AbilityTag);
 	bool MapAbility(FGameplayTag Ability, FGameplayTag Input);
@@ -114,6 +116,7 @@ class GAMEPLAY_API UGameplayAbilitySystemComponent : public UAbilitySystemCompon
 	bool HasTag(FGameplayTag GameplayTag) const;
 	UAttributeSetBase * GetAttributeSet(const TSubclassOf<UAttributeSetBase>& SubClass) const;
 	float GetAttributeValue(FGameplayTag Attribute) const;
+	void SetAttributeValue(FGameplayTag SkillId, float Level);
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Abilities)
 	FGameplayTag CombatTag;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Abilities)
@@ -137,6 +140,9 @@ class GAMEPLAY_API UGameplayAbilitySystemComponent : public UAbilitySystemCompon
 	FAbilityNotify OnAbilityActivated;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Abilities)
 	FGameplayTagContainer Cooldowns;
+	void ReportDamage(ECombatRollResult Result, float Damage, const AActor * Attacker, const AActor * Target, FGameplayTag DamageType) const;
+	UFUNCTION(Client, Reliable)
+	void ReportDamage_Client(ECombatRollResult Result, float Damage, const AActor * Attacker, const AActor * Target, FGameplayTag DamageType) const;
 protected :
 	UFUNCTION()
 	void OnAbilityFinished(const FAbilityEndedData& Data);
@@ -148,6 +154,8 @@ protected :
 	FGameplayEffectAppliedDelegate OnEffectApplied;
 	UPROPERTY(EditAnywhere, BlueprintAssignable, Category=Events)
 	FGameplayEffectAppliedDelegate OnEffectRemoved;
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category=Events)
+	FDamageNotify OnDamageEvent;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Settings)
 	TSubclassOf<UGameplayEffect> LevelUpClass;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Settings)

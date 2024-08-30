@@ -20,6 +20,10 @@ UCombatCalculationBase::UCombatCalculationBase()
 	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGAttributeSet, Mitigation2, Target, false, true);
 	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGAttributeSet, Mitigation3, Target, false, true);
 	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGAttributeSet, Mitigation4, Target, false, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGAttributeSet, IncomingDamage1, Target, false, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGAttributeSet, IncomingDamage2, Target, false, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGAttributeSet, IncomingDamage3, Target, false, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGAttributeSet, IncomingDamage4, Target, false, true);
 	
 	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGAttributeSet, DamageBoost1, Target, false, true);
 	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGAttributeSet, DamageBoost2, Target, false, true);
@@ -57,30 +61,44 @@ void UCombatCalculationBase::Execute_Implementation(const FGameplayEffectCustomE
 	GET_EXECUTION_ATTRIBUTE(Mitigation2, ExecutionParams);
 	GET_EXECUTION_ATTRIBUTE(Mitigation3, ExecutionParams);
 	GET_EXECUTION_ATTRIBUTE(Mitigation4, ExecutionParams);
+	GET_EXECUTION_ATTRIBUTE(IncomingDamage1, ExecutionParams);
+	GET_EXECUTION_ATTRIBUTE(IncomingDamage2, ExecutionParams);
+	GET_EXECUTION_ATTRIBUTE(IncomingDamage3, ExecutionParams);
+	GET_EXECUTION_ATTRIBUTE(IncomingDamage4, ExecutionParams);
 
 	const float AbilityBonus = ExecutionParams.GetOwningSpec().GetSetByCallerMagnitude(AbilityDamageBonusTag, true, 1);
-	const float MinDamage = ExecutionParams.GetOwningSpec().SetByCallerTagMagnitudes[MinDamageTag] * (1 + AbilityBonus);
-	const float MaxDamage = ExecutionParams.GetOwningSpec().SetByCallerTagMagnitudes[MaxDamageTag] * (1 + AbilityBonus);
-	
-	float Damage = 100;
+	const float MinDamage = ExecutionParams.GetOwningSpec().GetSetByCallerMagnitude(MinDamageTag, true, 0) * (1 + AbilityBonus);
+	const float MaxDamage = ExecutionParams.GetOwningSpec().GetSetByCallerMagnitude(MaxDamageTag, true, 0) * (1 + AbilityBonus);
+
+	float Damage = FMath::RandRange(MinDamage, MaxDamage);
 	float Mitigation = 0;
-	float DamageBoost = 0;
+	float DamageBoost = 1000;
+	float & IncomingDamage = IncomingDamage1;
+	
 	FGameplayTag DamageTag = GetDamageTypeTag(Spec);
 	if(DamageTag.MatchesTag(DamageTypeTag1))
 	{
 		Mitigation = Mitigation1;
+		DamageBoost = DamageBoost1;
+		IncomingDamage = IncomingDamage1;
 	}
 	else if(DamageTag.MatchesTag(DamageTypeTag2))
 	{
 		Mitigation = Mitigation2;
+		DamageBoost = DamageBoost2;
+		IncomingDamage = IncomingDamage2;
 	}
 	else if(DamageTag.MatchesTag(DamageTypeTag3))
 	{
 		Mitigation = Mitigation3;
+		DamageBoost = DamageBoost3;
+		IncomingDamage = IncomingDamage3;
 	}
 	else if(DamageTag.MatchesTag(DamageTypeTag4))
 	{
 		Mitigation = Mitigation4;
+		DamageBoost = DamageBoost4;
+		IncomingDamage = IncomingDamage4;
 	}
 
 	Damage *= (DamageBoost / 1000);
@@ -88,7 +106,25 @@ void UCombatCalculationBase::Execute_Implementation(const FGameplayEffectCustomE
 	ECombatRollResult Result = UGameplayUtilities::DoCombatRoll(Damage, Accuracy, Mitigation, BlockChance, BlockValue, ParryChance,
 		EvadeChance, GlancingBlowChance, CriticalChance, CriticalDefense, CriticalValue, Penetration);
 
+	SourceComponent->ReportDamage(Result, Damage, Source, Target, DamageTag);
+	TargetComponent->ReportDamage(Result, Damage, Source, Target, DamageTag);
 	
+	if(DamageTag.MatchesTag(DamageTypeTag1))
+	{
+		WRITE_EXECUTION_ATTRIBUTE_LOCAL(URPGAttributeSet, IncomingDamage1, OutExecutionOutput, IncomingDamage);	
+	}
+	else if(DamageTag.MatchesTag(DamageTypeTag2))
+	{
+		WRITE_EXECUTION_ATTRIBUTE_LOCAL(URPGAttributeSet, IncomingDamage2, OutExecutionOutput, IncomingDamage);	
+	}
+	else if(DamageTag.MatchesTag(DamageTypeTag3))
+	{
+		WRITE_EXECUTION_ATTRIBUTE_LOCAL(URPGAttributeSet, IncomingDamage3, OutExecutionOutput, IncomingDamage);	
+	}
+	else if(DamageTag.MatchesTag(DamageTypeTag4))
+	{
+		WRITE_EXECUTION_ATTRIBUTE_LOCAL(URPGAttributeSet, IncomingDamage4, OutExecutionOutput, IncomingDamage);	
+	}
 }
 
 FGameplayTag UCombatCalculationBase::GetDamageTypeTag(const FGameplayEffectSpec& Spec) const

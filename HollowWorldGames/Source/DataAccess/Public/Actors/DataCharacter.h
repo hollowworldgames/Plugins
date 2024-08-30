@@ -3,13 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Actors/ViewableCharacter.h"
 #include "GameFramework/Character.h"
+#include "Interfaces/DataComponentInterface.h"
 #include "DataCharacter.generated.h"
 
 class UDataAccessComponent;
 
 UCLASS()
-class DATAACCESS_API ADataCharacter : public ACharacter
+class DATAACCESS_API ADataCharacter : public AViewableCharacter, public IDataComponentInterface
 {
 	GENERATED_BODY()
 
@@ -20,12 +22,14 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	void Load(uint64 ActorId);
 	void Save() const;
 	UFUNCTION()
 	virtual void OnLoaded();
 	virtual void OnPrepareSave() const;
-	
+	virtual UDataAccessComponent * GetDataAccessComponent() const override { return DataAccessComponent; }
+	virtual void Load(uint64 ActorId) override;
+	virtual void OnRep_PlayerState() override;
+	virtual void PossessedBy(AController* NewController) override;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

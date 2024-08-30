@@ -304,18 +304,6 @@ FVector2D UUtilityStatics::GetViewportCenter()
 	return FVector2D(ViewportSize.X/2, ViewportSize.Y/2);
 }
 
-bool UUtilityStatics::IsXREnabled()
-{
-	if (GEngine->XRSystem && GEngine->XRSystem->GetHMDDevice()) //check pointer is valid
-	{
-		if (GEngine->XRSystem->IsHeadTrackingAllowed()) //check stereo enabled
-		{
-			return true;
-		}
-	}
-	return false;
-}
-
 float UUtilityStatics::NormalizeValue(float value, float min, float max)
 {
 	if(max == min)

@@ -156,22 +156,41 @@ double UConverterStatics::AngleToSigned(double angle)
 	return angle;
 }
 
-FString UConverterStatics::DistanceToString(double distance)
+FString UConverterStatics::DistanceToString(double distance, EDistanceMeasure Measure)
 {
-	if (distance > 100000000000)
+	switch(Measure)
 	{
-		return FString::Printf(TEXT("%.2f Gm"), UUnitsToGm(distance));
-	}
-	else if (distance > 100000000)
-	{
-		return FString::Printf(TEXT("%.2f Mm"), UUnitsToMm(distance));
-	}
-	else if (distance > 100000)
-	{
-		return FString::Printf(TEXT("%.2f Km"), UUnitsToKm(distance));
-	}
+	case EDistanceMeasure::Metric :
+		{
+			if (distance > 100000000000)
+			{
+				return FString::Printf(TEXT("%.2f Gm"), UUnitsToGm(distance));
+			}
+			else if (distance > 100000000)
+			{
+				return FString::Printf(TEXT("%.2f Mm"), UUnitsToMm(distance));
+			}
+			else if (distance > 100000)
+			{
+				return FString::Printf(TEXT("%.2f Km"), UUnitsToKm(distance));
+			}
 
-	return FString::Printf(TEXT("%.2f m"), UUnitsToMeters(distance));
+			return FString::Printf(TEXT("%.2f m"), UUnitsToMeters(distance));
+		}
+	case EDistanceMeasure::Imperial :
+		{
+			if (distance > MilesToUUnits(1.0))
+			{
+				return FString::Printf(TEXT("%.2f Miles"), UUnitsToMiles(distance));
+			}
+			else if (distance > FeetToUUnits(500.0))
+			{
+				return FString::Printf(TEXT("%.2f Yards"), UUnitsToYards(distance));
+			}
+			return FString::Printf(TEXT("%.2f Feet"), UUnitsToFeet(distance));
+		}
+	}
+	return FString::Printf(TEXT("%.2f u"), distance);;
 }
 
 FString UConverterStatics::SpeedToString(double speed)

@@ -4,12 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Actors/ViewableActor.h"
+#include "Interfaces/DataComponentInterface.h"
 #include "DataActor.generated.h"
 
 class UDataAccessComponent;
 
 UCLASS()
-class DATAACCESS_API ADataActor : public AActor
+class DATAACCESS_API ADataActor : public AViewableActor, public IDataComponentInterface
 {
 	GENERATED_BODY()
 
@@ -18,13 +20,14 @@ public:
 	ADataActor();
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	void Load(uint64 ActorId);
 	void Save() const;
 	UFUNCTION()
 	virtual void OnLoaded();
 	virtual void OnPrepareSave() const;
 	UFUNCTION(NetMulticast, Reliable)
 	void Multicast_PostLoad();
+	virtual UDataAccessComponent * GetDataAccessComponent() const override { return DataAccessComponent; }
+	virtual void Load(uint64 ActorId) override;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

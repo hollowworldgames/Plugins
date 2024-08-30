@@ -3,6 +3,7 @@
 
 #include "Actors/DataCharacter.h"
 
+#include "Actors/DataPlayerState.h"
 #include "Components/DataAccessComponent.h"
 
 
@@ -39,36 +40,55 @@ void ADataCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 void ADataCharacter::Load(uint64 ActorId)
 {
-	TSubclassOf<UDataAccessComponent> DataClass;
-	switch(GetNetMode())
-	{
-	case NM_Client :
-		{
-			DataClass = ClientDataClass;
-			break;
-		}
-	case NM_DedicatedServer :
-		{
-			DataClass = ServerDataClass;
-			break;
-		}
-	case NM_ListenServer :
-	case NM_Standalone :
-		{
-			DataClass = SingleDataClass;
-			break;
-		}
-	default :
-		break;
-	}
-	DataAccessComponent = Cast<UDataAccessComponent>(AddComponentByClass(DataClass, false, FTransform(), false));
 	if(ensure(DataAccessComponent))
 	{
-		DataAccessComponent->SetIsReplicated(true);
-		DataAccessComponent->GetDataLoaded().AddDynamic(this, &ADataCharacter::Multicast_PostLoad);
 		DataAccessComponent->LoadActorState(ActorId);
 	}
 	
+}
+
+void ADataCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+	ADataPlayerState * DataPlayerState = Cast<ADataPlayerState>(GetPlayerState());
+	if(ensure(DataPlayerState))
+	{
+		DataPlayerState->InitializeDataComponent();
+		DataAccessComponent = DataPlayerState->GetDataAccessComponent();
+	}
+}
+
+void ADataCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+	if(!NewController->IsPlayerController())
+	{
+		TSubclassOf<UDataAccessComponent> DataClass;
+		switch(GetNetMode())
+		{
+		case NM_Client :
+			{
+				DataClass = ClientDataClass;
+				break;
+			}
+		case NM_DedicatedServer :
+			{
+				DataClass = ServerDataClass;
+				break;
+			}
+		case NM_ListenServer :
+		case NM_Standalone :
+			{
+				DataClass = SingleDataClass;
+				break;
+			}
+		default :
+			break;
+		}
+		DataAccessComponent = Cast<UDataAccessComponent>(AddComponentByClass(DataClass, false, FTransform(), false));
+		DataAccessComponent->SetIsReplicated(true);
+		DataAccessComponent->GetDataLoaded().AddDynamic(this, &ADataCharacter::Multicast_PostLoad);
+	}
 }
 
 void ADataCharacter::Save() const
@@ -82,7 +102,7 @@ void ADataCharacter::Save() const
 
 void ADataCharacter::OnLoaded()
 {
-	//Derived Class Will Setup Attributes and such here
+
 }
 
 void ADataCharacter::OnPrepareSave() const

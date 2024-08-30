@@ -81,3 +81,19 @@ int UDataAccessComponent::SetIntAttribute(FString Attribute, int Value)
 	return Value;
 }
 
+TArray<FRecord> UDataAccessComponent::GetRecordsOfType(int Type) const
+{
+	TArray<FRecord> OutRecords;
+	for(const FRecord& Record : Records)
+	{
+		OutRecords.Add(Record);
+	}
+	return OutRecords;
+}
+
+void UDataAccessComponent::WriteRecord(FRecord& Record)
+{
+	Records.AddUnique(Record);
+}
+
+

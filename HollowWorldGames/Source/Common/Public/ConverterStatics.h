@@ -6,9 +6,13 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "ConverterStatics.generated.h"
 
-/**
- * 
- */
+UENUM(BlueprintType)
+enum class EDistanceMeasure : uint8
+{
+	Metric,
+	Imperial,
+};
+
 UCLASS()
 class COMMON_API UConverterStatics : public UBlueprintFunctionLibrary
 {
@@ -77,7 +81,7 @@ public :
 	UFUNCTION(BlueprintPure)
 		static double AngleToSigned(double angle);
 	UFUNCTION(BlueprintPure)
-		static FString DistanceToString(double distance);
+		static FString DistanceToString(double distance, EDistanceMeasure Measure = EDistanceMeasure::Metric);
 	UFUNCTION(BlueprintPure)
 		static FString SpeedToString(double speed);
 	UFUNCTION(BlueprintPure)

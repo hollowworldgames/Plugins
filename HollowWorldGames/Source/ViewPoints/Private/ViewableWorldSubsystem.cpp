@@ -2,9 +2,8 @@
 
 
 #include "ViewableWorldSubsystem.h"
-
 #include "UtilityStatics.h"
-#include "Viewable.h"
+#include "Interfaces/Viewable.h"
 
 void UViewableWorldSubsystem::AddViewable(TScriptInterface<IViewable> Viewable)
 {

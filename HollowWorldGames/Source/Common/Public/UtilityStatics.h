@@ -141,8 +141,6 @@ class COMMON_API UUtilityStatics : public UBlueprintFunctionLibrary
 	UFUNCTION(BlueprintCallable)
 		static FVector2D GetViewportCenter();
 	UFUNCTION(BlueprintCallable)
-		static bool IsXREnabled();
-	UFUNCTION(BlueprintCallable)
 		static float NormalizeValue(float value, float min, float max);
 	UFUNCTION(BlueprintCallable)
 		static float ComputeAOA(FVector forward, const FVector& Wind, const FVector& axis);

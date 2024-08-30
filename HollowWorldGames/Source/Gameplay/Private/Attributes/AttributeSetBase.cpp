@@ -2,3 +2,8 @@
 
 
 #include "Attributes/AttributeSetBase.h"
+
+void UAttributeSetBase::SetAttributeValue(FGameplayTag Attribute, float Value)
+{
+	
+}

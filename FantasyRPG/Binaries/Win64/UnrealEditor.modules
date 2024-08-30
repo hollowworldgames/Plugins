@@ -1,0 +1,9 @@
+{
+	"BuildId": "33043543",
+	"Modules": 
+	{
+		"FantasyCharacter": "UnrealEditor-FantasyCharacter.dll",
+		"FantasyDatabase": "UnrealEditor-FantasyDatabase.dll",
+		"FantasyEconomy": "UnrealEditor-FantasyEconomy.dll"
+	}
+}

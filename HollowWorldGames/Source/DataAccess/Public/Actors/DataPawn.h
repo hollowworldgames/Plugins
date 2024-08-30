@@ -3,13 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Actors/ViewablePawn.h"
 #include "GameFramework/Pawn.h"
+#include "Interfaces/DataComponentInterface.h"
 #include "DataPawn.generated.h"
 
 class UDataAccessComponent;
 
 UCLASS()
-class DATAACCESS_API ADataPawn : public APawn
+class DATAACCESS_API ADataPawn : public AViewablePawn, public IDataComponentInterface
 {
 	GENERATED_BODY()
 
@@ -21,11 +23,12 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	void Load(uint64 ActorId);
+	virtual void Load(uint64 ActorId) override;
 	void Save() const;
 	UFUNCTION()
 	virtual void OnLoaded();
 	virtual void OnPrepareSave() const;
+	virtual UDataAccessComponent * GetDataAccessComponent() const override { return DataAccessComponent; }
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

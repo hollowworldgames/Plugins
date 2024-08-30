@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "Components/ActorComponent.h"
 #include "DataAccessComponent.generated.h"
 
@@ -33,11 +34,14 @@ struct FRecord
 {
 	GENERATED_BODY()
 	UPROPERTY()
+	FGameplayTag RecordTag;
+	UPROPERTY()
 	int RecordType = 0;
 	UPROPERTY()
 	TMap<FString, FNumericValue> NumericValues;
 	UPROPERTY()
 	TMap<FString, FStringValue> StringValues;
+	bool operator ==(const FRecord& Record) const { return RecordTag == Record.RecordTag; }
 };
 
 
@@ -60,11 +64,14 @@ public:
 	UFUNCTION(BlueprintCallable)
 	int GetIntAttribute(FString Attribute);
 	UFUNCTION(BlueprintCallable)
-	float SetFloatAttribute(FString Attribute, float Value);
+	virtual float SetFloatAttribute(FString Attribute, float Value);
 	UFUNCTION(BlueprintCallable)
-	FString SetStringAttribute(FString Attribute, FString Value);
+	virtual FString SetStringAttribute(FString Attribute, FString Value);
 	UFUNCTION(BlueprintCallable)
-	int SetIntAttribute(FString Attribute, int Value);
+	virtual int SetIntAttribute(FString Attribute, int Value);
+	int GetCharacterId() const { return CharacterId; }
+	TArray<FRecord> GetRecordsOfType(int Type) const;
+	virtual void WriteRecord(FRecord& Record);
 protected:
 	UPROPERTY(EditAnywhere, BlueprintAssignable, Category=Events)
 	FDataLoaded OnLoaded;
@@ -72,6 +79,8 @@ protected:
 	TMap<FString,FNumericValue> NumericAttributes;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=DataCache)
 	TMap<FString,FStringValue> StringAttributes;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=DataCache)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Data)
+	int CharacterId = 0;
+	UPROPERTY(VisibleAnywhere, Transient, BlueprintReadOnly, Category=Data)
 	TArray<FRecord> Records;
 };
