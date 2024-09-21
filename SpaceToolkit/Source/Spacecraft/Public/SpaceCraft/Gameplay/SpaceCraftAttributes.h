@@ -8,9 +8,8 @@
 #include "AttributeSet.h"
 #include "SpaceCraftAttributes.generated.h"
 
-/**
- * 
- */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDead);
+
 UCLASS()
 class SPACECRAFT_API USpaceCraftAttributes : public UAttributeSet
 {
@@ -370,6 +369,9 @@ protected :
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Damage)
 	FGameplayAttributeData IncomingBatteryHealing;
+
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category=Event)
+	FOnDead OnDead;
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;

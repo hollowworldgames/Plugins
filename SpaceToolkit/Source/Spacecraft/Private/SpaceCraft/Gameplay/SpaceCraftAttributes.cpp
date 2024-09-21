@@ -62,16 +62,16 @@ void USpaceCraftAttributes::PostGameplayEffectExecute(const FGameplayEffectModCa
 	CAP_ATTRIBUTE(ShieldHealth, MaxShieldHealth, Data);
 	CAP_ATTRIBUTE(EngineHealth, MaxEngineHealth, Data);
 
-	PROCESS_INCOMING_DAMAGE(IncomingHullEnergyDamage, HullHealth, Data)
-	PROCESS_INCOMING_DAMAGE(IncomingHullPhysicalDamage, HullHealth, Data)
-	PROCESS_INCOMING_DAMAGE(IncomingFrontEnergyDamage, FrontShieldHealth, Data)
-	PROCESS_INCOMING_DAMAGE(IncomingFrontPhysicalDamage, FrontShieldHealth, Data)
-	PROCESS_INCOMING_DAMAGE(IncomingBackEnergyDamage, BackShieldHealth, Data)
-	PROCESS_INCOMING_DAMAGE(IncomingBackPhysicalDamage, BackShieldHealth, Data)
-	PROCESS_INCOMING_DAMAGE(IncomingBatteryDamage, BatteryHealth, Data);
-	PROCESS_INCOMING_DAMAGE(IncomingReactorDamage, ReactorHealth, Data);
-	PROCESS_INCOMING_DAMAGE(IncomingShieldDamage, ShieldHealth, Data);
-	PROCESS_INCOMING_DAMAGE(IncomingEngineDamage, EngineHealth, Data);
+	PROCESS_INCOMING_DAMAGE(IncomingHullEnergyDamage, HullHealth, Data, OnDead)
+	PROCESS_INCOMING_DAMAGE(IncomingHullPhysicalDamage, HullHealth, Data, OnDead)
+	PROCESS_INCOMING_DAMAGE(IncomingFrontEnergyDamage, FrontShieldHealth, Data, OnDead)
+	PROCESS_INCOMING_DAMAGE(IncomingFrontPhysicalDamage, FrontShieldHealth, Data, OnDead)
+	PROCESS_INCOMING_DAMAGE(IncomingBackEnergyDamage, BackShieldHealth, Data, OnDead)
+	PROCESS_INCOMING_DAMAGE(IncomingBackPhysicalDamage, BackShieldHealth, Data, OnDead)
+	PROCESS_INCOMING_DAMAGE(IncomingBatteryDamage, BatteryHealth, Data, OnDead);
+	PROCESS_INCOMING_DAMAGE(IncomingReactorDamage, ReactorHealth, Data, OnDead);
+	PROCESS_INCOMING_DAMAGE(IncomingShieldDamage, ShieldHealth, Data, OnDead);
+	PROCESS_INCOMING_DAMAGE(IncomingEngineDamage, EngineHealth, Data, OnDead);
 }
 
 ATTRIBUTE_IMPLEMENT(USpaceCraftAttributes, HullLevel);

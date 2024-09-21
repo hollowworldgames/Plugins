@@ -13,7 +13,8 @@ public class Character : ModuleRules
                 "Common",
                 "Gameplay",
                 "Interactions",
-                "DataAccess"
+                "DataAccess",
+                "ViewPoints"
             }
         );
 
