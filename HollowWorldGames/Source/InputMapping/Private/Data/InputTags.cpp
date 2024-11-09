@@ -1,4 +1,4 @@
-﻿#include "Data\InputTags.h"
+﻿#include "Data/InputTags.h"
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(KeyTilda, "Input.Keyboard.Tilda","Keyboard Tilda");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(Key1, "Input.Keyboard.1","Keyboard 1");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(Key2, "Input.Keyboard.2","Keyboard 2");

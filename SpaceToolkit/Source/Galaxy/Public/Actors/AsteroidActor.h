@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "AsteroidActor.generated.h"
 
+class UAsteroidOrbital;
+
 UCLASS()
 class GALAXY_API AAsteroidActor : public AActor
 {
@@ -14,12 +16,12 @@ class GALAXY_API AAsteroidActor : public AActor
 public:
 	// Sets default values for this actor's properties
 	AAsteroidActor();
-
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+	void SetOrbital(UAsteroidOrbital* NewOrbital) { Orbital = NewOrbital; }
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	UPROPERTY(Transient, VisibleAnywhere, BlueprintReadOnly, Category=Orbital)
+	TObjectPtr<UAsteroidOrbital> Orbital;
 };

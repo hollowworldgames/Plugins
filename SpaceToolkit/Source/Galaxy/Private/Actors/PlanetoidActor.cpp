@@ -3,6 +3,8 @@
 
 #include "Actors/PlanetoidActor.h"
 
+#include "Data/Orbital.h"
+
 
 // Sets default values
 APlanetoidActor::APlanetoidActor()
@@ -22,5 +24,16 @@ void APlanetoidActor::BeginPlay()
 void APlanetoidActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if(Planetoid)
+	{
+		SetActorLocation(Planetoid->GetOrbitalLocation());
+		SetActorRotation(Planetoid->GetOrbitalRotation());
+	}
+}
+
+void APlanetoidActor::SetPlanetoid(UPlanetoid* NewPlanetoid)
+{
+	Planetoid = NewPlanetoid;
+	OnCreate.Broadcast(NewPlanetoid);
 }
 

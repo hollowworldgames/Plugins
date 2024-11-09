@@ -56,7 +56,11 @@ public :
 	FSystemId GetSystemId() const { return SystemId; }
 	UFUNCTION(BlueprintPure)
 	TArray<UOrbital*> GetOrbitals() const { return Orbitals; }
+	UFUNCTION(BlueprintPure)
+	ELocationType GetLocationType() const { return LocationType; }
 protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	ELocationType LocationType;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
 	FSystemId SystemId;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")

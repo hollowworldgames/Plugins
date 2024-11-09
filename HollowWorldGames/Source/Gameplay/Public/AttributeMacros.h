@@ -117,7 +117,7 @@ if(Data.EvaluatedData.Attribute == Get##IncomingExperience##Attribute())\
 		if(NewLevel > GetLevel())\
 		{\
 			Set##Level(NewLevel);\
-			##OnLevelChanged.Broadcast(NewLevel);\
+			OnLevelChanged.Broadcast(NewLevel);\
 		}\
 	}
 

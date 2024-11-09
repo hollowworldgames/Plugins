@@ -1,27 +1,27 @@
-﻿// Copyright(c) 2024 Hollow World Games llc All Rights Reserved.
+// (c) Copyright 2024 Hollow World Games llc All Rights Reserved
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "SolarSystemActor.generated.h"
+#include "CloudActor.generated.h"
 
-class USolarSystem;
+class UCloudOrbital;
 
 UCLASS()
-class GALAXY_API ASolarSystemActor : public AActor
+class GALAXY_API ACloudActor : public AActor
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this actor's properties
-	ASolarSystemActor();
+	ACloudActor();
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	void SetCloud(UCloudOrbital* NewCloud);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	UPROPERTY()
-	TObjectPtr<USolarSystem> SolarSystem;
+	UPROPERTY(VisibleAnywhere, Transient, BlueprintReadOnly, Category = Cloud)
+	UCloudOrbital* Cloud = nullptr;
 };

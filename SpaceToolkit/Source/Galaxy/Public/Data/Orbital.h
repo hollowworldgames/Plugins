@@ -31,6 +31,8 @@ public :
 	virtual FRotator GetOrbitalRotation() const;
 	UFUNCTION(BlueprintPure)
 	virtual FVector GetOrbitalScale() const;
+	UFUNCTION(BlueprintPure)
+	FSystemId GetSystemId() const { return SystemId; }
 protected :
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FSystemId SystemId;
@@ -78,6 +80,8 @@ class GALAXY_API UPlanetoid : public UOrbital
 public :
 	virtual EOrbitalType GetOrbitalType() const override { return EOrbitalType::EOrbitalType_Planet; }
 	void SetPlanetType(EPlanetType NewType) { PlanetType = NewType; }
+	UFUNCTION(BlueprintPure)
+	EPlanetType GetPlanetType() const { return PlanetType; }
 	void SetPlanetSize(double NewSize) { SizeKm = NewSize; }
 	void SetShowRing(bool NewShowRing) { ShowRing = NewShowRing; }
 	void SetAtmosphere(EAtmosphereType NewType) { AtmosphereType = NewType; }
