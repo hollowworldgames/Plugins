@@ -81,6 +81,7 @@ class GAMEPLAY_API UGameplayAbilitySystemComponent : public UAbilitySystemCompon
 	void ApplyGameplayEffect(TSubclassOf<UGameplayEffect> EffectClass, float Level, const AActor * Source = nullptr);
 	void ApplyGameplayEffect(TSubclassOf<UGameplayEffect> EffectClass, float Level,TArray<FCustomEffectValue> Values, const AActor * Source = nullptr);
 	virtual void SetLevel(float Level);
+	virtual void InitializeAttributes(float Level);
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void AddAbilities(TArray<FAbilityData> Abilities, float OverrideLevel = 0);
 	void AddAbility(FAbilityData Ability,bool Locked);
@@ -168,4 +169,6 @@ protected :
 	TMap<FGameplayTag, FGameplayTag> MappedAbilities;
 	TArray<FGameplayAbilitySpecHandle> ActiveAbilities;
 	TMap<FGameplayTag, FGameplayAbilitySpecHandle> PassiveAbilities;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Settings)
+	TArray<TSubclassOf<UGameplayEffect>> AttributeInitializers;
 };

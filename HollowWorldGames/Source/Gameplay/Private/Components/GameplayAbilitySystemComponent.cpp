@@ -121,6 +121,15 @@ void UGameplayAbilitySystemComponent::SetLevel(float Level)
 {
 	LogStart(LogSeverity::Information, true) << TEXT("Level set to ") << Level << LogStop();
 	ApplyGameplayEffect(LevelUpClass, Level);
+	InitializeAttributes(Level);
+}
+
+void UGameplayAbilitySystemComponent::InitializeAttributes(float Level)
+{
+	for(TSubclassOf<UGameplayEffect> Effect : AttributeInitializers)
+	{
+		ApplyGameplayEffect(Effect, Level);
+	}
 }
 
 void UGameplayAbilitySystemComponent::TickComponent(float DeltaTime, ELevelTick TickType,

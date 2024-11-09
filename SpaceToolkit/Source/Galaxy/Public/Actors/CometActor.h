@@ -4,21 +4,22 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "LocationActor.generated.h"
+#include "CometActor.generated.h"
 
 UCLASS()
-class GALAXY_API ALocationActor : public AActor
+class GALAXY_API ACometActor : public AActor
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this actor's properties
-	ALocationActor();
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	ACometActor();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
-	TObjectPtr<class ULocationClasses> LocationClasses;
+
+public:
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
 };

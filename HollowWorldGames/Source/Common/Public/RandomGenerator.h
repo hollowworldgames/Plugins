@@ -54,8 +54,8 @@ USTRUCT(BlueprintType)
 struct COMMON_API FRandomGenerator64
 {
 	GENERATED_BODY()
-	public :
-		FRandomGenerator64();
+public :
+	FRandomGenerator64();
 	FRandomGenerator64(uint64 seed) { Seed(seed); }
 	void Seed(uint64 seed);
 	int RandRange(int lower, int upper);
@@ -66,8 +66,16 @@ struct COMMON_API FRandomGenerator64
 	float RandFloat();
 	double RandDouble();
 	int RandInt64();
-	protected :
-		void GenerateNumbers();
+	bool ChanceRoll(double Chance, double Permutations);
+	bool ChanceRoll(int Chance, int Permutations);
+	bool ChanceRoll(float Chance, float Permutations);
+	template<typename t> t GetRandomItem(TArray<t>& list); //note no checks here
+	FRotator RandRotation(double Min = 0, double Max = 360);
+	FRotator RandPitch(double Min = 0, double Max = 360);
+	FRotator RandYaw(double Min = 0, double Max = 360);
+	FRotator RandRoll(double Min = 0, double Max = 360);
+protected :
+	void GenerateNumbers();
 	static const size_t SIZE   = 624;
 	static const size_t PERIOD = 397;
 	static const size_t DIFF   = SIZE - PERIOD;
@@ -77,4 +85,10 @@ struct COMMON_API FRandomGenerator64
 	size_t index = SIZE;
 };
 
+template<typename t> t FRandomGenerator64::GetRandomItem(TArray<t>& list) 
+{
+	ensure(list.Num() > 0);
+	int Choice = RandRange(0, list.Num()-1);
+	return list[Choice];
+}
 

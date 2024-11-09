@@ -2,8 +2,10 @@
 
 
 #include "AI/SpaceCharacterAI.h"
+
+#include "Attributes/RPGAttributeSet.h"
 #include "Components/GameplayAbilitySystemComponent.h"
-#include "Gameplay/SpaceCharacterAttributes.h"
+#include "Gameplay/SpaceCharacterShipAttributeSet.h"
 
 
 // Sets default values
@@ -13,7 +15,8 @@ ASpaceCharacterAI::ASpaceCharacterAI()
 	PrimaryActorTick.bCanEverTick = true;
 
 	AbilitySystemComponent = CreateDefaultSubobject<UGameplayAbilitySystemComponent>("Ability System Component");
-	Attributes = CreateDefaultSubobject<USpaceCharacterAttributes>("Attributes");
+	Attributes = CreateDefaultSubobject<URPGAttributeSet>("Attributes");
+	SpaceShipAttributes = CreateDefaultSubobject<USpaceCharacterShipAttributeSet>("SpaceShip Attributes");
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 	AbilitySystemComponent->SetIsReplicated(true);
 }
@@ -42,5 +45,14 @@ void ASpaceCharacterAI::PossessedBy(AController* NewController)
 	Super::PossessedBy(NewController);
 
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	SetLevel(Level);
+}
+
+void ASpaceCharacterAI::SetLevel(float Level)
+{
+	if(ensure(AbilitySystemComponent))
+	{
+		AbilitySystemComponent->SetLevel(Level);
+	}
 }
 

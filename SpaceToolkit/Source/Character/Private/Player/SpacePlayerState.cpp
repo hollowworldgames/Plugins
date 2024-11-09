@@ -3,9 +3,10 @@
 
 #include "Player/SpacePlayerState.h"
 
+#include "EditorDirectories.h"
+#include "Attributes/RPGAttributeSet.h"
 #include "Components/GameplayAbilitySystemComponent.h"
-#include "Gameplay/SpaceCharacterAttributes.h"
-#include "Gameplay/SpaceCharacterShipAttributes.h"
+#include "Gameplay/SpaceCharacterShipAttributeSet.h"
 
 ASpacePlayerState::ASpacePlayerState()
 {
@@ -14,8 +15,8 @@ ASpacePlayerState::ASpacePlayerState()
 	AbilitySystemComponent = CreateDefaultSubobject<UGameplayAbilitySystemComponent>("Ability System");
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 	AbilitySystemComponent->SetIsReplicated(true);
-	Attributes = CreateDefaultSubobject<USpaceCharacterAttributes>("Attributes");
-	ShipAttributes = CreateDefaultSubobject<USpaceCharacterShipAttributes>("Ship Attributes");
+	Attributes = CreateDefaultSubobject<URPGAttributeSet>("Attributes");
+	ShipAttributes = CreateDefaultSubobject<USpaceCharacterShipAttributeSet>("Ship Attributes");
 }
 
 TObjectPtr<UGameplayAbilitySystemComponent> ASpacePlayerState::GetAbilitySystemComponent() const
@@ -26,4 +27,10 @@ TObjectPtr<UGameplayAbilitySystemComponent> ASpacePlayerState::GetAbilitySystemC
 void ASpacePlayerState::InitAbilitySystem(APawn* MYPawn) 
 {
 	AbilitySystemComponent->InitAbilityActorInfo(this, MYPawn);
+	LoadAttributes();
+	AbilitySystemComponent->SetLevel(Level);
+}
+
+void ASpacePlayerState::LoadAttributes()
+{
 }

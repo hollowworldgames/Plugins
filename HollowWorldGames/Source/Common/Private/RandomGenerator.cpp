@@ -168,7 +168,7 @@ int FRandomGenerator32::RandInt()
 
 FRandomGenerator64::FRandomGenerator64()
 {
-	Seed(0);
+	Seed(FMath::RandRange(0, MAX_int32));
 }
 
 void FRandomGenerator64::Seed(uint64 seed)
@@ -193,6 +193,21 @@ int FRandomGenerator64::RandInt64()
 		index = 0;
 	}
 	return MT_TEMPERED[index++];
+}
+
+bool FRandomGenerator64::ChanceRoll(double Chance, double Permutations)
+{
+	return RandRange(0.0, Permutations) < Chance;
+}
+
+bool FRandomGenerator64::ChanceRoll(int Chance, int Permutations)
+{
+	return RandRange(0, Permutations) < Chance;
+}
+
+bool FRandomGenerator64::ChanceRoll(float Chance, float Permutations)
+{
+	return RandRange(0.0f, Permutations) < Chance;
 }
 
 float FRandomGenerator64::RandFloat()
@@ -225,6 +240,26 @@ FVector FRandomGenerator64::RandVector(FVector min, FVector max)
 FVector FRandomGenerator64::RandVector(double size)
 {
 	return FVector(RandDouble() * size, RandDouble() * size, RandDouble() * size);
+}
+
+FRotator FRandomGenerator64::RandRotation(double Min, double Max)
+{
+	return FRotator(RandRange(Min, Max), RandRange(Min,Max), RandRange(Min, Max));
+}
+
+FRotator FRandomGenerator64::RandPitch(double Min, double Max)
+{
+	return FRotator(RandRange(Min, Max), 0, 0);
+}
+
+FRotator FRandomGenerator64::RandYaw(double Min, double Max)
+{
+	return FRotator(0, RandRange(Min, Max), 0);
+}
+
+FRotator FRandomGenerator64::RandRoll(double Min, double Max)
+{
+	return FRotator(0, 0, RandRange(Min, Max));
 }
 
 void FRandomGenerator64::GenerateNumbers()

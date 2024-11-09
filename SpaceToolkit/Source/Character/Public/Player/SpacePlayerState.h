@@ -6,7 +6,9 @@
 #include "GameFramework/PlayerState.h"
 #include "SpacePlayerState.generated.h"
 
-class USpaceCharacterShipAttributes;
+class UGameplayEffect;
+class URPGAttributeSet;
+class USpaceCharacterShipAttributeSet;
 class USpaceCharacterAttributes;
 class UGameplayAbilitySystemComponent;
 /**
@@ -21,10 +23,13 @@ public :
 	TObjectPtr<UGameplayAbilitySystemComponent> GetAbilitySystemComponent() const;
 	void InitAbilitySystem(APawn * MYPawn);
 protected :
+	virtual void LoadAttributes();
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
 	TObjectPtr<UGameplayAbilitySystemComponent> AbilitySystemComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
-	TObjectPtr<USpaceCharacterAttributes> Attributes;
+	TObjectPtr<URPGAttributeSet> Attributes;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
-	TObjectPtr<USpaceCharacterShipAttributes> ShipAttributes;
+	TObjectPtr<USpaceCharacterShipAttributeSet> ShipAttributes;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Attributes)
+	float Level = 1;
 };

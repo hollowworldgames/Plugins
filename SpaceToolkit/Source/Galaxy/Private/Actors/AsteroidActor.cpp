@@ -1,25 +1,25 @@
 ﻿// Copyright(c) 2024 Hollow World Games llc All Rights Reserved.
 
 
-#include "Actors/SolarSystemActor.h"
+#include "Actors/AsteroidActor.h"
 
 
 // Sets default values
-ASolarSystemActor::ASolarSystemActor()
+AAsteroidActor::AAsteroidActor()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 }
 
 // Called when the game starts or when spawned
-void ASolarSystemActor::BeginPlay()
+void AAsteroidActor::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
 // Called every frame
-void ASolarSystemActor::Tick(float DeltaTime)
+void AAsteroidActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }

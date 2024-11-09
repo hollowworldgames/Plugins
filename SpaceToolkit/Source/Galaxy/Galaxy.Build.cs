@@ -19,7 +19,10 @@ public class Galaxy : ModuleRules
                 "CoreUObject",
                 "Engine",
                 "Slate",
-                "SlateCore"
+                "SlateCore",
+                "GameplayTags",
+                "GameplayAbilities",
+                "GameplayTasks", "Common"
             }
         );
     }

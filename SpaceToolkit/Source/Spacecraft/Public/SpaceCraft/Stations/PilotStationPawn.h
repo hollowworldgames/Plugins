@@ -21,7 +21,6 @@ public:
 	APilotStationPawn();
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
 	void OnPitchYaw(const FInputActionValue& InputActionValue);
 	void OnRoll(const FInputActionValue& InputActionValue);
 	void OnLiftSlide(const FInputActionValue& InputActionValue);

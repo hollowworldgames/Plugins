@@ -7,23 +7,23 @@
 #include "AttributeMacros.h"
 #include "AttributeSet.h"
 #include "GameplayTagContainer.h"
-#include "SpaceCharacterShipAttributes.generated.h"
+#include "SpaceCharacterShipAttributeSet.generated.h"
 
 class USpaceCharacterAttributes;
 /**
  * 
  */
 UCLASS()
-class CHARACTER_API USpaceCharacterShipAttributes : public UAttributeSet
+class CHARACTER_API USpaceCharacterShipAttributeSet : public UAttributeSet
 {
 	GENERATED_BODY()
 public:
-	ATTRIBUTE_ACCESSORS(USpaceCharacterShipAttributes, HullHealthBoost);
-	ATTRIBUTE_TAG_ACCESSOR(USpaceCharacterShipAttributes, HullHealthBoost);
-	ATTRIBUTE_ACCESSORS(USpaceCharacterShipAttributes, HullPhysicalMitigationBoost);
-	ATTRIBUTE_TAG_ACCESSOR(USpaceCharacterShipAttributes, HullPhysicalMitigationBoost);
-	ATTRIBUTE_ACCESSORS(USpaceCharacterShipAttributes, HullEnergyMitigationBoost);
-	ATTRIBUTE_TAG_ACCESSOR(USpaceCharacterShipAttributes, HullEnergyMitigationBoost);
+	ATTRIBUTE_ACCESSORS(USpaceCharacterShipAttributeSet, HullHealthBoost);
+	ATTRIBUTE_TAG_ACCESSOR(USpaceCharacterShipAttributeSet, HullHealthBoost);
+	ATTRIBUTE_ACCESSORS(USpaceCharacterShipAttributeSet, HullPhysicalMitigationBoost);
+	ATTRIBUTE_TAG_ACCESSOR(USpaceCharacterShipAttributeSet, HullPhysicalMitigationBoost);
+	ATTRIBUTE_ACCESSORS(USpaceCharacterShipAttributeSet, HullEnergyMitigationBoost);
+	ATTRIBUTE_TAG_ACCESSOR(USpaceCharacterShipAttributeSet, HullEnergyMitigationBoost);
 protected:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
