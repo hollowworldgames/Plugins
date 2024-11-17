@@ -6,6 +6,7 @@
 #include "Orbital.h"
 #include "UObject/Object.h"
 #include "Data/GalaxyAsset.h"
+#include "Utility/GalaxyGameInstance.h"
 #include "SolarSystem.generated.h"
 
 class UAsteroidField;
@@ -19,13 +20,17 @@ class GALAXY_API USolarSystem : public UObject
 {
 	GENERATED_BODY()
 public :
-	void GenerateLocations(FSystemId SystemId, UGalaxyAsset * Asset);
+	void GenerateLocations(FSystemId NewSystemId, UGalaxyAsset * Asset);
+	void GenerateLocations(FSolarSystemTableRow * Row, UGalaxyAsset * Asset);
 	void FindConnectedSystems(TObjectPtr<UGalaxyAsset> GalaxyAsset);
+	ULocation* GetLocation(const FSystemId& LocationId);
+	TArray<TObjectPtr<class UStar>> GetStars() const { return Stars; }
+	FSystemId GetSystemId() const { return SystemId; }
 protected :
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<TObjectPtr<class ULocation>> Locations;
+	TArray<TObjectPtr<ULocation>> Locations;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<TObjectPtr<class UStar>> Stars;
+	TArray<TObjectPtr<UStar>> Stars;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<FSystemId> ConnectedSystems;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Classes)
@@ -50,7 +55,8 @@ protected :
 	int MinComets = 3;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Generator Settings")
 	int MaxComets = 10;
-	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Settings")
+	FSystemId SystemId;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Generator Settings")
 	float ExpandFactor = 1.2f;
 };

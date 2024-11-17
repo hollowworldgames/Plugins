@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Data/GalaxyAsset.h"
 #include "GameFramework/Actor.h"
 #include "SolarSystemActor.generated.h"
 
@@ -18,10 +19,18 @@ public:
 	ASolarSystemActor();
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	void SetSolarSystem(const FSystemId& SystemId);
+	void ClearSystem();
+	FSystemId GetSystemId() const;
 protected:
+	UFUNCTION(NetMulticast, Reliable)
+	void Multicast_SetSolarSystem(const FSystemId& SystemId);
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
 	UPROPERTY()
 	TObjectPtr<USolarSystem> SolarSystem;
+	UPROPERTY()
+	TArray<TObjectPtr<class AStarActor>> Stars;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Classes)
+	TSubclassOf<AStarActor> StarClass;
 };

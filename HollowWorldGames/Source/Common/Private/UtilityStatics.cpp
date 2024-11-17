@@ -496,6 +496,59 @@ float UUtilityStatics::ScaleAxisTo01(double Value)
 	return (Value + 1) / 2;
 }
 
+void UUtilityStatics::CopyTextureToArray(UTexture2D *Texture, TArray<FColor> &Array)
+{
+	struct FCopyBufferData {
+		UTexture2D *Texture;
+		TPromise<void> Promise;
+		TArray<FColor> DestBuffer;
+	};
+	using FCommandDataPtr = TSharedPtr<FCopyBufferData, ESPMode::ThreadSafe>;
+	FCommandDataPtr CommandData = MakeShared<FCopyBufferData, ESPMode::ThreadSafe>();
+	CommandData->Texture = Texture;
+	CommandData->DestBuffer.SetNum(Texture->GetSizeX() * Texture->GetSizeY());
+
+	auto Future = CommandData->Promise.GetFuture();
+
+	
+	
+	FRHICommandListImmediate& RHICmdList = FRHICommandListExecutor::GetImmediateCommandList();
+
+	{
+		struct FCopyTextureCommand final : public FRHICommand<FCopyTextureCommand>
+		{
+			FCommandDataPtr CommandData;
+
+			FCopyTextureCommand(FCommandDataPtr InCommandData)
+				: CommandData(InCommandData)
+			{ }
+
+			void Execute(FRHICommandListBase& CmdList)
+			{
+				auto Texture2DRHI = CommandData->Texture->GetResource()->TextureRHI->GetTexture2D();
+				uint32 DestPitch{0};
+				uint8* MappedTextureMemory = static_cast<uint8*>(RHILockTexture2D(Texture2DRHI, 0, EResourceLockMode::RLM_ReadOnly, DestPitch, false));
+            
+				uint32 SizeX = CommandData->Texture->GetSizeX();
+				uint32 SizeY = CommandData->Texture->GetSizeY();
+
+				FMemory::Memcpy(CommandData->DestBuffer.GetData(), MappedTextureMemory, SizeX * SizeY * sizeof(FColor));
+
+				RHIUnlockTexture2D(Texture2DRHI, 0, false);
+				// signal completion of the operation
+				CommandData->Promise.SetValue();
+			}
+		};
+    
+		new (RHICmdList.AllocCommand<FCopyTextureCommand>()) FCopyTextureCommand(CommandData);
+	}
+
+	// wait until render thread operation completes
+	Future.Get();
+
+	Array = std::move(CommandData->DestBuffer);
+}
+
 LogStart::LogStart(LogSeverity severity, bool display)
 {
 	Severity = severity;

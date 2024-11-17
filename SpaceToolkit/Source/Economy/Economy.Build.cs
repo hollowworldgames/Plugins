@@ -9,7 +9,7 @@ public class Economy : ModuleRules
         PublicDependencyModuleNames.AddRange(
             new string[]
             {
-                "Core",
+                "Core", "GameplayTags", "Gameplay",
             }
         );
 
@@ -19,7 +19,11 @@ public class Economy : ModuleRules
                 "CoreUObject",
                 "Engine",
                 "Slate",
-                "SlateCore"
+                "SlateCore",
+                "Galaxy",
+                "GameplayAbilities",
+                "GameplayTags",
+                "Gameplay"
             }
         );
     }

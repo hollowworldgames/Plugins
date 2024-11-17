@@ -16,11 +16,11 @@ class GALAXY_API ULocationClasses : public UDataAsset
 	GENERATED_BODY()
 public :
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TSubclassOf<class AAsteroidFieldActor> FieldActorClass;
+	TSubclassOf<class AActor> FieldActorClass;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TSubclassOf<class ACometActor> CometActorClass;
+	TSubclassOf<class AActor> CometActorClass;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TMap<EPlanetType, TSubclassOf<class APlanetoidActor>> PlanetoidActorClasses;
+	TMap<EPlanetType, TSubclassOf<class AActor>> PlanetoidActorClasses;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TSubclassOf<class AAsteroidActor> AsteroidActorClass;
+	TSubclassOf<class AActor> AsteroidActorClass;
 };

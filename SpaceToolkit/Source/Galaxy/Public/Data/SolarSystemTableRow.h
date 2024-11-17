@@ -1,25 +1,14 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
+﻿//Copyright(c) 2024 Hollow World Games llc All Rights Reserved.
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GalaxyAsset.h"
+#include "Location.h"
 #include "Engine/DataAsset.h"
 #include "SolarSystemTableRow.generated.h"
 
-USTRUCT(BlueprintType)
-struct FSystemLocation
-{
-	GENERATED_BODY()
-	
-};
 
-USTRUCT(BlueprintType)
-struct FSystemStar
-{
-	GENERATED_BODY()
-	
-};
 
 USTRUCT(BlueprintType)
 struct FSolarSystemTableRow : public FTableRowBase

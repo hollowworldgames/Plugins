@@ -19,7 +19,9 @@ public class TerraSuite : ModuleRules
                 "CoreUObject",
                 "Engine",
                 "Slate",
-                "SlateCore"
+                "SlateCore",
+                "Galaxy",
+                "ProceduralMeshComponent"
             }
         );
     }

@@ -6,23 +6,106 @@
 #include "RandomGenerator.h"
 #include "UtilityStatics.h"
 #include "Data/Orbital.h"
-#include "DSP/DynamicsProcessor.h"
+#include "Data/SolarSystemTableRow.h"
+
 
 
 void ULocation::Generate(FSystemId NewSystemId, UGalaxyAsset* Asset, int NewRing, int NewSubRing, double NewRadius)
 {
 	SystemId = Asset->GenerateLocationId(NewSystemId.SectorX, NewSystemId.SectorY, NewSystemId.SystemX, NewSystemId.SystemY, NewRing, NewSubRing);
 	Radius = NewRadius;
+	OrbitRate = ((OrbitalK * 2 * PI) / 360.0) / Radius;
+	RotationRate = 2 * PI / RotationalK; 
+}
+
+void ULocation::Generate(FSystemLocation Location)
+{
+	LocationType = Location.LocationType;
+	SystemId = Location.SystemId;
+	Radius = Location.Radius;
+	Eccentricity = Location.Eccentricity;
+	StartAngle = Location.StartAngle;
+	AxialTilt = Location.AxialTilt;
+	OrbitRate = ((OrbitalK * 2 * PI) / 360.0) / Radius;
+	RotationRate = 2 * PI / RotationalK;
+
+	for(FSystemOrbital SystemOrbital : Location.Orbitals)
+	{
+		switch (LocationType)
+		{
+		case ELocationType::ELocationType_Planet:
+			{
+				switch(SystemOrbital.OrbitalType)
+				{
+				case EOrbitalType::EOrbitalType_Planet:
+				case EOrbitalType::EOrbitalType_Moon:
+					{
+						UOrbital * Orbital = NewObject<UOrbital>(this, UPlanetoid::StaticClass());
+						if(ensure(Orbital))
+						{
+							Orbital->Generate(SystemOrbital);
+							Orbitals.Add(Orbital);
+						}
+						break;
+					}
+				case EOrbitalType::EOrbitalType_Asteroid:
+					{
+						UOrbital * Orbital = NewObject<UOrbital>(this, UAsteroidOrbital::StaticClass());
+						if(ensure(Orbital))
+						{
+							Orbital->Generate(SystemOrbital);
+							Orbitals.Add(Orbital);
+						}
+						break;
+					}
+				case EOrbitalType::EOrbitalType_Cloud:
+					{
+						UOrbital * Orbital = NewObject<UOrbital>(this, UCloudOrbital::StaticClass());
+						if(ensure(Orbital))
+						{
+							Orbital->Generate(SystemOrbital);
+							Orbitals.Add(Orbital);
+						}
+						break;
+					}
+				}
+			}
+		case ELocationType::ELocationType_AsteroidCluster:
+			{
+				UOrbital * Orbital = NewObject<UOrbital>(this, UFieldAsteroid::StaticClass());
+				if(ensure(Orbital))
+				{
+					Orbital->Generate(SystemOrbital);
+					Orbitals.Add(Orbital);
+				}
+				break;
+			}
+		case ELocationType::ELocationType_Comet:
+			{
+				break;
+			}
+		default :
+			{
+				break;
+			}
+		}
+	}
 }
 
 FVector ULocation::GetPosition() const
 {
-	return FVector();
+	if (Radius == 0.0)
+	{
+		return FVector::Zero();
+	}
+	double degree = (FDateTime::Now().GetTicks() / TimeDivisor) * OrbitRate + FMath::Fmod(StartAngle , 360);
+	return FVector(FMath::Cos(FMath::DegreesToRadians(degree)) * Radius, 0, FMath::Sin(FMath::DegreesToRadians(degree)) * (Radius * Eccentricity));
 }
 
 FRotator ULocation::GetRotation() const
 {
-	return FRotator();
+	double degree = (FDateTime::Now().GetTicks() / TimeDivisor) * FMath::Fmod(RotationRate , 360);
+	return FRotator(AxialTilt, degree, 0.0);
 }
 
 void UPlanet::Generate(FSystemId NewSystemId, UGalaxyAsset* Asset, int NewRing, int NewSubRing, double NewRadius)

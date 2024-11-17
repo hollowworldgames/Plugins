@@ -1,4 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
+﻿//Copyright(c) 2024 Hollow World Games llc All Rights Reserved.
 
 #pragma once
 
@@ -6,19 +6,12 @@
 #include "Engine/DataAsset.h"
 #include "NativeGameplayTags.h"
 #include "ScalableFloat.h"
+#include "GalaxyEnums.h"
+#include "SystemId.h"
 #include "GalaxyAsset.generated.h"
 
 struct FSolarSystemTableRow;
 class USolarSystem;
-
-UENUM(BlueprintType)
-enum class EGalaxyType : uint8
-{
-	EGalaxyType_Spiral UMETA(DisplayName = "Spiral"),
-	EGalaxyType_Bar UMETA(DisplayName = "Bar"),
-	EGalaxyType_Ring UMETA(DisplayName = "Ring"),
-	EGalaxyType_Elliptical UMETA(DisplayName = "Elliptical"),
-};
 
 //spiral settings
 GALAXY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(GalaxySpiralCoreSizeTag);
@@ -26,63 +19,6 @@ GALAXY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(GalaxySpiralArmCountTag);
 GALAXY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(GalaxySpiralArmWidthTag);
 GALAXY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(GalaxySpiralArmLengthTag);
 GALAXY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(GalaxySpiralArmTightnessTag);
-
-UENUM(BlueprintType)
-enum class ELocationType : uint8
-{
-	ELocationType_System,
-	ELocationType_Nebula,
-	ELocationType_Sun,
-	ELocationType_Planet,
-	ELocationType_AsteroidCluster,
-	ELocationType_Comet,
-};
-
-USTRUCT(BlueprintType)
-struct GALAXY_API FSystemId
-{
-	GENERATED_BODY()
-public :
-	FSystemId(): SectorX(0), SectorY(0), SystemX(0), SystemY(0), SystemZ(0), Ring(0), SubRing(0), Satellite(0), Seed(0)
-	{
-	}
-
-	FSystemId(int NewSectorX, int NewSectorY, int NewSystemX, int NewSystemY, const FVector& NewGalaxyPosition,
-	          int NewSystemZ, int64 NewSeed, int NewRing = 0, int NewSubRing = 0, int NewSatellite = 0);
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	int SectorX;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	int SectorY;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	int SystemX;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	int SystemY;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	int SystemZ;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	int Ring;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	int SubRing;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	int Satellite;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	ELocationType Type = ELocationType::ELocationType_System;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	int64 Seed;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	FVector GalaxyPosition;
-	int64 GetSeed() const { return Seed; };
-	FVector GetGalaxyLocation() const { return GalaxyPosition; };
-	void SetGalaxyLocation(const FVector& Location) { GalaxyPosition = Location; };
-	bool IsSystem() const;
-	bool IsLocation() const;
-	bool IsSameLocation(const FSystemId& System) const;
-	bool IsSameSystem(const FSystemId& System) const;
-	void UpdatePosition(float GalaxyWidth, float SectorWidth, float GalaxyScale, FScalableFloat Heights, float MaxHeight);
-	friend uint32 GetTypeHash(const FSystemId& Id) { return Id.Seed; }
-	bool operator==(const FSystemId&) const;
-};
-
 
 UCLASS(BlueprintType)
 class GALAXY_API UGalaxyAsset : public UDataAsset
@@ -100,6 +36,10 @@ public :
 	TObjectPtr<USolarSystem> GetSystem(const FSystemId& SystemId);
 	FSolarSystemTableRow * FindSolarSystem(const FSystemId& SystemId);
 	USolarSystem * CreateSystemFromRow(FSolarSystemTableRow * Row);
+	int GetSize() const { return Size; }
+	int GetDensity(int X, int Y) const;
+	float GetDensityScalar(int X, int Y) const;
+
 protected :
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Data)
 	TArray<int> GalaxyData;

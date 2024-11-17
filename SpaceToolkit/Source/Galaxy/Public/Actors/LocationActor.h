@@ -19,10 +19,13 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	void AddComet();
-	void SetLocation(ULocation * newLocation);
+	void SetLocation(const FSystemId& SystemId);
 	UFUNCTION(BlueprintPure)
 	ULocation * GetLocation() const { return Location;}
+	void ClearLocation();
 protected:
+	UFUNCTION(NetMulticast, Reliable)
+	void Multicast_SetLocation(const FSystemId& SystemId);
 	void AddPlanetoid(UPlanetoid* Cast);
 	void AddAsteroid(UAsteroidOrbital* Cast);
 	void AddCloud(UCloudOrbital* Cast);

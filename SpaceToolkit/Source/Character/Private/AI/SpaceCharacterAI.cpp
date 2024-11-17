@@ -48,11 +48,12 @@ void ASpaceCharacterAI::PossessedBy(AController* NewController)
 	SetLevel(Level);
 }
 
-void ASpaceCharacterAI::SetLevel(float Level)
+void ASpaceCharacterAI::SetLevel(float NewLevel)
 {
 	if(ensure(AbilitySystemComponent))
 	{
-		AbilitySystemComponent->SetLevel(Level);
+		Level = NewLevel;
+		AbilitySystemComponent->SetLevel(NewLevel);
 	}
 }
 

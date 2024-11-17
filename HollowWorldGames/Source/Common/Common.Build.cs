@@ -25,7 +25,7 @@ public class Common : ModuleRules
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"Core", "XmlParser",
+				"Core", "XmlParser", "Engine",
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -37,7 +37,11 @@ public class Common : ModuleRules
 				"CoreUObject",
 				"Engine",
 				"Slate",
-				"SlateCore", "XmlParser"
+				"SlateCore", 
+				"XmlParser", 
+				"UMG",
+				"RHI", 
+				"RenderCore"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

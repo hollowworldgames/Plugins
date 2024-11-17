@@ -24,3 +24,9 @@ void AStarActor::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+void AStarActor::SetStar(UStar* NewStar)
+{
+	Star = NewStar;
+	OnChangeStar.Broadcast(Star);
+}
+

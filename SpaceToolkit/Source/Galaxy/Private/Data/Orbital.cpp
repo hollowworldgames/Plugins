@@ -6,6 +6,7 @@
 #include "ConverterStatics.h"
 #include "RandomGenerator.h"
 #include "SceneRenderTargetParameters.h"
+#include "Data/GalaxyAsset.h"
 
 
 void UOrbital::Generate(FSystemId NewSystemId, UGalaxyAsset * Asset, double NewRadius, int Satellite)
@@ -14,6 +15,12 @@ void UOrbital::Generate(FSystemId NewSystemId, UGalaxyAsset * Asset, double NewR
 		NewSystemId.SystemY, NewSystemId.Ring, NewSystemId.SubRing, Satellite);
 	Radius = NewRadius;
 	
+}
+
+void UOrbital::Generate(FSystemOrbital Orbital)
+{
+	SystemId = Orbital.SystemId;
+	Radius = Orbital.Radius;
 }
 
 EOrbitalType UOrbital::GetOrbitalType() const
@@ -60,6 +67,15 @@ void UPlanetoid::Generate(FSystemId NewSystemId, UGalaxyAsset * Asset, double Ne
 	}
 }
 
+void UPlanetoid::Generate(FSystemOrbital Orbital)
+{
+	Super::Generate(Orbital);
+	PlanetType = static_cast<EPlanetType>(Orbital.Param1);
+	AtmosphereType = static_cast<EAtmosphereType>(Orbital.Param2);
+	SizeKm = Orbital.Scale.X;
+	ShowRing = Orbital.Param4;
+}
+
 FVector UPlanetoid::GetOrbitalScale() const
 {
 	double S = UConverterStatics::KmToUUnits(SizeKm);
@@ -82,6 +98,11 @@ void UFieldAsteroid::Generate(FSystemId NewSystemId, UGalaxyAsset * Asset, doubl
 	Location = FVector(FMath::Cos(Angle) * Radius, FMath::Sin(Angle) * Radius, UConverterStatics::KmToUUnits(Random.RandRange(-MaxHeightKm, MaxHeightKm)));
 }
 
+void UFieldAsteroid::SetInstanceId(int32 NewInstanceId)
+{
+	InstanceId = NewInstanceId;
+}
+
 void UAsteroidOrbital::Generate(FSystemId NewSystemId, UGalaxyAsset * Asset, double NewRadius, int Satellite)
 {
 	Super::Generate(NewSystemId, Asset, NewRadius, Satellite);
@@ -89,6 +110,7 @@ void UAsteroidOrbital::Generate(FSystemId NewSystemId, UGalaxyAsset * Asset, dou
 	Scale = Random.RandVector(MinSizeVariation, MaxSizeVariation);
 	Scale *= UConverterStatics::MetersToUUnits(Random.RandRange(MinSizeM, MaxSizeM));
 	Rotation = Random.RandRotation();
+	Mesh = Random.GetRandomItem(MeshChoices);
 }
 
 void UCloudOrbital::Generate(FSystemId NewSystemId, UGalaxyAsset * Asset, double NewRadius, int Satellite)

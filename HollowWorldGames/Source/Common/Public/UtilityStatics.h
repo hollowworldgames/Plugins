@@ -223,6 +223,7 @@ class COMMON_API UUtilityStatics : public UBlueprintFunctionLibrary
 	static void HideMouse(const UObject * WorldContext);
 	UFUNCTION(BlueprintPure)
 	static float ScaleAxisTo01(double Value);
+	static void CopyTextureToArray(UTexture2D *Texture, TArray<FColor> &Array);
 };
 
 enum class LogSeverity

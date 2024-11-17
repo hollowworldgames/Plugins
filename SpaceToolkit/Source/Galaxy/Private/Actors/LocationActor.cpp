@@ -3,13 +3,12 @@
 
 #include "Actors/LocationActor.h"
 
-#include "Actors/AsteroidActor.h"
-#include "Actors/AsteroidFieldActor.h"
-#include "Actors/CometActor.h"
-#include "Actors/PlanetoidActor.h"
+#include "Components/AsteroidFieldComponent.h"
+#include "Components/OrbitalComponent.h"
 #include "Data/Location.h"
 #include "Data/LocationClasses.h"
 #include "Data/Orbital.h"
+#include "Utility/GalaxyGameInstance.h"
 
 
 // Sets default values
@@ -30,11 +29,7 @@ void ALocationActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
 
-	for(const auto Spawn : Spawns)
-	{
-		Spawn.Value->Destroy();
-	}
-	Spawns.Empty();
+	ClearLocation();
 }
 
 // Called every frame
@@ -43,9 +38,35 @@ void ALocationActor::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void ALocationActor::SetLocation(ULocation * NewLocation)
+void ALocationActor::SetLocation(const FSystemId& SystemId)
 {
-	Location = NewLocation;
+	
+}
+
+
+void ALocationActor::AddComet()
+{
+	FTransform Transform;
+	AActor * CometActor = GetWorld()->SpawnActorDeferred<AActor>(LocationClasses->CometActorClass, Transform);
+	if(ensure(CometActor))
+	{
+		CometActor->FinishSpawning(Transform);
+		Spawns.Add(Location->GetSystemId(), CometActor);
+	}
+}
+
+void ALocationActor::Multicast_SetLocation_Implementation(const FSystemId& SystemId)
+{
+	UGalaxyGameInstance * Instance = GetWorld()->GetGameInstance<UGalaxyGameInstance>();
+	if(ensure(Instance))
+	{
+		Instance->SetCurrentLocation(SystemId);
+		Location = Instance->GetLocation();
+		if(!ensure(Location))
+		{
+			return;
+		}
+	}
 	switch(Location->GetLocationType())
 	{
 	case ELocationType::ELocationType_Comet :
@@ -84,20 +105,21 @@ void ALocationActor::SetLocation(ULocation * NewLocation)
 				AddCloud(Cast<UCloudOrbital>(Orbital));
 				break;
 			}
+		default :
+			{
+				break;
+			}
 		}
 	}
 }
 
-
-void ALocationActor::AddComet()
+void ALocationActor::ClearLocation()
 {
-	FTransform Transform;
-	ACometActor * CometActor = GetWorld()->SpawnActorDeferred<ACometActor>(LocationClasses->CometActorClass, Transform);
-	if(ensure(CometActor))
+	for(const auto Spawn : Spawns)
 	{
-		CometActor->FinishSpawning(Transform);
-		Spawns.Add(Location->GetSystemId(), CometActor);
+		Spawn.Value->Destroy();
 	}
+	Spawns.Empty();
 }
 
 void ALocationActor::AddPlanetoid(UPlanetoid* Planetoid)
@@ -105,10 +127,14 @@ void ALocationActor::AddPlanetoid(UPlanetoid* Planetoid)
 	FTransform Transform(Planetoid->GetOrbitalLocation());
 	Transform.SetRotation(Planetoid->GetOrbitalRotation().Quaternion());
 	Transform.SetScale3D(Planetoid->GetOrbitalScale());
-	APlanetoidActor * PlanetoidActor = GetWorld()->SpawnActorDeferred<APlanetoidActor>(LocationClasses->PlanetoidActorClasses[Planetoid->GetPlanetType()], Transform);
+	AActor * PlanetoidActor = GetWorld()->SpawnActorDeferred<AActor>(LocationClasses->PlanetoidActorClasses[Planetoid->GetPlanetType()], Transform);
 	if(ensure(PlanetoidActor))
 	{
-		PlanetoidActor->SetPlanetoid(Planetoid);
+		UOrbitalComponent * Component = PlanetoidActor->GetComponentByClass<UOrbitalComponent>();
+		if(ensure(Component))
+		{
+			Component->SetOrbital(Planetoid);
+		}
 		PlanetoidActor->FinishSpawning(Transform);
 		Spawns.Add(Planetoid->GetSystemId(), PlanetoidActor);
 	}
@@ -119,10 +145,14 @@ void ALocationActor::AddAsteroid(UAsteroidOrbital* Asteroid)
 	FTransform Transform(Asteroid->GetOrbitalLocation());
 	Transform.SetRotation(Asteroid->GetOrbitalRotation().Quaternion());
 	Transform.SetScale3D(Asteroid->GetOrbitalScale());
-	AAsteroidActor * AsteroidActor = GetWorld()->SpawnActorDeferred<AAsteroidActor>(LocationClasses->AsteroidActorClass, Transform);
+	AActor * AsteroidActor = GetWorld()->SpawnActorDeferred<AActor>(LocationClasses->AsteroidActorClass, Transform);
 	if(ensure(AsteroidActor))
 	{
-		AsteroidActor->SetOrbital(Asteroid);
+		UOrbitalComponent * Component = AsteroidActor->GetComponentByClass<UOrbitalComponent>();
+		if(ensure(Component))
+		{
+			Component->SetOrbital(Asteroid);
+		}
 		AsteroidActor->FinishSpawning(Transform);
 		Spawns.Add(Asteroid->GetSystemId(), AsteroidActor);
 	}
@@ -136,10 +166,14 @@ void ALocationActor::AddCloud(UCloudOrbital* Cast)
 void ALocationActor::AddAsteroidField()
 {
 	FTransform Transform;
-	AAsteroidFieldActor * FieldActor = GetWorld()->SpawnActorDeferred<AAsteroidFieldActor>(LocationClasses->FieldActorClass, Transform);
+	AActor * FieldActor = GetWorld()->SpawnActorDeferred<AActor>(LocationClasses->FieldActorClass, Transform);
 	if(ensure(FieldActor))
 	{
-		FieldActor->SetAsteroidField(Cast<UAsteroidField>(Location));
+		UAsteroidFieldComponent * AsteroidFieldComponent = FieldActor->GetComponentByClass<UAsteroidFieldComponent>();
+		if(ensure(AsteroidFieldComponent))
+		{
+			AsteroidFieldComponent->SetField(Cast<UAsteroidField>(Location));
+		}
 		FieldActor->FinishSpawning(Transform);
 		Spawns.Add(Location->GetSystemId(), FieldActor);
 	}

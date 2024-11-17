@@ -3,6 +3,7 @@
 
 #include "Data/GalaxyAsset.h"
 
+#include "RandomGenerator.h"
 #include "Data/SolarSystem.h"
 #include "Data/SolarSystemTableRow.h"
 
@@ -13,61 +14,31 @@ UE_DEFINE_GAMEPLAY_TAG_COMMENT(GalaxySpiralArmLengthTag, "Galaxy.Spiral.ArmLengt
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(GalaxySpiralArmTightnessTag, "Galaxy.Spiral.ArmTightness", "Spiral Galaxy Arm Tightness");
 
 
-FSystemId::FSystemId(const int NewSectorX, const int NewSectorY, const int NewSystemX,
-	int NewSystemY, const FVector& NewGalaxyPosition, int NewSystemZ, int64 NewSeed, int NewRing, int NewSubRing, int NewSatellite)
-{
-	SectorX = NewSectorX;
-	SectorY = NewSectorY;
-	SystemX = NewSystemX;
-	SystemY = NewSystemY;
-	SystemZ = NewSystemZ;
-	Ring = NewRing;
-	SubRing = NewSubRing;
-	Satellite = NewSatellite;
-	GalaxyPosition = NewGalaxyPosition;
-	Seed = NewSeed;
-}
 
-bool FSystemId::IsSystem() const
-{
-	return Ring + SubRing + Satellite == 0;
-}
-
-bool FSystemId::IsLocation() const
-{
-	return Ring + SubRing + Satellite != 0;
-}
-
-bool FSystemId::IsSameLocation(const FSystemId& System) const
-{
-	return SectorX == System.SectorX && SectorY == System.SectorY && SystemX == System.SystemX && SystemY == System.SystemY
-	&& Ring == System.Ring && SubRing == System.SubRing;
-}
-
-bool FSystemId::IsSameSystem(const FSystemId& System) const
-{
-	return  SectorX == System.SectorX && SectorY == System.SectorY && SystemX == System.SystemX && SystemY == System.SystemY;
-}
-
-void FSystemId::UpdatePosition(float GalaxyWidth, float SectorWidth, float GalaxyScale, FScalableFloat Heights, float MaxHeight)
-{
-	float X = SectorX * GalaxyWidth * SectorWidth + SystemX * SectorWidth;
-	float Y = SectorY * GalaxyWidth * SectorWidth + SystemY * SectorWidth;
-	float Z = 0;
-	GalaxyPosition = FVector(X, Y, Z);
-}
-
-bool FSystemId::operator==(const FSystemId& Id) const
-{
-	return SectorX == Id.SectorX && SectorY == Id.SectorY &&
-		SystemX == Id.SystemX && SystemY == Id.SystemY &&
-			Ring == Id.Ring && SubRing == Id.SubRing && Satellite == Id.Satellite; 
-}
 
 TArray<FSystemId> UGalaxyAsset::GetSystemsInSector(int X, int Y)
 {
 	TArray<FSystemId> Systems;
 	int seed = X + Y;
+	bool * Grid  = new bool[SectorSize * SectorSize];
+	memset(Grid, true, sizeof(bool) * SectorSize * SectorSize);
+	FRandomGenerator64 Random(seed);
+	int SectorDensity = GetDensity(X, Y);
+	for(int Index = 0; Index < SectorDensity; Index++)
+	{
+		while(true)
+		{
+			int TargetX = Random.RandRange(0, SectorSize);
+			int TargetY = Random.RandRange(0, SectorSize);
+			if(Grid[TargetX * SectorSize + TargetY])
+			{
+				Grid[TargetX * SectorSize + TargetY] = false;
+				Systems.Add(GenerateSystemId(X, Y, TargetX, TargetY));
+				break;
+			}
+		}
+	}
+	delete[] Grid;
 	return Systems;
 }
 
@@ -177,9 +148,28 @@ USolarSystem* UGalaxyAsset::CreateSystemFromRow(FSolarSystemTableRow* Row)
 	USolarSystem * System = NewObject<USolarSystem>(this, SolarSystemClass);
 	if(ensure(System))
 	{
-		
+		System->GenerateLocations(Row, this);
 	}
 	return System;
+}
+
+int UGalaxyAsset::GetDensity(const int X, const int Y) const
+{
+	if(ensure(X >-1 && X < Size) && ensure(Y > -1 && Y < Size))
+	{
+		return GalaxyData[Y * Size + X];
+	}
+	return 0;
+}
+
+float UGalaxyAsset::GetDensityScalar(const int X, const int Y) const
+{
+	const float SectorDensity = GetDensity(X, Y);
+	if(ensure(Density != 0))
+	{
+		return SectorDensity / Density;
+	}
+	return 0;
 }
 
 void UGalaxyAsset::CreateGalaxy()
@@ -310,6 +300,7 @@ void UGalaxyAsset::DrawArm(float StartAngle, float DistanceStart, float MinDensi
 
 void UGalaxyAsset::WriteDensity(int x, int y, int density, bool Overwrite)
 {
+	ensure(x > -1 && x < Size && y > -1 && y < Size);
 	int index = x + y * Size;
 	if(ensure(index > 0 && index < GalaxyData.Num()))
 	{

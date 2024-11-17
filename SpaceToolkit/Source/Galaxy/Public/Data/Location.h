@@ -3,32 +3,22 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GalaxyAsset.h"
 #include "UObject/Object.h"
+#include "GalaxyEnums.h"
+#include "SystemId.h"
 #include "Location.generated.h"
 
 class UAsteroidOrbital;
 class UPlanetoid;
 class UOrbital;
-
-UENUM(BlueprintType)
-enum class EPlanetType : uint8
-{
-	EPlanetType_Rocky,
-	EPlanetType_Barren,
-	EPlanetType_Lava,
-	EPlanetType_Temperate,
-	EPlanetType_GasGiant,
-	EPlanetType_Ice,
-	EPlanetType_Asteroid,
-};
+class UGalaxyAsset;
 
 USTRUCT(Blueprintable, BlueprintType)
 struct FRingChanceData
 {
 	GENERATED_BODY();
-public :
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	public :
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
 	TArray<EPlanetType> Chances;
 };
 
@@ -45,12 +35,76 @@ public :
 	int MaxMoons = 10;
 };
 
+
+USTRUCT(BlueprintType)
+struct FSystemOrbital
+{
+	GENERATED_BODY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	EOrbitalType OrbitalType;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	FSystemId SystemId;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	double Radius = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	int Param1 = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	int Param2 = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	bool Param4 = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	FVector Scale;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	FRotator Rotation;
+};
+
+USTRUCT(BlueprintType)
+struct FSystemLocation
+{
+	GENERATED_BODY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	ELocationType LocationType;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	FSystemId SystemId;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	double Radius = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	double StartAngle = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	double Eccentricity = 1.1;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	double AxialTilt = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	int CustomData1;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	int CustomData2;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	TArray<FSystemOrbital> Orbitals;
+};
+
+USTRUCT(BlueprintType)
+struct FSystemStar
+{
+	GENERATED_BODY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	FSystemId SystemId;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	double Radius = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	double SizeMm = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	double StartAngle = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	float Temperature = 0;
+};
+
 UCLASS(Blueprintable, BlueprintType)
 class GALAXY_API ULocation : public UObject
 {
 	GENERATED_BODY()
 public :
 	virtual void Generate(FSystemId NewSystemId, UGalaxyAsset * Asset, int NewRing, int NewSubRing, double NewRadius);
+	virtual void Generate(FSystemLocation Location);
 	virtual FVector GetPosition() const;
 	virtual FRotator GetRotation() const;
 	FSystemId GetSystemId() const { return SystemId; }
@@ -67,6 +121,18 @@ protected:
 	double Radius = 0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
 	TArray<UOrbital*> Orbitals;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	double StartAngle = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	double Eccentricity = 1.1;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	double AxialTilt = 0;
+	double OrbitRate = 0;
+	double RotationalRate = 0;
+	double RotationRate = 0;
+	const double OrbitalK = 400.0;
+	const double RotationalK = 100000000.0;
+	const double TimeDivisor = 10000;
 };
 
 UCLASS(Blueprintable, BlueprintType)
