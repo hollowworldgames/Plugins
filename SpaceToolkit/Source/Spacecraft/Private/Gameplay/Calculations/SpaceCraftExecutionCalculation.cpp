@@ -88,7 +88,7 @@ void USpaceCraftExecutionCalculation::Execute_Implementation(
 
 	//Do Shield Recharge
 
-	/*float ShieldOn = (Tags.HasTagExact(ShieldOnTag)) ? 1 : 0;;
+	float ShieldOn = (Tags.HasTagExact(ShieldOnTag)) ? 1 : 0;;
 	
 	if(ShieldLevel > 0)
 	{
