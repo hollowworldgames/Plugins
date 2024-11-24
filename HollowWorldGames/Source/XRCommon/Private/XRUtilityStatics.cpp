@@ -4,6 +4,9 @@
 #include "XRUtilityStatics.h"
 
 #include "IXRTrackingSystem.h"
+#include "ViewableWorldSubsystem.h"
+#include "Components/XRViewPointComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 bool UXRUtilityStatics::IsXRRunning()
 {
@@ -15,4 +18,33 @@ bool UXRUtilityStatics::IsXRRunning()
 		}
 	}
 	return false;
+}
+
+AXRHandActor* UXRUtilityStatics::GetXRHandActor(const UObject* WorldContext, EHand Hand)
+{
+	TArray<AActor*> Hands;
+	UGameplayStatics::GetAllActorsOfClass(WorldContext, AXRHandActor::StaticClass(), Hands);
+	for (AActor* Actor : Hands)
+	{
+		if (AXRHandActor *HandActor = Cast<AXRHandActor>(Actor))
+		{
+			if (HandActor->GetHand() == Hand)
+			{
+				return HandActor;
+			}
+		}
+	}
+	return nullptr;
+}
+
+UMotionControllerComponent* UXRUtilityStatics::GetMotionControllerComponent(const UObject* WorldContext,
+	const EHand Hand)
+{
+	UWorld * World = GEngine->GetWorldFromContextObjectChecked(WorldContext);
+	if (!World) return nullptr;
+	UViewableWorldSubsystem * ViewableWorldSubsystem = World->GetSubsystem<UViewableWorldSubsystem>();
+	if (!ViewableWorldSubsystem) return nullptr;
+	UXRViewPointComponent * XRViewPointComponent = Cast<UXRViewPointComponent>(ViewableWorldSubsystem->GetCurrentViewPoint());
+	if (!XRViewPointComponent) return nullptr;
+	return XRViewPointComponent->GetMotionController(Hand);
 }

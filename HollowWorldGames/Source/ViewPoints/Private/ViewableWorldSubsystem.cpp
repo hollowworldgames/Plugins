@@ -50,3 +50,12 @@ void UViewableWorldSubsystem::ResetToPlayerViewable()
 		Current = Player;
 	}
 }
+
+UViewPointComponent* UViewableWorldSubsystem::GetCurrentViewPoint() const
+{
+	if(Current)
+	{
+		return Current->GetCurrentViewPoint();
+	}
+	return nullptr;
+}

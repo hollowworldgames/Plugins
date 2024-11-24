@@ -5,6 +5,7 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Attributes/RPGAttributeSet.h"
 #include "Camera/CameraComponent.h"
 #include "Components/GameplayAbilitySystemComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -109,7 +110,13 @@ void ASpaceCharacterPlayer::OnRep_PlayerState()
 	if(MyPlayerState)
 	{
 		MyPlayerState->InitAbilitySystem(this);
+		MyPlayerState->GetRPGAttributeSet()->GetAttributeChanged().AddDynamic(this, &ASpaceCharacterPlayer::OnAnyAttributeChanged);
 	}
+}
+
+void ASpaceCharacterPlayer::OnAnyAttributeChanged(FGameplayTag Attribute, float Value)
+{
+	OnAttributeChanged.Broadcast(Attribute, Value);
 }
 
 void ASpaceCharacterPlayer::Move(const FInputActionValue& Value)

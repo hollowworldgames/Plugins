@@ -176,8 +176,8 @@ void UGameplayAbilitySystemComponent::AddAbility(TSubclassOf<UGameplayAbility> A
 	if(!HasAbility(AbilityTag))
 	{
 		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(Ability, Level);
-		AbilitySpec.DynamicAbilityTags.AddTag(Status);
-		AbilitySpec.DynamicAbilityTags.AddTag(AbilityTag);
+		AbilitySpec.GetDynamicSpecSourceTags().AddTag(Status);
+		AbilitySpec.GetDynamicSpecSourceTags().AddTag(AbilityTag);
 		FGameplayAbilitySpecHandle GrantedAbility = GiveAbility(AbilitySpec);
 		MarkAbilitySpecDirty(AbilitySpec);
 	}
@@ -188,10 +188,10 @@ bool UGameplayAbilitySystemComponent::MapAbility(FGameplayTag Ability, FGameplay
 	if(FGameplayAbilitySpec * Spec = GetAbility(Ability))
 	{
 		UnmapAbility(Input); //unmap any ability already mapped
-		if(Spec->DynamicAbilityTags.HasTagExact(AbilityUnequippedTag))
+		if(Spec->GetDynamicSpecSourceTags().HasTagExact(AbilityUnequippedTag))
 		{
 			MappedAbilities[Input] = Ability;
-			Spec->DynamicAbilityTags.AddTag(AbilityEquippedTag);
+			Spec->GetDynamicSpecSourceTags().AddTag(AbilityEquippedTag);
 			return true;
 		}
 		//oops tried to equip a locked ability
@@ -219,7 +219,7 @@ bool UGameplayAbilitySystemComponent::HasAbility(FGameplayTag Ability)
 	FScopedAbilityListLock ActiveScopeLock(*this);
 	for(auto A : GetActivatableAbilities())
 	{
-		if(A.DynamicAbilityTags.HasTagExact(Ability))
+		if(A.GetDynamicSpecSourceTags().HasTagExact(Ability))
 		{
 			return true;
 		}
@@ -233,7 +233,7 @@ FGameplayAbilitySpec* UGameplayAbilitySystemComponent::GetAbility(FGameplayTag A
 	ensure(GetActivatableAbilities().Num() > 0);
 	for(FGameplayAbilitySpec& A : GetActivatableAbilities())
 	{
-		if(A.DynamicAbilityTags.HasTagExact(Ability))
+		if(A.GetDynamicSpecSourceTags().HasTagExact(Ability))
 		{
 			return &A;
 		}
@@ -247,54 +247,30 @@ void UGameplayAbilitySystemComponent::SetAbilityStatus(FGameplayTag Ability, FGa
 	FScopedAbilityListLock ActiveScopeLock(*this);
 	for(auto A : GetActivatableAbilities())
 	{
-		if(A.DynamicAbilityTags.HasTagExact(Ability))
+		if(A.GetDynamicSpecSourceTags().HasTagExact(Ability))
 		{
-			FGameplayTagContainer Tags = A.DynamicAbilityTags;
+			FGameplayTagContainer Tags = A.GetDynamicSpecSourceTags();
 			//remove any status tag from Ability
 			for(FGameplayTag Tag : Tags)
 			{
 				if(Tag.MatchesTag(AbilityStatusTag))
 				{
-					A.DynamicAbilityTags.RemoveTag(Tag);
+					A.GetDynamicSpecSourceTags().RemoveTag(Tag);
 				}
 			}
 			//add new status tag
-			A.DynamicAbilityTags.AddTag(Status);
+			A.GetDynamicSpecSourceTags().AddTag(Status);
 		}
 	}
 }
 
 void UGameplayAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag Tag)
 {
-	/*if(FGameplayTag * Ability = MappedAbilities.Find(Tag))
-	{*/
-		FGameplayAbilitySpec * Spec = GetAbility(Tag);
-		if(ensure(Spec))
-		{
-			AbilitySpecInputPressed(*Spec);
-			if(!Spec->IsActive())
-			{
-				if(TryActivateAbility(Spec->Handle))
-				{
-					OnAbilityActivated.Broadcast(Tag);
-					ActiveAbilities.AddUnique(Spec->Handle);
-					InvokeReplicatedEvent(EAbilityGenericReplicatedEvent::InputPressed, Spec->Handle, Spec->ActivationInfo.GetActivationPredictionKey());
-				}
-			}
-		}
-	/*}
-	else
+	FGameplayAbilitySpec * Spec = GetAbility(Tag);
+	if(ensure(Spec))
 	{
-		LogStart(LogSeverity::Error, false) << "Ability Not Found " << *Tag.ToString() << LogStop();
-	}*/
-}
-
-void UGameplayAbilitySystemComponent::OnAbilityInputHeld(FGameplayTag Tag)
-{
-	/*if(FGameplayTag * Ability = MappedAbilities.Find(Tag))
-	{*/
-		FGameplayAbilitySpec * Spec = GetAbility(Tag);
-		if(ensure(Spec) && !Spec->IsActive())
+		AbilitySpecInputPressed(*Spec);
+		if(!Spec->IsActive())
 		{
 			if(TryActivateAbility(Spec->Handle))
 			{
@@ -303,28 +279,31 @@ void UGameplayAbilitySystemComponent::OnAbilityInputHeld(FGameplayTag Tag)
 				InvokeReplicatedEvent(EAbilityGenericReplicatedEvent::InputPressed, Spec->Handle, Spec->ActivationInfo.GetActivationPredictionKey());
 			}
 		}
-	/*}
-	else
+	}
+}
+
+void UGameplayAbilitySystemComponent::OnAbilityInputHeld(FGameplayTag Tag)
+{
+	FGameplayAbilitySpec * Spec = GetAbility(Tag);
+	if(ensure(Spec) && !Spec->IsActive())
 	{
-		LogStart(LogSeverity::Error, false) << "Ability Not Found " << *Tag.ToString() << LogStop();
-	}*/
+		if(TryActivateAbility(Spec->Handle))
+		{
+			OnAbilityActivated.Broadcast(Tag);
+			ActiveAbilities.AddUnique(Spec->Handle);
+			InvokeReplicatedEvent(EAbilityGenericReplicatedEvent::InputPressed, Spec->Handle, Spec->ActivationInfo.GetActivationPredictionKey());
+		}
+	}
 }
 
 void UGameplayAbilitySystemComponent::OnAbilityInputReleased(const FGameplayTag Tag)
 {
-	/*if(FGameplayTag * Ability = MappedAbilities.Find(Tag))
-	{*/
-		FGameplayAbilitySpec * Spec = GetAbility(Tag);
-		if(ensure(Spec) && Spec->IsActive())
-		{
-			AbilitySpecInputReleased(*Spec);
-			InvokeReplicatedEvent(EAbilityGenericReplicatedEvent::InputReleased, Spec->Handle, Spec->ActivationInfo.GetActivationPredictionKey());
-		}
-	/*}
-	else
+	FGameplayAbilitySpec * Spec = GetAbility(Tag);
+	if(ensure(Spec) && Spec->IsActive())
 	{
-		LogStart(LogSeverity::Error, false) << "Ability Not Found " << *Tag.ToString() << LogStop();
-	}*/
+		AbilitySpecInputReleased(*Spec);
+		InvokeReplicatedEvent(EAbilityGenericReplicatedEvent::InputReleased, Spec->Handle, Spec->ActivationInfo.GetActivationPredictionKey());
+	}
 }
 
 void UGameplayAbilitySystemComponent::ActivateAbility(FGameplayTag AbilityTag)
@@ -332,7 +311,7 @@ void UGameplayAbilitySystemComponent::ActivateAbility(FGameplayTag AbilityTag)
 	FScopedAbilityListLock ActiveScopeLock(*this);
 	for(auto Ability : GetActivatableAbilities())
 	{
-		if(Ability.DynamicAbilityTags.HasTagExact(AbilityTag))
+		if(Ability.GetDynamicSpecSourceTags().HasTagExact(AbilityTag))
 		{
 			if(!Ability.IsActive())
 			{
@@ -422,9 +401,9 @@ FGameplayTag UGameplayAbilitySystemComponent::GetAbilityStatus(FGameplayTag Tag)
 	FScopedAbilityListLock ActiveScopeLock(*this);
 	for(auto Ability : GetActivatableAbilities())
 	{
-		if(Ability.DynamicAbilityTags.HasTagExact(Tag))
+		if(Ability.GetDynamicSpecSourceTags().HasTagExact(Tag))
 		{
-			for(FGameplayTag TestTag : Ability.DynamicAbilityTags)
+			for(FGameplayTag TestTag : Ability.GetDynamicSpecSourceTags())
 			{
 				if(TestTag.MatchesTag(AbilityStatusTag))
 				{

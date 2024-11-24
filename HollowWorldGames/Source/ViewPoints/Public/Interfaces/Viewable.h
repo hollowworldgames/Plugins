@@ -16,6 +16,8 @@ class UViewable : public UInterface
 /**
  * 
  */
+class UViewPointComponent;
+
 class VIEWPOINTS_API IViewable
 {
 	GENERATED_BODY()
@@ -27,4 +29,5 @@ public:
 	virtual void MakeInactive() = 0;
 	virtual void ResetToMain() = 0;
 	virtual bool IsLocalPlayer() = 0;
+	virtual UViewPointComponent* GetCurrentViewPoint() const = 0;
 };

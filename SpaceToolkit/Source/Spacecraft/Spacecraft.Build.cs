@@ -10,7 +10,7 @@ public class Spacecraft : ModuleRules
             new string[]
             {
                 "Core", "GameplayAbilities","GameplayTasks",
-                "GameplayTags"
+                "GameplayTags", "ViewPoints", "Gameplay","SpaceGameplay"
             }
         );
 
@@ -22,9 +22,9 @@ public class Spacecraft : ModuleRules
                 "Slate",
                 "SlateCore",
                 "Common",
-                "Gameplay",
+                "Gameplay","Character",
                 "GameplayTasks",
-                "GameplayTags", "EnhancedInput"
+                "GameplayTags", "EnhancedInput","Interactions","HeadMountedDisplay"
             }
         );
     }

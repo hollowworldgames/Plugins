@@ -23,6 +23,7 @@ public:
 	virtual void MakeInactive() override;
 	virtual void ResetToMain() override;
 	virtual bool IsLocalPlayer() override { return false; }
+	virtual UViewPointComponent* GetCurrentViewPoint() const override { return CurrentViewPoint; }
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

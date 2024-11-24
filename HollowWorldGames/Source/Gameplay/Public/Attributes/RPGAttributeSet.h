@@ -119,6 +119,7 @@ public :
 
 	virtual float GetAttributeValue(FGameplayTag AttributeTag) override;
 	virtual void SetAttributeValue(FGameplayTag Attribute, float Value) override;
+	virtual FGameplayTag GetAttributeTag(FGameplayAttribute Attribute) override;
 protected :
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;

@@ -8,6 +8,7 @@
 
 float URPGAttributeSet::GetAttributeValue(FGameplayTag AttributeTag)
 {
+	GET_IF_TAGMATCHES(Level, AttributeTag);
 	GET_IF_TAGMATCHES(Health, AttributeTag);
 	GET_IF_TAGMATCHES(HealthMax, AttributeTag);
 	GET_IF_TAGMATCHES(Energy, AttributeTag);
@@ -58,6 +59,48 @@ void URPGAttributeSet::SetAttributeValue(FGameplayTag Attribute, float Value)
 	SET_IF_TAGMATCHES(Constitution, Attribute, Value);
 	SET_IF_TAGMATCHES(Endurance, Attribute, Value);
 	SET_IF_TAGMATCHES(Charisma, Attribute, Value);
+}
+
+FGameplayTag URPGAttributeSet::GetAttributeTag(FGameplayAttribute Attribute)
+{
+	CHECK_IF_ATTRIBUTE(Level, Attribute);
+	CHECK_IF_ATTRIBUTE(Health, Attribute);
+	CHECK_IF_ATTRIBUTE(HealthMax, Attribute);
+	CHECK_IF_ATTRIBUTE(Energy, Attribute);
+	CHECK_IF_ATTRIBUTE(EnergyMax, Attribute);
+	CHECK_IF_ATTRIBUTE(Strength, Attribute);
+	CHECK_IF_ATTRIBUTE(Agility, Attribute);
+	CHECK_IF_ATTRIBUTE(Precision, Attribute);
+	CHECK_IF_ATTRIBUTE(Luck, Attribute);
+	CHECK_IF_ATTRIBUTE(Intelligence, Attribute);
+	CHECK_IF_ATTRIBUTE(Wisdom, Attribute);
+	CHECK_IF_ATTRIBUTE(Constitution, Attribute);
+	CHECK_IF_ATTRIBUTE(Endurance, Attribute);
+	CHECK_IF_ATTRIBUTE(Charisma, Attribute);
+	CHECK_IF_ATTRIBUTE(Accuracy, Attribute);
+	CHECK_IF_ATTRIBUTE(Mitigation1, Attribute);
+	CHECK_IF_ATTRIBUTE(Mitigation2, Attribute);
+	CHECK_IF_ATTRIBUTE(Mitigation3, Attribute);
+	CHECK_IF_ATTRIBUTE(Mitigation4, Attribute);
+	CHECK_IF_ATTRIBUTE(Resistance1, Attribute);
+	CHECK_IF_ATTRIBUTE(Resistance2, Attribute);
+	CHECK_IF_ATTRIBUTE(Resistance3, Attribute);
+	CHECK_IF_ATTRIBUTE(Resistance4, Attribute);
+	CHECK_IF_ATTRIBUTE(DamageBoost1, Attribute);
+	CHECK_IF_ATTRIBUTE(DamageBoost2, Attribute);
+	CHECK_IF_ATTRIBUTE(DamageBoost3, Attribute);
+	CHECK_IF_ATTRIBUTE(DamageBoost4, Attribute);
+	CHECK_IF_ATTRIBUTE(Accuracy, Attribute);
+	CHECK_IF_ATTRIBUTE(BlockChance, Attribute);
+	CHECK_IF_ATTRIBUTE(BlockValue, Attribute);
+	CHECK_IF_ATTRIBUTE(GlancingBlowChance, Attribute);
+	CHECK_IF_ATTRIBUTE(ParryChance, Attribute);
+	CHECK_IF_ATTRIBUTE(EvadeChance, Attribute);
+	CHECK_IF_ATTRIBUTE(Penetration, Attribute);
+	CHECK_IF_ATTRIBUTE(CriticalChance, Attribute);
+	CHECK_IF_ATTRIBUTE(CriticalValue, Attribute);
+	CHECK_IF_ATTRIBUTE(CriticalDefense, Attribute);
+	return Super::GetAttributeTag(Attribute);
 }
 
 void URPGAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

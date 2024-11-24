@@ -121,6 +121,14 @@ if(Data.EvaluatedData.Attribute == Get##IncomingExperience##Attribute())\
 		}\
 	}
 
+#define PROCESS_INCOMING_DAMAGE_NO_NOTIFY(IncomingAttributeName, HealthAttributeName, Data) \
+if(Data.EvaluatedData.Attribute == Get##IncomingAttributeName##Attribute()) \
+{\
+float PreviousHealth = Get##HealthAttributeName();\
+float Damage = Get##IncomingAttributeName();\
+Set##IncomingAttributeName(0);\
+Set##HealthAttributeName(Get##HealthAttributeName() - Damage);}
+
 #define PROCESS_INCOMING_DAMAGE(IncomingAttributeName, HealthAttributeName, Data, OnDead) \
 if(Data.EvaluatedData.Attribute == Get##IncomingAttributeName##Attribute()) \
 {\

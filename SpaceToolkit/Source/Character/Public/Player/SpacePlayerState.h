@@ -22,6 +22,7 @@ public :
 	ASpacePlayerState();
 	TObjectPtr<UGameplayAbilitySystemComponent> GetAbilitySystemComponent() const;
 	void InitAbilitySystem(APawn * MYPawn);
+	TObjectPtr<URPGAttributeSet> GetRPGAttributeSet() const { return Attributes; }
 protected :
 	virtual void LoadAttributes();
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)

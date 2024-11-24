@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Actors/XRHandActor.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "XRUtilityStatics.generated.h"
 
@@ -16,4 +17,8 @@ class XRCOMMON_API UXRUtilityStatics : public UBlueprintFunctionLibrary
 public :
 	UFUNCTION(BlueprintPure)
 	static bool IsXRRunning();
+	UFUNCTION(BlueprintPure,Meta = (WorldContext = "WorldContext"))
+	static AXRHandActor* GetXRHandActor(const UObject * WorldContext, EHand Hand);
+	UFUNCTION(BlueprintPure,Meta = (WorldContext = "WorldContext"))
+	static UMotionControllerComponent* GetMotionControllerComponent(const UObject * WorldContext, const EHand Hand);
 };

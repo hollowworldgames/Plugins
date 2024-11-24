@@ -23,6 +23,7 @@ public:
 	virtual void MakeInactive() override;
 	virtual void ResetToMain() override;
 	virtual bool IsLocalPlayer() override { return IsLocallyControlled(); }
+	virtual UViewPointComponent* GetCurrentViewPoint() const override { return CurrentViewPoint; }
 protected:
 	void CycleViewable();
 	void CycleViewPoint();

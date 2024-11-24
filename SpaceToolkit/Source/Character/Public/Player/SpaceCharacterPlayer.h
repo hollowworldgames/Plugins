@@ -30,6 +30,8 @@ public:
 	virtual UAbilitySystemComponent * GetAbilitySystemComponent() const override;
 	virtual void OnRep_PlayerState() override;
 protected:
+	UFUNCTION()
+	void OnAnyAttributeChanged(FGameplayTag Attribute, float Value);
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 

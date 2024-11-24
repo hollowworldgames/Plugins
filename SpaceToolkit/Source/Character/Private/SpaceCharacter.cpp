@@ -3,6 +3,9 @@
 
 #include "SpaceCharacter.h"
 
+#include "Animation/AnimNode_Inertialization.h"
+#include "Components/GameplayAbilitySystemComponent.h"
+
 
 // Sets default values
 ASpaceCharacter::ASpaceCharacter()
@@ -15,7 +18,6 @@ ASpaceCharacter::ASpaceCharacter()
 void ASpaceCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -34,5 +36,44 @@ UAbilitySystemComponent* ASpaceCharacter::GetAbilitySystemComponent() const
 {
 	ensureMsgf(false,TEXT("SpaceCharacter Not Overriden"));
 	return nullptr;
+}
+
+FAttributeChanged& ASpaceCharacter::GetAttributeChangedNotify()
+{
+	return OnAttributeChanged;
+}
+
+TScriptInterface<IGameplayActorInterface> ASpaceCharacter::GetAbilityTarget()
+{
+	return TScriptInterface<IGameplayActorInterface>(Target);
+}
+
+float ASpaceCharacter::GetAttributeValue(FGameplayTag Attribute)
+{
+	if (UGameplayAbilitySystemComponent * AbilitySystemComponent = Cast<UGameplayAbilitySystemComponent>(GetAbilitySystemComponent()))
+	{
+		return AbilitySystemComponent->GetAttributeValue(Attribute);
+	}
+	return 0.0f;
+}
+
+void ASpaceCharacter::ApplyEffect(TSubclassOf<UGameplayEffect> EffectClass, float Level,
+	UGameplayAbilitySystemComponent* Source)
+{
+	if (UGameplayAbilitySystemComponent * AbilitySystemComponent = Cast<UGameplayAbilitySystemComponent>(GetAbilitySystemComponent()))
+	{
+		AbilitySystemComponent->ApplyGameplayEffect(EffectClass, Level, Source->GetAvatarActor());
+	}
+}
+
+void ASpaceCharacter::SetAttributes(TArray<FAttributeValue> Attributes)
+{
+	if (UGameplayAbilitySystemComponent * AbilitySystemComponent = Cast<UGameplayAbilitySystemComponent>(GetAbilitySystemComponent()))
+	{
+		for (FAttributeValue Attribute : Attributes)
+		{
+			AbilitySystemComponent->SetAttributeValue(Attribute.AttributeTag, Attribute.NewValue);
+		}
+	}
 }
 

@@ -6,6 +6,7 @@
 #include "Subsystems/WorldSubsystem.h"
 #include "ViewableWorldSubsystem.generated.h"
 
+class UViewPointComponent;
 class IViewable;
 /**
  * 
@@ -21,6 +22,7 @@ public :
 	void CycleToNextViewPoint() const;
 	void ResetToPlayerViewable();
 	virtual bool ShouldCreateSubsystem(UObject* Outer) const override { return true; }
+	UViewPointComponent* GetCurrentViewPoint() const;
 protected :
 	UPROPERTY(VisibleAnywhere, Transient, BlueprintReadOnly, Category=Status)
 	TArray<TScriptInterface<IViewable>> Viewables;

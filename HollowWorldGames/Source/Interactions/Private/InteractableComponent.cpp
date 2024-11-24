@@ -26,10 +26,10 @@ void UInteractableComponent::BeginPlay()
 	OnComponentBeginOverlap.AddDynamic(this, &UInteractableComponent::OnBeginOverlap);
 	OnComponentEndOverlap.AddDynamic(this, &UInteractableComponent::OnEndOverlap);
 
-	UTextRenderComponent * text = Cast<UTextRenderComponent>(GetChildComponent(0));
-	if(text)
+	USceneComponent * Text = GetChildComponent(0);
+	if(ensure(Text))
 	{
-		text->SetVisibility(false);
+		Text->SetVisibility(false);
 	}
 }
 
@@ -48,10 +48,10 @@ void UInteractableComponent::OnBeginOverlap(UPrimitiveComponent* OverlappedComp,
 		OnInteractorEntered.Broadcast(Cast<ACharacter>(OtherActor), this);
 		Interactor.SetInterface(character);
 		Interactor.SetObject(Cast<ACharacter>(OtherActor));
-		UTextRenderComponent * text = Cast<UTextRenderComponent>(GetChildComponent(0));
-		if(text)
+		USceneComponent * Text = GetChildComponent(0);
+		if(ensure(Text))
 		{
-			text->SetVisibility(true);
+			Text->SetVisibility(true);
 		}
 	}
 }
@@ -66,10 +66,10 @@ void UInteractableComponent::OnEndOverlap(UPrimitiveComponent* OverlappedComp, A
 		OnInteractorExited.Broadcast(Cast<ACharacter>(OtherActor), this);
 		Interactor.SetInterface(nullptr);
 		Interactor.SetObject(nullptr);
-		UTextRenderComponent * text = Cast<UTextRenderComponent>(GetChildComponent(0));
-		if(text)
+		USceneComponent * Text = GetChildComponent(0);
+		if(ensure(Text))
 		{
-			text->SetVisibility(false);
+			Text->SetVisibility(false);
 		}
 	}
 }
