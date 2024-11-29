@@ -3,7 +3,7 @@
 
 #include "Actors/Systems/EngineActor.h"
 
-#include "Attributes/EngineAttributeSet.h"
+#include "Attributes/Equipment/EngineAttributeSet.h"
 
 
 // Sets default values

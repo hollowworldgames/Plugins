@@ -77,3 +77,24 @@ void ASpaceCharacter::SetAttributes(TArray<FAttributeValue> Attributes)
 	}
 }
 
+void ASpaceCharacter::OnInteractableAvailable(TScriptInterface<IInteractable> Interactable)
+{
+	Candidate = Interactable;
+}
+
+void ASpaceCharacter::OnInteractableUnavailable(TScriptInterface<IInteractable> Interactable)
+{
+	if (Candidate == Interactable)
+	{
+		Candidate = nullptr;
+	}
+}
+
+void ASpaceCharacter::OnInteractionBegin(TScriptInterface<IInteractable> Interactable)
+{
+}
+
+void ASpaceCharacter::OnInteractionEnd(TScriptInterface<IInteractable> Interactable)
+{
+}
+

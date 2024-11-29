@@ -3,12 +3,15 @@
 
 #include "Actors/Systems/ShieldActor.h"
 
+#include "Attributes/Equipment/ShieldAttributeSet.h"
+
 
 // Sets default values
 AShieldActor::AShieldActor()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	ShieldAttributes = CreateDefaultSubobject<UShieldAttributeSet>(TEXT("ShieldAttributes"));
 }
 
 // Called when the game starts or when spawned

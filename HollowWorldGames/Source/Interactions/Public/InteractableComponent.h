@@ -24,6 +24,10 @@ public:
 	virtual void OnInteraction(TScriptInterface<IInteractor> interactor) override;
 	UFUNCTION(BlueprintCallable)
 	void OnInteractComplete();
+	FInteractNotify GetOnBeginInteract() const { return OnBeginInteract; }
+	FInteractNotify GetOnCompleteInteract() const { return OnCompleteInteract; }
+	FInteractNotify GetOnInteractorEntered() const { return OnInteractorEntered; }
+	FInteractNotify GetOnInteractorExited() const { return OnInteractorExited; }
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;

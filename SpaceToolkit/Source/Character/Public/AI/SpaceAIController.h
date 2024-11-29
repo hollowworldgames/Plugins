@@ -16,7 +16,12 @@ public:
 	ASpaceAIController();
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	virtual void SetGenericTeamId(const FGenericTeamId& NewTeamID) override { TeamID = NewTeamID; }
+	virtual FGenericTeamId GetGenericTeamId() const override { return TeamID; }
 protected:
+	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Replicated)
+	FGenericTeamId TeamID;
 };

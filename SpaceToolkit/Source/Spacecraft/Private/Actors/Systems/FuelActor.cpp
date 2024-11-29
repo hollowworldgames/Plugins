@@ -3,12 +3,15 @@
 
 #include "Actors/Systems/FuelActor.h"
 
+#include "Attributes/Equipment/FuelAttributeSet.h"
+
 
 // Sets default values
 AFuelActor::AFuelActor()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	FuelAttributes = CreateDefaultSubobject<UFuelAttributeSet>("FuelAttributes");
 }
 
 // Called when the game starts or when spawned

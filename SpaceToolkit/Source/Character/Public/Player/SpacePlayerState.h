@@ -3,34 +3,53 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Actors/DataPlayerState.h"
 #include "GameFramework/PlayerState.h"
 #include "SpacePlayerState.generated.h"
 
+class UEngineerAttributeSet;
+class UGunnerAttributeSet;
+class UPilotAttributeSet;
+class UExperienceAttributeSet;
 class UGameplayEffect;
 class URPGAttributeSet;
+class UVitalAttributeSet;
+class UCombatAttributeSet;
 class USpaceCharacterShipAttributeSet;
 class USpaceCharacterAttributes;
 class UGameplayAbilitySystemComponent;
+class UPrimaryAttributeSet;
 /**
  * 
  */
 UCLASS()
-class CHARACTER_API ASpacePlayerState : public APlayerState
+class CHARACTER_API ASpacePlayerState : public ADataPlayerState
 {
 	GENERATED_BODY()
 public :
 	ASpacePlayerState();
 	TObjectPtr<UGameplayAbilitySystemComponent> GetAbilitySystemComponent() const;
 	void InitAbilitySystem(APawn * MYPawn);
-	TObjectPtr<URPGAttributeSet> GetRPGAttributeSet() const { return Attributes; }
 protected :
 	virtual void LoadAttributes();
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
 	TObjectPtr<UGameplayAbilitySystemComponent> AbilitySystemComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
-	TObjectPtr<URPGAttributeSet> Attributes;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
 	TObjectPtr<USpaceCharacterShipAttributeSet> ShipAttributes;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Attributes)
-	float Level = 1;
+	TObjectPtr<UVitalAttributeSet> VitalAttributes;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Attributes)
+	TObjectPtr<UCombatAttributeSet> CombatAttributes;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Attributes)
+	TObjectPtr<UPrimaryAttributeSet> PrimaryAttributes;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Attributes)
+	TObjectPtr<UPilotAttributeSet> PilotAttributes;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Attributes)
+	TObjectPtr<UGunnerAttributeSet> GunnerAttributes;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Attributes)
+	TObjectPtr<UEngineerAttributeSet> EngineerAttributes;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Attributes)
+	TObjectPtr<UExperienceAttributeSet> ExperienceAttributes;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=InitializeEffects)
+	TArray<TSubclassOf<UGameplayEffect>> Effects;
 };

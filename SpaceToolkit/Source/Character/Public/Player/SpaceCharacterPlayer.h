@@ -14,7 +14,7 @@ class UInputAction;
 class IInteractable;
 struct FInputActionValue;
 
-UCLASS()
+UCLASS(Blueprintable, BlueprintType)
 class CHARACTER_API ASpaceCharacterPlayer : public ASpaceCharacter
 {
 	GENERATED_BODY()
@@ -39,14 +39,8 @@ protected:
 	void Move(const FInputActionValue& Value);
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
-	/** Camera boom positioning the camera behind the character */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
-	TObjectPtr<USpringArmComponent> CameraBoom;
+	void DoInteract();
 
-	/** Follow camera */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
-	TObjectPtr<UCameraComponent> FollowCamera;
-	
 	/** MappingContext */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	TObjectPtr<UInputMappingContext> DefaultMappingContext;
@@ -55,6 +49,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	TObjectPtr<UInputAction> JumpAction;
 
+	/** Interact Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
+	TObjectPtr<UInputAction> Interact;
+
 	/** Move Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	TObjectPtr<UInputAction> MoveAction;
@@ -62,7 +60,5 @@ protected:
 	/** Look Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	TObjectPtr<UInputAction> LookAction;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category= Interactions)
-	TScriptInterface<IInteractable> Available;
 };
+

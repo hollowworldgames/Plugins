@@ -1,7 +1,7 @@
 ﻿// Copyright(c) 2024 Hollow World Games llc All Rights Reserved.
 
 
-#include "Attributes/SensorAttributeSet.h"
+#include "Attributes/Equipment/SensorAttributeSet.h"
 
 #include "Attributes/AttributeSetBase.h"
 #include "Net/UnrealNetwork.h"

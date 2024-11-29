@@ -9,62 +9,42 @@
 #include "Attributes/AttributeSetBase.h"
 #include "WeaponAttributeSet.generated.h"
 
-/**
- * 
- */
+SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(WeaponAccuracyTag);
+SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(WeaponMinRangeTag);
+SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(WeaponMaxRangeTag);
+SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(WeaponMinDamageTag);
+SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(WeaponMaxDamageTag);
+SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(WeaponCriticalChanceTag);
+SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(WeaponCriticalDamageTag);
+SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(WeaponCooldownTag);
+
 UCLASS()
 class SPACEGAMEPLAY_API UWeaponAttributeSet : public UAttributeSetBase
 {
 	GENERATED_BODY()
 public :
-	ATTRIBUTE_ACCESSORS(UWeaponAttributeSet, WeaponLevel);
 	ATTRIBUTE_ACCESSORS(UWeaponAttributeSet, WeaponAccuracy);
+	ATTRIBUTE_TAG_ACCESSOR(UWeaponAttributeSet, WeaponAccuracy);
 	ATTRIBUTE_ACCESSORS(UWeaponAttributeSet, WeaponMinRange);
+	ATTRIBUTE_TAG_ACCESSOR(UWeaponAttributeSet, WeaponMinRange);
 	ATTRIBUTE_ACCESSORS(UWeaponAttributeSet, WeaponMaxRange);
+	ATTRIBUTE_TAG_ACCESSOR(UWeaponAttributeSet, WeaponMaxRange);
 	ATTRIBUTE_ACCESSORS(UWeaponAttributeSet, WeaponMinDamage);
+	ATTRIBUTE_TAG_ACCESSOR(UWeaponAttributeSet, WeaponMinDamage);
 	ATTRIBUTE_ACCESSORS(UWeaponAttributeSet, WeaponMaxDamage);
+	ATTRIBUTE_TAG_ACCESSOR(UWeaponAttributeSet, WeaponMaxDamage);
 	ATTRIBUTE_ACCESSORS(UWeaponAttributeSet, WeaponCriticalChance);
+	ATTRIBUTE_TAG_ACCESSOR(UWeaponAttributeSet, WeaponCriticalChance);
 	ATTRIBUTE_ACCESSORS(UWeaponAttributeSet, WeaponCriticalDamage);
+	ATTRIBUTE_TAG_ACCESSOR(UWeaponAttributeSet, WeaponCriticalDamage);
+	ATTRIBUTE_ACCESSORS(UWeaponAttributeSet, WeaponCooldown);
+	ATTRIBUTE_TAG_ACCESSOR(UWeaponAttributeSet, WeaponCooldown);
+	virtual float GetAttributeValue(FGameplayTag AttributeTag) override;
+	virtual void SetAttributeValue(FGameplayTag Attribute, float Value) override;
+	virtual FGameplayTag GetAttributeTag(FGameplayAttribute Attribute) override;
 protected :
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_WeaponLevel, Category=Health)
-	FGameplayAttributeData WeaponLevel;
-	UFUNCTION()
-	void OnRep_WeaponLevel(const FGameplayAttributeData& OldWeaponLevel) const;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Boost)
-	FGameplayAttributeData WeaponHealthBoost;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Boost)
-	FGameplayAttributeData WeaponAccuracyBoost;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Boost)
-	FGameplayAttributeData WeaponMinRangeBoost;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Boost)
-	FGameplayAttributeData WeaponMaxRangeBoost;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Boost)
-	FGameplayAttributeData WeaponCriticalChanceBoost;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Boost)
-	FGameplayAttributeData WeaponCriticalDamageBoost;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Boost)
-	FGameplayAttributeData WeaponMaxDamageBoost;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Boost)
-	FGameplayAttributeData WeaponMinDamageBoost;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_WeaponHealth, Category=Health)
-	FGameplayAttributeData WeaponHealth;
-	UFUNCTION()
-	void OnRep_WeaponHealth(const FGameplayAttributeData& OldWeaponHealth) const;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_MaxWeaponHealth, Category=Health)
-	FGameplayAttributeData MaxWeaponHealth;
-	UFUNCTION()
-	void OnRep_MaxWeaponHealth(const FGameplayAttributeData& OldMaxWeaponHealth) const;
+	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_WeaponAccuracy, Category=Health)
 	FGameplayAttributeData WeaponAccuracy;
@@ -100,4 +80,9 @@ protected :
 	FGameplayAttributeData WeaponMaxDamage;
 	UFUNCTION()
 	void OnRep_WeaponMaxDamage(const FGameplayAttributeData& OldWeaponLevel) const;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_WeaponCooldown, Category=Health)
+	FGameplayAttributeData WeaponCooldown;
+	UFUNCTION()
+	void OnRep_WeaponCooldown(const FGameplayAttributeData& OldWeaponCooldown) const;
 };

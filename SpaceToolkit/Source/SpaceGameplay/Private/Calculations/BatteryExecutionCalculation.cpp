@@ -2,8 +2,7 @@
 
 
 #include "Calculations/BatteryExecutionCalculation.h"
-
-#include "Attributes/BatteryAttributeSet.h"
+#include "Attributes/Equipment/BatteryAttributeSet.h"
 #include "Attributes/VitalAttributeSet.h"
 #include "Components/GameplayAbilitySystemComponent.h"
 

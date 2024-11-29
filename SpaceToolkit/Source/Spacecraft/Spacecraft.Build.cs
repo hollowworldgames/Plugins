@@ -24,7 +24,12 @@ public class Spacecraft : ModuleRules
                 "Common",
                 "Gameplay","Character",
                 "GameplayTasks",
-                "GameplayTags", "EnhancedInput","Interactions","HeadMountedDisplay"
+                "GameplayTags", 
+                "EnhancedInput",
+                "Interactions",
+                "HeadMountedDisplay", 
+                "Damage",
+                "AIModule"
             }
         );
     }

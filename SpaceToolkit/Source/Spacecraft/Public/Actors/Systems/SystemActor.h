@@ -39,12 +39,13 @@ public:
 	void SetOn(bool On);
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	virtual void InitializeAttributes(ASpaceCraftActor * SystemOwner, USystemDefinitionData * SystemData);
+	FGameplayTag GetComponentTag() const { return ComponentTag; }
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Components")
 	TObjectPtr<UGameplayAbilitySystemComponent> AbilitySystemComponent;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Components")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Attributes")
 	TObjectPtr<UVitalAttributeSet> VitalAttributes;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Abilities")
 	FAbilityData StartAbility;
@@ -52,4 +53,6 @@ protected:
 	FAbilityData StopAbility;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Tags")
 	FGameplayTag StartTag;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Tags")
+	FGameplayTag ComponentTag;
 };

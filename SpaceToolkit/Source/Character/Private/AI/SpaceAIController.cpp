@@ -11,6 +11,12 @@ ASpaceAIController::ASpaceAIController()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
+void ASpaceAIController::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	
+}
+
 // Called when the game starts or when spawned
 void ASpaceAIController::BeginPlay()
 {

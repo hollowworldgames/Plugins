@@ -9,7 +9,11 @@ public class SpaceGameplay : ModuleRules
         PublicDependencyModuleNames.AddRange(
             new string[]
             {
-                "Core", "Gameplay","GameplayAbilities", "GameplayTags"
+                "Core",
+                "Gameplay",
+                "GameplayAbilities",
+                "GameplayTags",
+                "Common"
             }
         );
 

@@ -6,6 +6,7 @@
 #include "Components/ChildActorComponent.h"
 #include "StationComponent.generated.h"
 
+class UInteractableComponent;
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class SPACECRAFT_API UStationComponent : public UChildActorComponent
@@ -15,13 +16,10 @@ class SPACECRAFT_API UStationComponent : public UChildActorComponent
 public:
 	// Sets default values for this component's properties
 	UStationComponent();
-
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-
-public:
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
-	                           FActorComponentTickFunction* ThisTickFunction) override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+	UPROPERTY(VisibleAnywhere, Transient, BlueprintReadOnly, Category="Components")
+	TObjectPtr<UInteractableComponent> Interactor;
 };

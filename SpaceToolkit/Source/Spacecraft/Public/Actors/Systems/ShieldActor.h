@@ -6,6 +6,8 @@
 #include "SystemActor.h"
 #include "ShieldActor.generated.h"
 
+class UShieldAttributeSet;
+
 UCLASS(BlueprintType)
 class UShieldDefinitionData : public USystemDefinitionData
 {
@@ -28,4 +30,6 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Attributes")
+	TObjectPtr<UShieldAttributeSet> ShieldAttributes;
 };

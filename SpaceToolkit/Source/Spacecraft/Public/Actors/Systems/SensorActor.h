@@ -6,6 +6,8 @@
 #include "SystemActor.h"
 #include "SensorActor.generated.h"
 
+class USensorAttributeSet;
+
 UCLASS(BlueprintType)
 class USensorDefinitionData : public USystemDefinitionData
 {
@@ -28,5 +30,6 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Attributes")
+	TObjectPtr<USensorAttributeSet> SensorAttributes;
 };

@@ -2,8 +2,7 @@
 
 
 #include "Calculations/ThrustExecutionCalculation.h"
-
-#include "Attributes/EngineAttributeSet.h"
+#include "Attributes/Equipment/EngineAttributeSet.h"
 #include "Attributes/VitalAttributeSet.h"
 #include "Components/GameplayAbilitySystemComponent.h"
 

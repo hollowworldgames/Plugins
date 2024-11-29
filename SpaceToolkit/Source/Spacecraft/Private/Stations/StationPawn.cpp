@@ -9,6 +9,7 @@
 #include "GameFramework/Character.h"
 #include "InteractableComponent.h"
 #include "MotionControllerComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Components/TextRenderComponent.h"
 
 // Sets default values
@@ -29,10 +30,6 @@ AStationPawn::AStationPawn()
 	RightHand = CreateDefaultSubobject<UMotionControllerComponent>(TEXT("RightHand"));
 	RightHand->SetupAttachment(Seat);
 	RightHand->SetTrackingSource(EControllerHand::Right);
-	EntryComponent = CreateDefaultSubobject<UInteractableComponent>(TEXT("Entry Component"));
-	EntryComponent->SetupAttachment(Root);
-	EntryText = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Entry Text"));
-	EntryText->SetupAttachment(EntryComponent);
 }
 
 // Called when the game starts or when spawned
@@ -49,6 +46,13 @@ void AStationPawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	if (EndPlayReason == EEndPlayReason::Type::Destroyed && Occupant)
 	{
 		Occupant->Destroy();
+	}
+	if (EntryComponent)
+	{
+		EntryComponent->GetOnBeginInteract().Clear();
+		EntryComponent->GetOnCompleteInteract().Clear();
+		EntryComponent->GetOnInteractorEntered().Clear();
+		EntryComponent->GetOnInteractorExited().Clear();
 	}
 }
 
@@ -74,5 +78,55 @@ void AStationPawn::SetOwningShip(TObjectPtr<AActor> Ship)
 UAbilitySystemComponent* AStationPawn::GetOccupantAbilitySystemComponent() const
 {
 	return UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Occupant);
+}
+
+void AStationPawn::SetInteractor(const TObjectPtr<UInteractableComponent> NewInteractor)
+{
+	if(ensure(NewInteractor))
+	{
+		EntryComponent = NewInteractor;
+		EntryComponent->GetOnBeginInteract().AddDynamic(this, &AStationPawn::OnBeginInteract);
+		EntryComponent->GetOnCompleteInteract().AddDynamic(this, &AStationPawn::OnCompleteInteract);
+		EntryComponent->GetOnInteractorEntered().AddDynamic(this, &AStationPawn::OnInteractorEnter);
+		EntryComponent->GetOnInteractorExited().AddDynamic(this, &AStationPawn::OnInteractorExit);
+	}
+}
+
+void AStationPawn::ExitStation()
+{
+	BeginExitStation(Occupant);
+}
+
+void AStationPawn::ExitComplete()
+{
+	Occupant->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+	AController * NewController = GetController();
+	NewController->UnPossess();
+	NewController->Possess(Occupant);
+	Occupant = nullptr;
+}
+
+void AStationPawn::OnBeginInteract(ACharacter* Character, UInteractableComponent* Component)
+{
+	Occupant = Character;
+	EnterStation(Character);
+}
+
+void AStationPawn::OnCompleteInteract(ACharacter* Character, UInteractableComponent* Component)
+{
+	Character->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+	AController * NewController = Character->GetController();
+	NewController->UnPossess();
+	NewController->Possess(this);
+}
+
+void AStationPawn::OnInteractorEnter(ACharacter* Character, UInteractableComponent* Component)
+{
+	
+}
+
+void AStationPawn::OnInteractorExit(ACharacter* Character, UInteractableComponent* Component)
+{
+	
 }
 

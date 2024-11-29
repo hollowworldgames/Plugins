@@ -10,7 +10,7 @@ class URPGAttributeSet;
 class USpaceCharacterShipAttributeSet;
 class UGameplayAbilitySystemComponent;
 
-UCLASS()
+UCLASS(Blueprintable, BlueprintType)
 class CHARACTER_API ASpaceCharacterAI : public ASpaceCharacter
 {
 	GENERATED_BODY()

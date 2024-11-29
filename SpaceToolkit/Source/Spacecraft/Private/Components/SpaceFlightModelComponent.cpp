@@ -8,7 +8,7 @@
 #include "ConverterStatics.h"
 #include "UtilityStatics.h"
 #include "Actors/SpaceCraftActor.h"
-#include "Attributes/EngineAttributeSet.h"
+#include "Attributes/Equipment/EngineAttributeSet.h"
 
 
 void FThrusterPoint::ApplyForce(UPrimitiveComponent* Root) const

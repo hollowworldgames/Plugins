@@ -13,7 +13,7 @@
 #include "RPGAttributeSet.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FLevelChange, float , NewLevel);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDead);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnRPGDead);
 
 UCLASS()
 class GAMEPLAY_API URPGAttributeSet : public UAttributeSetBase
@@ -115,7 +115,7 @@ public :
 	UPROPERTY(EditAnywhere, BlueprintAssignable, Category=Events)
 	FLevelChange OnLevelChanged;
 	UPROPERTY(EditAnywhere, BlueprintAssignable, Category=Events)
-	FOnDead OnDead;
+	FOnRPGDead OnDead;
 
 	virtual float GetAttributeValue(FGameplayTag AttributeTag) override;
 	virtual void SetAttributeValue(FGameplayTag Attribute, float Value) override;

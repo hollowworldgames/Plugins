@@ -2,8 +2,7 @@
 
 
 #include "Calculations/PowerExecutionCalculation.h"
-
-#include "Attributes/ReactorAttributeSet.h"
+#include "Attributes/Equipment/ReactorAttributeSet.h"
 #include "Attributes/VitalAttributeSet.h"
 #include "Components/GameplayAbilitySystemComponent.h"
 

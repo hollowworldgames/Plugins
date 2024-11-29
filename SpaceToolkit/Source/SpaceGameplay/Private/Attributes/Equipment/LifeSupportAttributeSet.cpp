@@ -1,7 +1,7 @@
 ﻿// Copyright(c) 2024 Hollow World Games llc All Rights Reserved.
 
 
-#include "Attributes/LifeSupportAttributeSet.h"
+#include "Attributes/Equipment/LifeSupportAttributeSet.h"
 
 #include "Net/UnrealNetwork.h"
 

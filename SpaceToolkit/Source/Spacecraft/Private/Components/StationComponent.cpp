@@ -3,6 +3,7 @@
 
 #include "Components/StationComponent.h"
 
+#include "InteractableComponent.h"
 #include "Stations/StationPawn.h"
 
 
@@ -22,21 +23,20 @@ void UStationComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
+	Interactor = Cast<UInteractableComponent>(GetChildComponent(0));
+	
 	AStationPawn * StationPawn = Cast<AStationPawn>(GetChildActor());
 	if(ensure(StationPawn))
 	{
 		StationPawn->SetOwningShip(GetOwner());
+		StationPawn->SetInteractor(Interactor);
 	}
 	
 }
 
-
-// Called every frame
-void UStationComponent::TickComponent(float DeltaTime, ELevelTick TickType,
-                                      FActorComponentTickFunction* ThisTickFunction)
+void UStationComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
+	Super::EndPlay(EndPlayReason);
 }
+
 

@@ -3,7 +3,7 @@
 
 #include "Actors/Systems/LifeSupportActor.h"
 
-#include "Attributes/LifeSupportAttributeSet.h"
+#include "Attributes/Equipment/LifeSupportAttributeSet.h"
 
 
 // Sets default values

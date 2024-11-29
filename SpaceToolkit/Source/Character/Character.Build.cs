@@ -14,7 +14,10 @@ public class Character : ModuleRules
                 "Gameplay",
                 "Interactions",
                 "DataAccess",
-                "ViewPoints"
+                "ViewPoints",
+                "XRCommon", 
+                "AIModule",
+                "SpaceGameplay"
             }
         );
 
@@ -28,7 +31,9 @@ public class Character : ModuleRules
                 "GameplayAbilities",
                 "GameplayTasks",
                 "GameplayTags",
-                "AIModule", "EnhancedInput"
+                "AIModule", 
+                "EnhancedInput",
+                "HeadMountedDisplay"
             }
         );
     }

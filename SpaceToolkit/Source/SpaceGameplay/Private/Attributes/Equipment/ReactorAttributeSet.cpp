@@ -1,7 +1,7 @@
 ﻿// Copyright(c) 2024 Hollow World Games llc All Rights Reserved.
 
 
-#include "Attributes/ReactorAttributeSet.h"
+#include "Attributes/Equipment/ReactorAttributeSet.h"
 
 #include "Net/UnrealNetwork.h"
 

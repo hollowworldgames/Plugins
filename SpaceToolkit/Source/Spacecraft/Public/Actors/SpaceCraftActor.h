@@ -7,8 +7,11 @@
 #include "AbilitySystemInterface.h"
 #include "Actors/ViewableActor.h"
 #include "Interface/SpaceCraftInterface.h"
+#include "Interfaces/ComponentContainerInterface.h"
+#include "Interfaces/DamageReportInterface.h"
 #include "SpaceCraftActor.generated.h"
 
+class UGameplayEffect;
 class UShipSystemComponent;
 class UVitalAttributeSet;
 class USpaceCraftAttributes;
@@ -21,7 +24,8 @@ class USpaceFlightModelComponent;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FToggle);
 
 UCLASS()
-class SPACECRAFT_API ASpaceCraftActor : public AViewableActor, public IAbilitySystemInterface, public ISpaceCraftInterface
+class SPACECRAFT_API ASpaceCraftActor : public AViewableActor, public IAbilitySystemInterface,
+	public ISpaceCraftInterface, public IComponentContainerInterface, public IDamageReportInterface
 {
 	GENERATED_BODY()
 public:	
@@ -44,6 +48,11 @@ public:
 	virtual void SetShields(bool On) override;
 	virtual bool GetShields() override;
 	virtual UAbilitySystemComponent * GetSystem(EShipSystem System) override;
+	virtual TArray<FGameplayTag> GetComponents() const;
+	virtual void ApplyDamageToComponent(FGameplayTag Component, float Damage, const AActor * Source);
+	virtual void ReportDamage(const AActor * Source, float EnergyDamage, float KineticDamage, int ShieldFace, EDamageReportType Type);
+	virtual void ReportDamage(const AActor * Source, float EnergyDamage, float KineticDamage, EDamageReportType Type);
+	virtual void ReportComponentDamage(const AActor * Source, float EnergyDamage, float KineticDamage,FGameplayTag Component, EDamageReportType Type);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -57,7 +66,7 @@ protected:
 	TObjectPtr<UFTLComponent> FTLComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Attributes)
 	TObjectPtr<UVitalAttributeSet> VitalAttributes;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
 	TObjectPtr<UShipSystemComponent> Reactor;
@@ -79,4 +88,10 @@ protected:
 	FToggle OnPowerToggle;
 	UFUNCTION(BlueprintNativeEvent)
 	void OnDead();
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Tags)
+	FGameplayTagContainer ComponentTags;
+	UPROPERTY()
+	TMap<FGameplayTag, TObjectPtr<UShipSystemComponent>> Components;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Effects)
+	TSubclassOf<UGameplayEffect> ComponentDamageEffect;
 };

@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
+#include "Actors/Systems/SystemActor.h"
 #include "Components/ChildActorComponent.h"
 #include "ShipSystemComponent.generated.h"
 
@@ -21,6 +23,8 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 	                           FActorComponentTickFunction* ThisTickFunction) override;
 	ASystemActor * GetShipSystemActor() const { return ShipSystem; }
+	FGameplayTag GetComponentTag() const { return (ensure(ShipSystem)) ? ShipSystem->GetComponentTag() : FGameplayTag(); }
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;

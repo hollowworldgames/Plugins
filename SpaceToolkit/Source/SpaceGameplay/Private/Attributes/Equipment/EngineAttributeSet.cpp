@@ -1,8 +1,7 @@
 ﻿// Copyright(c) 2024 Hollow World Games llc All Rights Reserved.
 
 
-#include "Attributes/EngineAttributeSet.h"
-
+#include "Attributes/Equipment/EngineAttributeSet.h"
 #include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
 

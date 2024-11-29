@@ -27,8 +27,14 @@ void UViewableWorldSubsystem::CycleToNextViewable()
 	{
 		Next = Viewables[0];	
 	}
-	Current->MakeInactive();
-	Next->MakeActiveViewable();
+	if (Current)
+	{
+		Current->MakeInactive();
+	}
+	if (Next)
+	{
+		Next->MakeActiveViewable();
+	}
 	Current = Next;
 	
 }
@@ -45,8 +51,14 @@ void UViewableWorldSubsystem::ResetToPlayerViewable()
 {
 	if(Current != Player)
 	{
-		Current->MakeInactive();
-		Player->MakeActiveViewable();
+		if (Current)
+		{
+			Current->MakeInactive();
+		}
+		if (Player)
+		{
+			Player->MakeActiveViewable();
+		}
 		Current = Player;
 	}
 }

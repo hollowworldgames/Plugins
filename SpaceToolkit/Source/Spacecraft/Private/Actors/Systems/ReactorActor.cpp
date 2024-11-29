@@ -3,7 +3,7 @@
 
 #include "Actors/Systems/ReactorActor.h"
 
-#include "Attributes/ReactorAttributeSet.h"
+#include "Attributes/Equipment/ReactorAttributeSet.h"
 
 
 // Sets default values

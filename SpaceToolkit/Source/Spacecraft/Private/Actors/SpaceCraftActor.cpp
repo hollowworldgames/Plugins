@@ -68,8 +68,12 @@ ASpaceCraftActor::ASpaceCraftActor()
 void ASpaceCraftActor::BeginPlay()
 {
 	Super::BeginPlay();
+	if (!ensure(AbilitySystemComponent) && !ensure(VitalAttributes)) return;
+	
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 	VitalAttributes->OnDead.AddDynamic(this, &ASpaceCraftActor::OnDead);
+
+	Components.Add(LifeSupport->GetComponentTag(), LifeSupport);
 }
 
 void ASpaceCraftActor::OnDead_Implementation()
@@ -187,6 +191,46 @@ UAbilitySystemComponent* ASpaceCraftActor::GetSystem(EShipSystem System)
 	default: ;
 	}
 	return nullptr;
+}
+
+TArray<FGameplayTag> ASpaceCraftActor::GetComponents() const
+{
+	TArray<FGameplayTag> TagArray;
+	ComponentTags.GetGameplayTagArray(TagArray);
+	return TagArray;
+}
+
+void ASpaceCraftActor::ApplyDamageToComponent(FGameplayTag Component, float Damage, const AActor * Source)
+{
+	if (Components.Contains(Component))
+	{
+		auto System = Components.Find(Component);
+		if (ensure(*System))
+		{
+			UGameplayAbilitySystemComponent * ShipComponent =
+				Cast<UGameplayAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent((*System)->GetShipSystemActor()));
+			if (ensure(ShipComponent))
+			{
+				ShipComponent->ApplyGameplayEffect(ComponentDamageEffect, Damage, Source);
+			}
+		}
+			
+	}
+}
+
+void ASpaceCraftActor::ReportDamage(const AActor* Source, float EnergyDamage, float KineticDamage, int ShieldFace,
+	EDamageReportType Type)
+{
+}
+
+void ASpaceCraftActor::ReportDamage(const AActor* Source, float EnergyDamage, float KineticDamage,
+	EDamageReportType Type)
+{
+}
+
+void ASpaceCraftActor::ReportComponentDamage(const AActor* Source, float EnergyDamage, float KineticDamage,
+	FGameplayTag Component, EDamageReportType Type)
+{
 }
 
 void ASpaceCraftActor::TogglePower()

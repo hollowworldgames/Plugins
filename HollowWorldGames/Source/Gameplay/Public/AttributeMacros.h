@@ -121,6 +121,19 @@ if(Data.EvaluatedData.Attribute == Get##IncomingExperience##Attribute())\
 		}\
 	}
 
+#define PROCESS_INCOMING_EXPERIENCE_NOTIFY_ONLY(IncomingExperience, Experience, LevelFromExperience, Level, OnLevelChanged, Data)\
+if(Data.EvaluatedData.Attribute == Get##IncomingExperience##Attribute())\
+{\
+Set##Experience(Get##Experience() + Get##IncomingExperience());\
+Set##IncomingExperience(0);\
+float NewLevel = LevelFromExperience.GetValueAtLevel(GetExperience());\
+if(NewLevel > Level)\
+{\
+	Level = NewLevel;\
+OnLevelChanged.Broadcast(NewLevel);\
+}\
+}
+
 #define PROCESS_INCOMING_DAMAGE_NO_NOTIFY(IncomingAttributeName, HealthAttributeName, Data) \
 if(Data.EvaluatedData.Attribute == Get##IncomingAttributeName##Attribute()) \
 {\

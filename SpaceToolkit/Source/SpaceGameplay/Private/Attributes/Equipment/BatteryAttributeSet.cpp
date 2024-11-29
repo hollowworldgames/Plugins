@@ -1,7 +1,7 @@
 ﻿// Copyright(c) 2024 Hollow World Games llc All Rights Reserved.
 
 
-#include "Attributes/BatteryAttributeSet.h"
+#include "Attributes/Equipment/BatteryAttributeSet.h"
 
 #include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"

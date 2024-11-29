@@ -6,6 +6,8 @@
 #include "SystemActor.h"
 #include "FuelActor.generated.h"
 
+class UFuelAttributeSet;
+
 UCLASS(BlueprintType)
 class UFuelDefinitionData : public USystemDefinitionData
 {
@@ -28,4 +30,6 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Attributes")
+	TObjectPtr<UFuelAttributeSet> FuelAttributes;
 };

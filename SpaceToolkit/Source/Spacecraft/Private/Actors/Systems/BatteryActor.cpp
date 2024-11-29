@@ -3,12 +3,15 @@
 
 #include "Actors/Systems/BatteryActor.h"
 
+#include "Attributes/Equipment/BatteryAttributeSet.h"
+
 
 // Sets default values
 ABatteryActor::ABatteryActor()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	BatteryAttributes = CreateDefaultSubobject<UBatteryAttributeSet>("Battery Attributes");
 }
 
 // Called when the game starts or when spawned

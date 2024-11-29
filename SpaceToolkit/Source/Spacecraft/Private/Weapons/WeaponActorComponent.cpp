@@ -3,6 +3,8 @@
 
 #include "Weapons/WeaponActorComponent.h"
 
+#include "Weapons/WeaponActor.h"
+
 
 // Sets default values for this component's properties
 UWeaponActorComponent::UWeaponActorComponent()
@@ -20,17 +22,29 @@ void UWeaponActorComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
+	AWeaponActor * WeaponActor = Cast<AWeaponActor>(GetChildActor());
+	if (ensure(WeaponActor))
+	{
+		WeaponActor->SetOwningShip(GetOwner());
+	}
 	
 }
 
-
-// Called every frame
-void UWeaponActorComponent::TickComponent(float DeltaTime, ELevelTick TickType,
-                                          FActorComponentTickFunction* ThisTickFunction)
+void UWeaponActorComponent::SetTriggerPressed() const
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	AWeaponActor * Weapon = GetWeaponActor();
+	if(ensure(Weapon))
+	{
+		Weapon->OnStartFire();	
+	}
+}
 
-	// ...
+void UWeaponActorComponent::SetTriggerReleased() const
+{
+	AWeaponActor * Weapon = GetWeaponActor();
+	if(ensure(Weapon))
+	{
+		Weapon->OnStopFire();	
+	}
 }
 

@@ -3,9 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "WeaponActor.h"
 #include "Components/ChildActorComponent.h"
 #include "WeaponActorComponent.generated.h"
 
+
+class AWeaponActor;
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class SPACECRAFT_API UWeaponActorComponent : public UChildActorComponent
@@ -15,13 +18,10 @@ class SPACECRAFT_API UWeaponActorComponent : public UChildActorComponent
 public:
 	// Sets default values for this component's properties
 	UWeaponActorComponent();
-
+	void SetTriggerPressed() const;
+	void SetTriggerReleased() const;
+	AWeaponActor * GetWeaponActor() const { return Cast<AWeaponActor>(GetChildActor()); }
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-
-public:
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
-	                           FActorComponentTickFunction* ThisTickFunction) override;
 };

@@ -6,6 +6,7 @@
 #include "AttributeSet.h"
 #include "AttributeMacros.h"
 #include "NativeGameplayTags.h"
+#include "AbilitySystemComponent.h"
 #include "GameplayTagContainer.h"
 #include "AttributeSetBase.generated.h"
 

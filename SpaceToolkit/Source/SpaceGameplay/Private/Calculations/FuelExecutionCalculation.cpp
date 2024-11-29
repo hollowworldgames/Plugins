@@ -3,7 +3,7 @@
 
 #include "Calculations/FuelExecutionCalculation.h"
 
-#include "Attributes/FuelAttributeSet.h"
+#include "Attributes/Equipment/FuelAttributeSet.h"
 #include "Attributes/VitalAttributeSet.h"
 #include "Components/GameplayAbilitySystemComponent.h"
 
