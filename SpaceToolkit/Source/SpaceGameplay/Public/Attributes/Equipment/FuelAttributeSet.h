@@ -8,9 +8,7 @@
 #include "Attributes/AttributeSetBase.h"
 #include "FuelAttributeSet.generated.h"
 
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(FuelTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(MaxFuelTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(FuelOnTag);
+
 
 UCLASS()
 class SPACEGAMEPLAY_API UFuelAttributeSet : public UAttributeSetBase

@@ -3,8 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "NativeGameplayTags.h"
 #include "SystemActor.h"
 #include "ShieldActor.generated.h"
+
+SPACECRAFT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(ShieldHitPointBonusTag);
+SPACECRAFT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(ShieldPowerHitPointBonusTag);
 
 class UShieldAttributeSet;
 
@@ -13,7 +17,10 @@ class UShieldDefinitionData : public USystemDefinitionData
 {
 	GENERATED_BODY()
 public :
-	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float HitPoints;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float PowerToHitPoints;
 };
 
 UCLASS()
@@ -32,4 +39,6 @@ protected:
 	virtual void BeginPlay() override;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Attributes")
 	TObjectPtr<UShieldAttributeSet> ShieldAttributes;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Effects")
+	TSubclassOf<UGameplayEffect> InitializeEffect;
 };

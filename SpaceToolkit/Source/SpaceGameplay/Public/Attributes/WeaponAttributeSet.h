@@ -6,17 +6,11 @@
 #include "AbilitySystemComponent.h"
 #include "AttributeMacros.h"
 #include "AttributeSet.h"
+#include "SpaceGameplayTags.h"
 #include "Attributes/AttributeSetBase.h"
 #include "WeaponAttributeSet.generated.h"
 
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(WeaponAccuracyTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(WeaponMinRangeTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(WeaponMaxRangeTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(WeaponMinDamageTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(WeaponMaxDamageTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(WeaponCriticalChanceTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(WeaponCriticalDamageTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(WeaponCooldownTag);
+
 
 UCLASS()
 class SPACEGAMEPLAY_API UWeaponAttributeSet : public UAttributeSetBase

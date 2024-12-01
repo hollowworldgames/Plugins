@@ -3,15 +3,18 @@
 
 #include "Actors/Systems/BatteryActor.h"
 
+#include "Attributes/VitalAttributeSet.h"
 #include "Attributes/Equipment/BatteryAttributeSet.h"
+#include "Interfaces/ComponentContainerInterface.h"
 
-
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(BatteryCapacityBonusTag,"Battery.Bonus.Capacity","Battery Capacity Bonus");
 // Sets default values
 ABatteryActor::ABatteryActor()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	BatteryAttributes = CreateDefaultSubobject<UBatteryAttributeSet>("Battery Attributes");
+	ComponentTag = BatteryComponentTag;
 }
 
 // Called when the game starts or when spawned
@@ -31,6 +34,13 @@ void ABatteryActor::InitializeAttributes(ASpaceCraftActor* SystemOwner, USystemD
 {
 	Super::InitializeAttributes(SystemOwner, SystemData);
 
+	UBatteryDefinitionData * BatteryData = Cast<UBatteryDefinitionData>(SystemData);
 	
+	if(ensure(AbilitySystemComponent))
+	{
+		TArray<FCustomEffectValue> Values;
+		Values.Add(FCustomEffectValue(BatteryCapacityBonusTag, BatteryData->BatteryCapacityBonus));
+		AbilitySystemComponent->ApplyGameplayEffect(InitializeEffect, VitalAttributes->GetLevel(), Values);	
+	}
 }
 

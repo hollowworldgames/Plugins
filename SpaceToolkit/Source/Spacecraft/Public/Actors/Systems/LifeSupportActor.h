@@ -8,6 +8,13 @@
 
 class ULifeSupportAttributeSet;
 
+UCLASS(BlueprintType)
+class ULifeSupportDefinitionData : public USystemDefinitionData
+{
+	GENERATED_BODY()
+public:
+};
+
 UCLASS()
 class SPACECRAFT_API ALifeSupportActor : public ASystemActor
 {
@@ -24,6 +31,8 @@ protected:
 	virtual void BeginPlay() override;
 	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category=Components)
 	TObjectPtr<ULifeSupportAttributeSet> LifeSupportAttributes;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Effects")
+	TSubclassOf<UGameplayEffect> InitializeEffect;
 };
 
 

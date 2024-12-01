@@ -6,9 +6,7 @@
 #include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
 
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(FuelTag, "Fuel.Attributes.Fuel", "Fuel");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(MaxFuelTag,"Fuel.Attributes.MaxFuel","MaxFuel");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(FuelOnTag,"Fuel.State.On","Fuel On");
+
 
 void UFuelAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {

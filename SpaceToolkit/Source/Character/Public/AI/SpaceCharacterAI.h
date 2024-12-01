@@ -6,6 +6,8 @@
 #include "SpaceCharacter.h"
 #include "SpaceCharacterAI.generated.h"
 
+class UCombatAttributeSet;
+class UVitalAttributeSet;
 class URPGAttributeSet;
 class USpaceCharacterShipAttributeSet;
 class UGameplayAbilitySystemComponent;
@@ -30,10 +32,10 @@ protected:
 	virtual void BeginPlay() override;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
 	TObjectPtr<UGameplayAbilitySystemComponent> AbilitySystemComponent;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
-	TObjectPtr<URPGAttributeSet> Attributes;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
-	TObjectPtr<USpaceCharacterShipAttributeSet> SpaceShipAttributes;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Attributes)
+	TObjectPtr<UVitalAttributeSet> VitalAttributes;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Attributes)
+	TObjectPtr<UCombatAttributeSet> CombatAttributes;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Attributes)
 	float Level = 1;
 };

@@ -11,6 +11,7 @@
 #include "Interfaces/DamageReportInterface.h"
 #include "SpaceCraftActor.generated.h"
 
+class UCombatAttributeSet;
 class UGameplayEffect;
 class UShipSystemComponent;
 class UVitalAttributeSet;
@@ -19,6 +20,7 @@ class UFTLComponent;
 class UNavigationSystemComponent;
 class UTacticalSystemComponent;
 class USpaceFlightModelComponent;
+class UGameplayAbilitySystemComponent;
 
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FToggle);
@@ -47,12 +49,15 @@ public:
 	virtual void ToggleShields() override;
 	virtual void SetShields(bool On) override;
 	virtual bool GetShields() override;
-	virtual UAbilitySystemComponent * GetSystem(EShipSystem System) override;
-	virtual TArray<FGameplayTag> GetComponents() const;
-	virtual void ApplyDamageToComponent(FGameplayTag Component, float Damage, const AActor * Source);
-	virtual void ReportDamage(const AActor * Source, float EnergyDamage, float KineticDamage, int ShieldFace, EDamageReportType Type);
-	virtual void ReportDamage(const AActor * Source, float EnergyDamage, float KineticDamage, EDamageReportType Type);
-	virtual void ReportComponentDamage(const AActor * Source, float EnergyDamage, float KineticDamage,FGameplayTag Component, EDamageReportType Type);
+	virtual void Initialize(USpaceCraftDefinitionData * Craft) override;
+	virtual void Initialize(FName Craft) override;
+	virtual UGameplayAbilitySystemComponent * GetSystem(FGameplayTag System) const override;
+	virtual TArray<FGameplayTag> GetComponentTags() const override;
+	virtual void ApplyEffectToComponent(FGameplayTag Component, TSubclassOf<UGameplayEffect> Effect, float Level, const AActor * Source) override;
+	virtual void ApplyDamageToComponent(FGameplayTag Component, float Damage, const AActor * Source) override;
+	virtual void ReportDamage(const AActor * Source, float EnergyDamage, float KineticDamage, int ShieldFace, EDamageReportType Type) override;
+	virtual void ReportDamage(const AActor * Source, float EnergyDamage, float KineticDamage, EDamageReportType Type) override;
+	virtual void ReportComponentDamage(const AActor * Source, float EnergyDamage, float KineticDamage,FGameplayTag Component, EDamageReportType Type) override;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -68,12 +73,20 @@ protected:
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Attributes)
 	TObjectPtr<UVitalAttributeSet> VitalAttributes;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Attributes)
+	TObjectPtr<UCombatAttributeSet> CombatAttributes;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
 	TObjectPtr<UShipSystemComponent> Reactor;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
 	TObjectPtr<UShipSystemComponent> Battery;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
-	TObjectPtr<UShipSystemComponent> Shield;
+	TObjectPtr<UShipSystemComponent> FrontShield;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
+	TObjectPtr<UShipSystemComponent> RearShield;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
+    TObjectPtr<UShipSystemComponent> RightShield;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
+	TObjectPtr<UShipSystemComponent> LeftShield;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
 	TObjectPtr<UShipSystemComponent> Engine;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
@@ -94,4 +107,6 @@ protected:
 	TMap<FGameplayTag, TObjectPtr<UShipSystemComponent>> Components;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Effects)
 	TSubclassOf<UGameplayEffect> ComponentDamageEffect;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Defaults)
+	FName DefaultDefinition = NAME_None;
 };

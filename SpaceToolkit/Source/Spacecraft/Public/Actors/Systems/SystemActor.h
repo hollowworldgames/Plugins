@@ -23,6 +23,16 @@ public:
 	float Level = 1;
 };
 
+USTRUCT(BlueprintType)
+struct FSystemEffectToApply
+{
+	GENERATED_BODY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<UGameplayEffect> Effect;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FGameplayTag Component;
+};
+
 UCLASS()
 class SPACECRAFT_API ASystemActor : public AActor, public IAbilitySystemInterface
 {
@@ -40,6 +50,7 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	virtual void InitializeAttributes(ASpaceCraftActor * SystemOwner, USystemDefinitionData * SystemData);
 	FGameplayTag GetComponentTag() const { return ComponentTag; }
+	void StartEffects(ASpaceCraftActor * SystemOwner) const;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -55,4 +66,6 @@ protected:
 	FGameplayTag StartTag;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Tags")
 	FGameplayTag ComponentTag;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Effects")
+	TArray<FSystemEffectToApply> Effects;
 };

@@ -7,13 +7,8 @@
 #include "AttributeMacros.h"
 #include "NativeGameplayTags.h"
 #include "Attributes/AttributeSetBase.h"
+#include "Attributes/SpaceGameplayTags.h"
 #include "ReactorAttributeSet.generated.h"
-
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(PowerOutputTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(FuelAvailableTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(FuelNeededTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(MaxPowerOutputTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(ReactorOnTag);
 
 UCLASS()
 class SPACEGAMEPLAY_API UReactorAttributeSet : public UAttributeSetBase

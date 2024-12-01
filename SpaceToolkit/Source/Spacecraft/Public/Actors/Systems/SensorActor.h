@@ -3,8 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "NativeGameplayTags.h"
 #include "SystemActor.h"
 #include "SensorActor.generated.h"
+
+SPACECRAFT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(SensorStrengthBonusTag);
+SPACECRAFT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(SensorResolutionBonusTag);
 
 class USensorAttributeSet;
 
@@ -13,7 +17,10 @@ class USensorDefinitionData : public USystemDefinitionData
 {
 	GENERATED_BODY()
 public :
-	
+	UPROPERTY()
+	float SignalStrength;
+	UPROPERTY()
+	float SignalResolution;
 };
 
 UCLASS()
@@ -32,4 +39,6 @@ protected:
 	virtual void BeginPlay() override;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Attributes")
 	TObjectPtr<USensorAttributeSet> SensorAttributes;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Effects")
+	TSubclassOf<UGameplayEffect> InitializeEffect;
 };

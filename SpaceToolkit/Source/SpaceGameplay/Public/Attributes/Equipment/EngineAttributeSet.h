@@ -7,17 +7,13 @@
 #include "NativeGameplayTags.h"
 #include "AbilitySystemComponent.h"
 #include "Attributes/AttributeSetBase.h"
+#include "Attributes/SpaceGameplayTags.h"
 #include "EngineAttributeSet.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnEngineDead);
 
 
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(EngineThrustTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(EnginePowerTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(EngineDistributionTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(PowerToThrustTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(MaxRCSThrustTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(EngineOnTag);
+
 
 UCLASS()
 class SPACEGAMEPLAY_API UEngineAttributeSet : public UAttributeSetBase

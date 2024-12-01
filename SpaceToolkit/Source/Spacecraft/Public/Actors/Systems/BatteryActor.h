@@ -3,10 +3,22 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "NativeGameplayTags.h"
 #include "SystemActor.h"
 #include "BatteryActor.generated.h"
 
 class UBatteryAttributeSet;
+
+UCLASS(BlueprintType)
+class UBatteryDefinitionData : public USystemDefinitionData
+{
+	GENERATED_BODY()
+public :
+	UPROPERTY()
+	float BatteryCapacityBonus;
+};
+
+SPACECRAFT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(BatteryCapacityBonusTag);
 
 UCLASS()
 class SPACECRAFT_API ABatteryActor : public ASystemActor
@@ -24,4 +36,6 @@ protected:
 	virtual void BeginPlay() override;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Attributes")
 	TObjectPtr<UBatteryAttributeSet> BatteryAttributes;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Effects")
+	TSubclassOf<UGameplayEffect> InitializeEffect;
   };

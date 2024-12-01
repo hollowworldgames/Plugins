@@ -9,6 +9,7 @@
 #include "UtilityStatics.h"
 #include "Actors/SpaceCraftActor.h"
 #include "Attributes/Equipment/EngineAttributeSet.h"
+#include "Components/GameplayAbilitySystemComponent.h"
 
 
 void FThrusterPoint::ApplyForce(UPrimitiveComponent* Root) const
@@ -42,7 +43,7 @@ void USpaceFlightModelComponent::BeginPlay()
 	TScriptInterface<ISpaceCraftInterface> Owner{TObjectPtr<AActor>(GetOwner())};
 	if (!Owner) return;
 	
-	UAbilitySystemComponent * Component = Owner->GetSystem(EShipSystem::Engine);
+	UGameplayAbilitySystemComponent * Component = Owner->GetSystem(EngineComponentTag);
 	if (!Component) return;
 
 	Component->GetGameplayAttributeValueChangeDelegate(UEngineAttributeSet::GetEngineThrustAttribute()).AddUObject(this, &USpaceFlightModelComponent::OnThrustChanged);

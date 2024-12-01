@@ -4,13 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Attributes/AttributeSetBase.h"
+#include "Attributes/SpaceGameplayTags.h"
 #include "GunnerAttributeSet.generated.h"
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(RangeTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(AccuracyTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(FireRateTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(EfficiencyTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(ReflexesTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TargetAnalysisTag);
+
 
 UCLASS()
 class SPACEGAMEPLAY_API UGunnerAttributeSet : public UAttributeSetBase

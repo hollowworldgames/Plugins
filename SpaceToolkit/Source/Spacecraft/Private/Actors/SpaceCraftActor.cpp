@@ -13,6 +13,7 @@
 #include "Actors/Systems/SensorActor.h"
 #include "Actors/Systems/ShieldActor.h"
 #include "Actors/Systems/SystemActor.h"
+#include "Attributes/CombatAttributeSet.h"
 #include "Attributes/VitalAttributeSet.h"
 #include "Components/FTLComponent.h"
 #include "Components/GameplayAbilitySystemComponent.h"
@@ -20,6 +21,8 @@
 #include "Components/ShipSystemComponent.h"
 #include "Components/SpaceFlightModelComponent.h"
 #include "Components/TacticalSystemComponent.h"
+#include "Data/USpaceCraftDefinitionData.h"
+#include "Utility/SpaceCraftGameInstance.h"
 
 // Sets default values
 ASpaceCraftActor::ASpaceCraftActor()
@@ -34,6 +37,7 @@ ASpaceCraftActor::ASpaceCraftActor()
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 	AbilitySystemComponent->SetIsReplicated(true);
 	VitalAttributes = CreateDefaultSubobject<UVitalAttributeSet>("Vital Attributes");
+	CombatAttributes = CreateDefaultSubobject<UCombatAttributeSet>("Combat Attributes");
 
 	Engine = CreateDefaultSubobject<UShipSystemComponent>("Engine Component");
 	Engine->SetupAttachment(GetRootComponent());
@@ -43,10 +47,14 @@ ASpaceCraftActor::ASpaceCraftActor()
 	Reactor->SetupAttachment(GetRootComponent());
 	Reactor->SetChildActorClass(AReactorActor::StaticClass());
 
-	Shield = CreateDefaultSubobject<UShipSystemComponent>("Shield Component");
-	Shield->SetupAttachment(GetRootComponent());
-	Shield->SetChildActorClass(AShieldActor::StaticClass());
+	FrontShield = CreateDefaultSubobject<UShipSystemComponent>("Front Shield Component");
+	FrontShield->SetupAttachment(GetRootComponent());
+	FrontShield->SetChildActorClass(AShieldActor::StaticClass());
 
+	RearShield = CreateDefaultSubobject<UShipSystemComponent>("Rear Shield Component");
+	RearShield->SetupAttachment(GetRootComponent());
+	RearShield->SetChildActorClass(AShieldActor::StaticClass());
+	
 	Battery = CreateDefaultSubobject<UShipSystemComponent>("Battery Component");
 	Battery->SetupAttachment(GetRootComponent());
 	Battery->SetChildActorClass(ABatteryActor::StaticClass());
@@ -74,6 +82,14 @@ void ASpaceCraftActor::BeginPlay()
 	VitalAttributes->OnDead.AddDynamic(this, &ASpaceCraftActor::OnDead);
 
 	Components.Add(LifeSupport->GetComponentTag(), LifeSupport);
+	if (!DefaultDefinition.IsNone())
+	{
+		USpaceCraftGameInstance * Instance = Cast<USpaceCraftGameInstance>(GetGameInstance());
+		if (ensure(Instance))
+		{
+			Initialize(Instance->GetSpaceCraftDefinitionData(DefaultDefinition));
+		}
+	}
 }
 
 void ASpaceCraftActor::OnDead_Implementation()
@@ -157,50 +173,117 @@ void ASpaceCraftActor::ToggleShields()
 
 void ASpaceCraftActor::SetShields(bool On)
 {
-	if (ensure(Shield) && ensure(Shield->GetShipSystemActor()))
+	if (ensure(FrontShield) && ensure(FrontShield->GetShipSystemActor()))
 	{
-		Shield->GetShipSystemActor()->SetOn(On);
+		FrontShield->GetShipSystemActor()->SetOn(On);
+	}
+
+	if (ensure(RearShield) && ensure(RearShield->GetShipSystemActor()))
+	{
+		RearShield->GetShipSystemActor()->SetOn(On);
+	}
+
+	if (RightShield && ensure(RightShield->GetShipSystemActor()))
+	{
+		RightShield->GetShipSystemActor()->SetOn(On);
+	}
+
+	if (LeftShield && ensure(LeftShield->GetShipSystemActor()))
+	{
+		LeftShield->GetShipSystemActor()->SetOn(On);
 	}
 }
 
 bool ASpaceCraftActor::GetShields()
 {
-	if (ensure(Shield) && ensure(Shield->GetShipSystemActor()))
+	if (ensure(FrontShield) && ensure(FrontShield->GetShipSystemActor()))
 	{
-		return Shield->GetShipSystemActor()->IsOn();
+		return FrontShield->GetShipSystemActor()->IsOn();
 	}
 	return false;
 }
 
-UAbilitySystemComponent* ASpaceCraftActor::GetSystem(EShipSystem System)
+void ASpaceCraftActor::Initialize(USpaceCraftDefinitionData* Craft)
 {
-	switch (System)
+	if (!ensure(Craft)) return;
+	
+	if(ensure(Battery) && ensure(Battery->GetShipSystemActor()))
 	{
-	case EShipSystem::Reactor:
-		return (Reactor) ? UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Reactor->GetShipSystemActor()) : nullptr;
-	case EShipSystem::Engine:
-		return (Engine) ? UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Engine->GetShipSystemActor()) : nullptr;
-	case EShipSystem::Shield:
-		return (Shield) ? UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Shield->GetShipSystemActor()) : nullptr;
-	case EShipSystem::Battery:
-		return (Battery) ? UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Battery->GetShipSystemActor()) : nullptr;
-	case EShipSystem::Fuel:
-		return (Fuel) ? UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Fuel->GetShipSystemActor()) : nullptr;
-	case EShipSystem::Sensor :
-		return (Sensor) ? UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Sensor->GetShipSystemActor()) : nullptr;
-	default: ;
+		Battery->GetShipSystemActor()->InitializeAttributes(this, Craft->BatteryData);
+	}
+
+	if(ensure(Reactor) && ensure(Reactor->GetShipSystemActor()))
+	{
+		Reactor->GetShipSystemActor()->InitializeAttributes(this, Craft->ReactorData);
+	}
+
+	if(ensure(Engine) && ensure(Engine->GetShipSystemActor()))
+	{
+		Engine->GetShipSystemActor()->InitializeAttributes(this, Craft->EngineData);
+	}
+
+	if(ensure(Fuel) && ensure(Fuel->GetShipSystemActor()))
+	{
+		Fuel->GetShipSystemActor()->InitializeAttributes(this, Craft->FuelData);
+	}
+
+	if(ensure(Sensor) && ensure(Sensor->GetShipSystemActor()))
+	{
+		Sensor->GetShipSystemActor()->InitializeAttributes(this, Craft->SensorData);
+	}
+
+	if(ensure(FrontShield) && ensure(FrontShield->GetShipSystemActor()))
+	{
+		FrontShield->GetShipSystemActor()->InitializeAttributes(this, Craft->FrontShieldData);
+	}
+
+	if(ensure(RearShield) && ensure(RearShield->GetShipSystemActor()))
+	{
+		RearShield->GetShipSystemActor()->InitializeAttributes(this, Craft->RearShieldData);
+	}
+
+	if(RightShield && ensure(RightShield->GetShipSystemActor()))
+	{
+		RightShield->GetShipSystemActor()->InitializeAttributes(this, Craft->RightShieldData);
+	}
+
+	if(LeftShield && ensure(LeftShield->GetShipSystemActor()))
+	{
+		LeftShield->GetShipSystemActor()->InitializeAttributes(this, Craft->LeftShieldData);
+	}
+}
+
+void ASpaceCraftActor::Initialize(FName Craft)
+{
+	USpaceCraftGameInstance * GameInstance = Cast<USpaceCraftGameInstance>(GetGameInstance());
+	if (ensure(GameInstance))
+	{
+		Initialize(GameInstance->GetSpaceCraftDefinitionData(Craft));
+	}
+}
+
+UGameplayAbilitySystemComponent* ASpaceCraftActor::GetSystem(FGameplayTag System) const
+{
+	if (Components.Contains(System))
+	{
+		auto FoundSystem = Components.Find(System);
+		if (ensure(*FoundSystem))
+		{
+			return Cast<UGameplayAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent((*FoundSystem)->GetShipSystemActor()));
+		}
 	}
 	return nullptr;
 }
 
-TArray<FGameplayTag> ASpaceCraftActor::GetComponents() const
+TArray<FGameplayTag> ASpaceCraftActor::GetComponentTags() const
 {
 	TArray<FGameplayTag> TagArray;
 	ComponentTags.GetGameplayTagArray(TagArray);
 	return TagArray;
 }
 
-void ASpaceCraftActor::ApplyDamageToComponent(FGameplayTag Component, float Damage, const AActor * Source)
+void ASpaceCraftActor::ApplyEffectToComponent(FGameplayTag Component, TSubclassOf<UGameplayEffect> Effect, float Level,
+	const AActor* Source)
 {
 	if (Components.Contains(Component))
 	{
@@ -211,11 +294,15 @@ void ASpaceCraftActor::ApplyDamageToComponent(FGameplayTag Component, float Dama
 				Cast<UGameplayAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent((*System)->GetShipSystemActor()));
 			if (ensure(ShipComponent))
 			{
-				ShipComponent->ApplyGameplayEffect(ComponentDamageEffect, Damage, Source);
+				ShipComponent->ApplyGameplayEffect(Effect, Level, Source);
 			}
 		}
-			
 	}
+}
+
+void ASpaceCraftActor::ApplyDamageToComponent(FGameplayTag Component, float Damage, const AActor * Source)
+{
+	ApplyEffectToComponent(Component, ComponentDamageEffect, Damage, Source);
 }
 
 void ASpaceCraftActor::ReportDamage(const AActor* Source, float EnergyDamage, float KineticDamage, int ShieldFace,

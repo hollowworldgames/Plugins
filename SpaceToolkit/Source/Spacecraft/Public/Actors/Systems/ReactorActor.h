@@ -3,8 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "NativeGameplayTags.h"
 #include "Actors/Systems/SystemActor.h"
 #include "ReactorActor.generated.h"
+
+SPACECRAFT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(ReactorPowerOutputBonusTag);
+SPACECRAFT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(ReactorFuelNeedBonusTag);
 
 class UReactorAttributeSet;
 
@@ -13,7 +17,10 @@ class UReactorDefinitionData : public USystemDefinitionData
 {
 	GENERATED_BODY()
 public :
-	
+	UPROPERTY()
+	float PowerOutput;
+	UPROPERTY()
+	float FuelNeed;
 };
 
 UCLASS()
@@ -32,5 +39,7 @@ protected:
 	virtual void BeginPlay() override;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Components)
 	TObjectPtr<UReactorAttributeSet> Reactor;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Effects")
+	TSubclassOf<UGameplayEffect> InitializeEffect;
 };
 

@@ -5,11 +5,7 @@
 
 #include "Net/UnrealNetwork.h"
 
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(LifeSupportPowerTag,"LifeSupport.Attributes.Power","Life Support Power");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(LifeSupportPowerNeedTag,"LifeSupport.Attributes.PowerNeed","Life Support Power Need");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(AirQualityTag,"LifeSupport.Attributes.AirQuality","Life Support Air Quality");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(PurificationRateTag,"LifeSupport.Attributes.PurificationRate","Life Support Purification Rate");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(LifeSupportOnTag,"LifeSupport.Status.On","Life Support On");
+
 
 float ULifeSupportAttributeSet::GetAttributeValue(FGameplayTag AttributeTag)
 {

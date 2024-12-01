@@ -3,17 +3,21 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "NativeGameplayTags.h"
 #include "SystemActor.h"
 #include "FuelActor.generated.h"
 
 class UFuelAttributeSet;
+
+SPACECRAFT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(FuelMaxFuelBonusTag);
 
 UCLASS(BlueprintType)
 class UFuelDefinitionData : public USystemDefinitionData
 {
 	GENERATED_BODY()
 public :
-	
+	UPROPERTY()
+	float MaxFuelBonus;
 };
 
 UCLASS(Blueprintable, BlueprintType)
@@ -32,4 +36,6 @@ protected:
 	virtual void BeginPlay() override;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Attributes")
 	TObjectPtr<UFuelAttributeSet> FuelAttributes;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Effects")
+	TSubclassOf<UGameplayEffect> InitializeEffect;
 };

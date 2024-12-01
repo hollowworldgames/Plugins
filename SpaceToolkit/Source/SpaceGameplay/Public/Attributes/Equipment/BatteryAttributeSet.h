@@ -7,13 +7,10 @@
 #include "AttributeMacros.h"
 #include "NativeGameplayTags.h"
 #include "Attributes/AttributeSetBase.h"
+#include "Attributes/SpaceGameplayTags.h"
 #include "BatteryAttributeSet.generated.h"
 
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(PowerCapacityTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(StoredPowerTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(BatteryPowerTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(BatteryDistributionTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(BatteryOnTag);
+
 
 UCLASS()
 class SPACEGAMEPLAY_API UBatteryAttributeSet : public UAttributeSetBase

@@ -3,8 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "NativeGameplayTags.h"
 #include "SystemActor.h"
 #include "EngineActor.generated.h"
+
+SPACECRAFT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(EnginePowerToThrustBonusTag);
+SPACECRAFT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(EngineMaxRCSThrustBonusTag);
 
 class UEngineAttributeSet;
 
@@ -13,7 +17,10 @@ class UEngineDefinitionData : public USystemDefinitionData
 {
 	GENERATED_BODY()
 public :
-	
+	UPROPERTY()
+	float ThrustToPowerBonus;
+	UPROPERTY()
+	float MaxRCSThrustBonus;
 };
 
 UCLASS()
@@ -32,4 +39,6 @@ protected:
 	virtual void BeginPlay() override;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Components)
 	TObjectPtr<UEngineAttributeSet> Engine;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Effects")
+	TSubclassOf<UGameplayEffect> InitializeEffect;
 };

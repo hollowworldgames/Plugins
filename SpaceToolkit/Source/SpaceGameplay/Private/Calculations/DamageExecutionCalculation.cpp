@@ -248,7 +248,7 @@ void UDamageExecutionCalculation::Execute_Implementation(
 		{
 			if(!TargetedComponent.IsValid() && UUtilityStatics::Roll100(ComponentHitChance))
 			{
-				TArray<FGameplayTag> Components = Container->GetComponents();
+				TArray<FGameplayTag> Components = Container->GetComponentTags();
 				TargetedComponent = UUtilityStatics::GetRandomItem(Components);
 			}
 			Container->ApplyDamageToComponent(TargetedComponent, Damage, Source);

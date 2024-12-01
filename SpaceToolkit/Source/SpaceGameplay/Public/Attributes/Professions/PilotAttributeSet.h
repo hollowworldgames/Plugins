@@ -8,16 +8,10 @@
 #include "GameplayTags.h"
 #include "AbilitySystemComponent.h"
 #include "Attributes/AttributeSetBase.h"
+#include "Attributes/SpaceGameplayTags.h"
 #include "PilotAttributeSet.generated.h"
 
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(GForceToleranceTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(GForceEnduranceTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(ThrusterPowerTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(ThrusterResponseTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(JumpPowerTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(JumpRangeTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(JumpSpeedTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(JumpTimeTag);
+
 
 UCLASS()
 class SPACEGAMEPLAY_API UPilotAttributeSet : public UAttributeSetBase

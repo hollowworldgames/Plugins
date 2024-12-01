@@ -6,11 +6,7 @@
 #include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
 
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(PowerCapacityTag, "Battery.Attribute.PowerCapacity", "Power Capacity");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(StoredPowerTag,"Battery.Attribute.StoredPower","Stored Power");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(BatteryPowerTag,"Battery.Attribute.BatteryPower","Battery Power");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(BatteryDistributionTag,"Battery.Attribute.BatteryDistribution","Battery Distribution");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(BatteryOnTag,"Battery.Status.On","Battery On");
+
 
 float UBatteryAttributeSet::GetAttributeValue(FGameplayTag AttributeTag)
 {

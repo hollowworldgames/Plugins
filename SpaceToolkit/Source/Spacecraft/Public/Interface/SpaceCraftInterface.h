@@ -3,10 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "UObject/Interface.h"
 #include "SpaceCraftInterface.generated.h"
 
-class UAbilitySystemComponent;
+class UGameplayAbilitySystemComponent;
+class USpaceCraftDefinitionData;
+
 // This class does not need to be modified.
 UINTERFACE()
 class USpaceCraftInterface : public UInterface
@@ -21,17 +24,6 @@ enum class EGearState : uint8
 	Raising UMETA(DisplayName = "Raising"),
 	Lowered UMETA(DisplayName = "Lowered"),
 	Lowering UMETA(DisplayName = "Lowering"),
-};
-
-UENUM(BlueprintType)
-enum class EShipSystem : uint8
-{
-	Reactor UMETA(DisplayName = "Reactor"),
-	Engine UMETA(DisplayName = "Engine"),
-	Shield UMETA(DisplayName = "Shield"),
-	Battery UMETA(DisplayName = "Battery"),
-	Fuel UMETA(DisplayName = "Fuel"),
-	Sensor UMETA(DisplayName = "Sensor"),
 };
 
 class SPACECRAFT_API ISpaceCraftInterface
@@ -53,5 +45,7 @@ public:
 	virtual void ToggleShields() = 0;
 	virtual void SetShields(bool On) = 0;
 	virtual bool GetShields() = 0;
-	virtual UAbilitySystemComponent * GetSystem(EShipSystem System) = 0;
+	virtual UGameplayAbilitySystemComponent * GetSystem(FGameplayTag Tag) const = 0;
+	virtual void Initialize(USpaceCraftDefinitionData * Craft) = 0;
+	virtual void Initialize(FName Craft) = 0;
 };

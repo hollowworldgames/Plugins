@@ -26,11 +26,27 @@ UAbilitySystemComponent* ASystemActor::GetAbilitySystemComponent() const
 
 void ASystemActor::InitializeAttributes(ASpaceCraftActor * SystemOwner, USystemDefinitionData * SystemData)
 {
-	AbilitySystemComponent->InitAbilityActorInfo(this, SystemOwner);
-	//add abilities
-	AbilitySystemComponent->AddAbility(StartAbility, false);
-	AbilitySystemComponent->AddAbility(StopAbility, false);
-	AbilitySystemComponent->SetAttributeValue(LevelTag, SystemData->Level);
+	if (ensure(AbilitySystemComponent) && ensure(SystemData))
+	{
+		AbilitySystemComponent->InitAbilityActorInfo(this, SystemOwner);
+		//add abilities
+		AbilitySystemComponent->AddAbility(StartAbility, false);
+		AbilitySystemComponent->AddAbility(StopAbility, false);
+		AbilitySystemComponent->SetAttributeValue(LevelTag, SystemData->Level);
+		StartEffects(SystemOwner);
+	}
+}
+
+void ASystemActor::StartEffects(ASpaceCraftActor * SystemOwner) const
+{
+	for (FSystemEffectToApply Apply : Effects)
+	{
+		UGameplayAbilitySystemComponent * System = SystemOwner->GetSystem(Apply.Component);
+		if (ensure(System))
+		{
+			System->ApplyGameplayEffect(Apply.Effect, VitalAttributes->GetLevel(), this);
+		}
+	}
 }
 
 // Called when the game starts or when spawned

@@ -5,9 +5,7 @@
 #include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
 
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(ShieldPowerTag,"Shield.Attribute.Power","Max Back Shield Health");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(ShieldDistributionTag,"Shield.Attribute.Distribution","Max Back Shield Health");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(ShieldOnTag,"Shield.State.On","Shield On");
+
 
 float UShieldAttributeSet::GetAttributeValue(FGameplayTag AttributeTag)
 {

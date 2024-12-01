@@ -4,14 +4,7 @@
 #include "Attributes/WeaponAttributeSet.h"
 #include "Net/UnrealNetwork.h"
 
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(WeaponAccuracyTag,"Weapon.Attributes.Accuracy","Weapon Accuracy");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(WeaponMinDamageTag,"Weapon.Attributes.MinDamage","Weapon Min Damage");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(WeaponMaxDamageTag,"Weapon.Attributes.MaxDamage","Weapon Max Damage");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(WeaponMinRangeTag,"Weapon.Attributes.MinRange","Weapon Min Range");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(WeaponMaxRangeTag,"Weapon.Attributes.MaxRange","Weapon Max Range");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(WeaponCriticalChanceTag,"Weapon.Attributes.CriticalChance","Weapon Critical Chance");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(WeaponCriticalDamageTag,"Weapon.Attributes.CriticalDamage","Weapon Critical Damage");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(WeaponCooldownTag,"Weapon.Attributes.Cooldown","Weapon Cooldown");
+
 
 float UWeaponAttributeSet::GetAttributeValue(FGameplayTag AttributeTag)
 {

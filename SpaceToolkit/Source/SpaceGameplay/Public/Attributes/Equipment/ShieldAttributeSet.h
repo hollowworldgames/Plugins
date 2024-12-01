@@ -4,16 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "AttributeMacros.h"
-#include "NativeGameplayTags.h"
 #include "AbilitySystemComponent.h"
 #include "Attributes/AttributeSetBase.h"
+#include "Attributes/SpaceGameplayTags.h"
 #include "ShieldAttributeSet.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnShieldDead);
-
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(ShieldPowerTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(ShieldDistributionTag);
-SPACEGAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(ShieldOnTag);
 
 UCLASS()
 class SPACEGAMEPLAY_API UShieldAttributeSet : public UAttributeSetBase

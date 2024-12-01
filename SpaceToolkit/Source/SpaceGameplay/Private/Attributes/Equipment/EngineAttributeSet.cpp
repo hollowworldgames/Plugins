@@ -6,12 +6,7 @@
 #include "Net/UnrealNetwork.h"
 
 
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(EngineThrustTag,"Engine.Attributes.Thrust","Engine Thrust");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(EnginePowerTag,"Engine.Attributes.Power","Engine Power");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(EngineDistributionTag,"Engine.Attributes.Distribution","Engine Distribution");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(PowerToThrustTag,"Engine.Attributes.Distribution","Engine Distribution");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(MaxRCSThrustTag,"Engine.Attributes.Distribution","Engine Distribution");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(EngineOnTag,"Engine.State.On","Engine On");
+
 
 float UEngineAttributeSet::GetAttributeValue(FGameplayTag AttributeTag)
 {

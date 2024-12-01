@@ -4,6 +4,7 @@
 #include "Actors/Systems/LifeSupportActor.h"
 
 #include "Attributes/Equipment/LifeSupportAttributeSet.h"
+#include "Interfaces/ComponentContainerInterface.h"
 
 
 // Sets default values
@@ -12,6 +13,7 @@ ALifeSupportActor::ALifeSupportActor()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	LifeSupportAttributes = CreateDefaultSubobject<ULifeSupportAttributeSet>("Life Support Attributes");
+	ComponentTag = LifeSupportComponentTag;
 }
 
 // Called when the game starts or when spawned

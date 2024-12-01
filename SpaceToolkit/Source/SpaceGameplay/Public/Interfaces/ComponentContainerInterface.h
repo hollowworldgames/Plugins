@@ -4,8 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
+#include "NativeGameplayTags.h"
 #include "UObject/Interface.h"
 #include "ComponentContainerInterface.generated.h"
+
+class UGameplayEffect;
+
 
 // This class does not need to be modified.
 UINTERFACE()
@@ -23,6 +27,7 @@ class SPACEGAMEPLAY_API IComponentContainerInterface
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	virtual TArray<FGameplayTag> GetComponents() const = 0;
+	virtual TArray<FGameplayTag> GetComponentTags() const = 0;
+	virtual void ApplyEffectToComponent(FGameplayTag Tag, TSubclassOf<UGameplayEffect> Effect, float Level, const AActor * Source) = 0;
 	virtual void ApplyDamageToComponent(FGameplayTag Component, float Damage, const AActor * Source) = 0;
 };

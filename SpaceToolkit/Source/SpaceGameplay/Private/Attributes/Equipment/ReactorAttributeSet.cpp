@@ -5,11 +5,7 @@
 
 #include "Net/UnrealNetwork.h"
 
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(PowerOutputTag,"Reactor.Attributes.PowerOutput","Reactor Output");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(FuelAvailableTag,"Reactor.Attributes.FuelAvailable","Reactor Output");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(FuelNeededTag,"Reactor.Attributes.FuelNeeded","Reactor Output");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(MaxPowerOutputTag,"Reactor.Attributes.MaxPowerOutput","Reactor Output");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(ReactorOnTag,"Reactor.State.On","Reactor On");
+
 
 float UReactorAttributeSet::GetAttributeValue(FGameplayTag AttributeTag)
 {
