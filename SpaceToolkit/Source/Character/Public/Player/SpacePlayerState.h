@@ -14,7 +14,7 @@ class UExperienceAttributeSet;
 class UGameplayEffect;
 class URPGAttributeSet;
 class UVitalAttributeSet;
-class UCombatAttributeSet;
+class USpaceCombatAttributeSet;
 class USpaceCharacterShipAttributeSet;
 class USpaceCharacterAttributes;
 class UGameplayAbilitySystemComponent;
@@ -39,7 +39,7 @@ protected :
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Attributes)
 	TObjectPtr<UVitalAttributeSet> VitalAttributes;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Attributes)
-	TObjectPtr<UCombatAttributeSet> CombatAttributes;
+	TObjectPtr<class URPGCombatAttributeSet> CombatAttributes;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Attributes)
 	TObjectPtr<UPrimaryAttributeSet> PrimaryAttributes;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Attributes)

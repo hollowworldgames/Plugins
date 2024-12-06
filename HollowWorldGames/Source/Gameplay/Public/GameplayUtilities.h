@@ -26,11 +26,12 @@ class GAMEPLAY_API UGameplayUtilities : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 public :
-	static ECombatRollResult DoCombatRoll(float& Damage, float Accuracy, float Mitigation, float BlockChance,
-	                                                   float BlockValue, float ParryChance, float EvadeChance, float GlanceChance,
-	                                                   float CriticalChance, float CriticalDefense, float CriticalValue, float PenetrationChance);
+	static ECombatRollResult DoCombatRoll(FVector4f& Damage, float Accuracy, FVector4f Mitigation, float BlockChance,
+	                                                   float BlockValue, float ParryChance, float EvadeChance, float GlanceChance, float GlanceValue,
+	                                                   float CriticalChance, float CriticalDefense, float CriticalValue, float PenetrationChance, float PenetrationValue);
 	static float ApplyMitigation(float Damage, float Mitigation);
-	static bool ApplyCriticalHit(float& Damage, float CriticalChance, float CriticalDefense, float CriticalValue);
+	static FVector4f ApplyMitigation(FVector4f Damage, float Mitigation1, float Mitigation2, float Mitigation3, float Mitigation4);
+	static bool ApplyCriticalHit(FVector4f& Damage, float CriticalChance, float CriticalDefense, float CriticalValue);
+	static ECombatRollResult DoCombatRoll(float HitChance, float EvadeChance, float GlanceChance);
 	static float ParryValue;
-	static float GlanceValue;
 };

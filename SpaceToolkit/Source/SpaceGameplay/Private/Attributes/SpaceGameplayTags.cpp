@@ -30,23 +30,31 @@ UE_DEFINE_GAMEPLAY_TAG_COMMENT(CriticalDefenseTag,"Combat.Attributes.CriticalDef
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(FrontShieldTag,"Combat.Attributes.FrontShield","Front Shield");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(MaxFrontShieldTag,"Combat.Attributes.MaxFrontShield","Max Front Shield");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(FrontKineticMitigationTag,"Combat.Attributes.FrontKineticMitigation","Front Kinetic Mitigation");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(FrontEnergyMitigationTag,"Combat.Attributes.FrontEnergyMitigation","Front Energy Mitigation");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(FrontMitigation1Tag,"Combat.Attributes.FrontMitigation1","Front Mitigation 1");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(FrontMitigation2Tag,"Combat.Attributes.FrontMitigation2","Front Mitigation 2");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(FrontMitigation3Tag,"Combat.Attributes.FrontMitigation3","Front Mitigation 3");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(FrontMitigation4Tag,"Combat.Attributes.FrontMitigation4","Front Mitigation 4");
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(BackShieldTag,"Combat.Attributes.BackShield","Back Shield");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(MaxBackShieldTag,"Combat.Attributes.MaxBackShield","Max Back Shield");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(BackKineticMitigationTag,"Combat.Attributes.BackKineticMitigation","Back Kinetic Mitigation");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(BackEnergyMitigationTag,"Combat.Attributes.BackEnergyMitigation","Back Energy Mitigation");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(BackMitigation1Tag,"Combat.Attributes.BackMitigation1","Back Mitigation 1");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(BackMitigation2Tag,"Combat.Attributes.BackMitigation2","Back Mitigation 2");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(BackMitigation3Tag,"Combat.Attributes.BackMitigation3","Back Mitigation 3");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(BackMitigation4Tag,"Combat.Attributes.BackMitigation4","Back Mitigation 4");
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(RightShieldTag,"Combat.Attributes.RightShield","Right Shield");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(MaxRightShieldTag,"Combat.Attributes.MaxRightShield","Max Right Shield");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(RightKineticMitigationTag,"Combat.Attributes.RightKineticMitigation","Right Kinetic Mitigation");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(RightEnergyMitigationTag,"Combat.Attributes.RightEnergyMitigation","Right Energy Mitigation");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(RightMitigation1Tag,"Combat.Attributes.RightMitigation1","Right Mitigation 1");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(RightMitigation2Tag,"Combat.Attributes.RightMitigation2","Right Mitigation 2");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(RightMitigation3Tag,"Combat.Attributes.RightMitigation3","Right Mitigation 3");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(RightMitigation4Tag,"Combat.Attributes.RightMitigation4","Right Mitigation 4");
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(LeftShieldTag,"Combat.Attributes.LeftShield","Left Shield");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(MaxLeftShieldTag,"Combat.Attributes.MaxLeftShield","Max Left Shield");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(LeftKineticMitigationTag,"Combat.Attributes.LeftKineticMitigation","Left Kinetic Mitigation");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(LeftEnergyMitigationTag,"Combat.Attributes.LeftEnergyMitigation","Left Energy Mitigation");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(LeftMitigation1Tag,"Combat.Attributes.LeftMitigation1","Left Mitigation 1");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(LeftMitigation2Tag,"Combat.Attributes.LeftMitigation2","Left Mitigation 2");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(LeftMitigation3Tag,"Combat.Attributes.LeftMitigation3","Left Mitigation 3");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(LeftMitigation4Tag,"Combat.Attributes.LeftMitigation4","Left Mitigation 4");
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(IncomingFrontKineticDamageTag,"Combat.Attributes.IncomingFrontKineticDamage","Incoming Front Kinetic Damage");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(IncomingFrontEnergyDamageTag,"Combat.Attributes.IncomingFrontEnergyDamage","Incoming Front Energy Damage");

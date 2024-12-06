@@ -2,6 +2,8 @@
 
 
 #include "Actors/Systems/SystemActor.h"
+
+#include "AbilitySystemBlueprintLibrary.h"
 #include "Actors/SpaceCraftActor.h"
 #include "Attributes/VitalAttributeSet.h"
 #include "Components/GameplayAbilitySystemComponent.h"
@@ -26,12 +28,19 @@ UAbilitySystemComponent* ASystemActor::GetAbilitySystemComponent() const
 
 void ASystemActor::InitializeAttributes(ASpaceCraftActor * SystemOwner, USystemDefinitionData * SystemData)
 {
+	Ship = SystemOwner;
+	UGameplayAbilitySystemComponent * ShipAbilityComponent =
+			Cast<UGameplayAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Ship));
+	if (ShipAbilityComponent)
+	{
+		ShipAbilityComponent->AddAbility(StartAbility, false);
+		ShipAbilityComponent->AddAbility(StopAbility, false);
+	}
 	if (ensure(AbilitySystemComponent) && ensure(SystemData))
 	{
 		AbilitySystemComponent->InitAbilityActorInfo(this, SystemOwner);
 		//add abilities
-		AbilitySystemComponent->AddAbility(StartAbility, false);
-		AbilitySystemComponent->AddAbility(StopAbility, false);
+		
 		AbilitySystemComponent->SetAttributeValue(LevelTag, SystemData->Level);
 		StartEffects(SystemOwner);
 	}
@@ -72,15 +81,20 @@ bool ASystemActor::IsOn_Implementation()
 
 void ASystemActor::SetOn_Implementation(bool On)
 {
-	if (AbilitySystemComponent)
+	if (Ship)
 	{
-		if(IsOn() && !On)
+		UGameplayAbilitySystemComponent * ShipAbilityComponent =
+			Cast<UGameplayAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Ship));
+		if (ShipAbilityComponent)
 		{
-			AbilitySystemComponent->OnAbilityInputPressed(StartAbility.Tag);
-		}
-		else if(!IsOn() && On)
-		{
-			AbilitySystemComponent->OnAbilityInputPressed(StopAbility.Tag);
+			if(IsOn() && !On)
+			{
+				ShipAbilityComponent->OnAbilityInputPressed(StartAbility.Tag);
+			}
+			else if(!IsOn() && On)
+			{
+				ShipAbilityComponent->OnAbilityInputPressed(StopAbility.Tag);
+			}
 		}
 	}
 }

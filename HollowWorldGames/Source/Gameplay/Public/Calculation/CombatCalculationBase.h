@@ -19,7 +19,7 @@ public :
 	virtual void Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const override;
 	FGameplayTag GetDamageTypeTag(const FGameplayEffectSpec& Spec) const;
 protected :
-	DECLARE_ATTRIBUTE_CAPTUREDEF2(Accuracy)
+	DECLARE_ATTRIBUTE_CAPTUREDEF2(HitChance);
 	DECLARE_ATTRIBUTE_CAPTUREDEF2(Mitigation1);
 	DECLARE_ATTRIBUTE_CAPTUREDEF2(Mitigation2);
 	DECLARE_ATTRIBUTE_CAPTUREDEF2(Mitigation3);
@@ -33,14 +33,11 @@ protected :
 	DECLARE_ATTRIBUTE_CAPTUREDEF2(ParryChance);
 	DECLARE_ATTRIBUTE_CAPTUREDEF2(EvadeChance);
 	DECLARE_ATTRIBUTE_CAPTUREDEF2(GlancingBlowChance);
+	DECLARE_ATTRIBUTE_CAPTUREDEF2(GlancingBlowValue);
 	DECLARE_ATTRIBUTE_CAPTUREDEF2(CriticalChance);
 	DECLARE_ATTRIBUTE_CAPTUREDEF2(CriticalDefense);
 	DECLARE_ATTRIBUTE_CAPTUREDEF2(CriticalValue);
 	DECLARE_ATTRIBUTE_CAPTUREDEF2(Penetration);
-	DECLARE_ATTRIBUTE_CAPTUREDEF2(IncomingDamage1);
-	DECLARE_ATTRIBUTE_CAPTUREDEF2(IncomingDamage2);
-	DECLARE_ATTRIBUTE_CAPTUREDEF2(IncomingDamage3);
-	DECLARE_ATTRIBUTE_CAPTUREDEF2(IncomingDamage4);
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Tags)
 	FGameplayTag DamageTypeTag;

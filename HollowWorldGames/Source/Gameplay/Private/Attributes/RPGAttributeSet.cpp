@@ -5,7 +5,7 @@
 
 #include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
-
+/*
 float URPGAttributeSet::GetAttributeValue(FGameplayTag AttributeTag)
 {
 	GET_IF_TAGMATCHES(Level, AttributeTag);
@@ -203,4 +203,4 @@ ATTRIBUTE_IMPLEMENT(URPGAttributeSet, Intelligence);
 ATTRIBUTE_IMPLEMENT(URPGAttributeSet, Wisdom);
 ATTRIBUTE_IMPLEMENT(URPGAttributeSet, Constitution);
 ATTRIBUTE_IMPLEMENT(URPGAttributeSet, Endurance);
-ATTRIBUTE_IMPLEMENT(URPGAttributeSet, Charisma);
+ATTRIBUTE_IMPLEMENT(URPGAttributeSet, Charisma);*/

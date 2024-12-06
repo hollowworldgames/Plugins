@@ -5,17 +5,10 @@
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
 #include "AttributeSetBase.h"
+#include "AttributeTags.h"
 #include "PrimaryAttributeSet.generated.h"
 
-GAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(StrengthTag);
-GAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(AgilityTag);
-GAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(PrecisionTag);
-GAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(IntelligenceTag);
-GAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(WisdomTag);
-GAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(LuckTag);
-GAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(ConstitutionTag);
-GAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(EnduranceTag);
-GAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(CharismaTag);
+
 
 UCLASS()
 class GAMEPLAY_API UPrimaryAttributeSet : public UAttributeSetBase

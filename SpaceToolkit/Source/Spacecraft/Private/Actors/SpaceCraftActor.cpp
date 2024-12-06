@@ -13,7 +13,7 @@
 #include "Actors/Systems/SensorActor.h"
 #include "Actors/Systems/ShieldActor.h"
 #include "Actors/Systems/SystemActor.h"
-#include "Attributes/CombatAttributeSet.h"
+#include "Attributes/SpaceCombatAttributeSet.h"
 #include "Attributes/VitalAttributeSet.h"
 #include "Components/FTLComponent.h"
 #include "Components/GameplayAbilitySystemComponent.h"
@@ -37,7 +37,7 @@ ASpaceCraftActor::ASpaceCraftActor()
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 	AbilitySystemComponent->SetIsReplicated(true);
 	VitalAttributes = CreateDefaultSubobject<UVitalAttributeSet>("Vital Attributes");
-	CombatAttributes = CreateDefaultSubobject<UCombatAttributeSet>("Combat Attributes");
+	CombatAttributes = CreateDefaultSubobject<USpaceCombatAttributeSet>("Combat Attributes");
 
 	Engine = CreateDefaultSubobject<UShipSystemComponent>("Engine Component");
 	Engine->SetupAttachment(GetRootComponent());
@@ -90,6 +90,17 @@ void ASpaceCraftActor::BeginPlay()
 			Initialize(Instance->GetSpaceCraftDefinitionData(DefaultDefinition));
 		}
 	}
+
+	for (FInitialComponentEffects Effect : InitialEffects)
+	{
+		UGameplayAbilitySystemComponent * Component = GetSystem(Effect.Component);
+		if (ensure(Component))
+		{
+			Component->ApplyGameplayEffect(Effect.EffectClass, 1, this);
+		}
+	}
+
+	AbilitySystemComponent->AddAbilities(InitialAbilities);
 }
 
 void ASpaceCraftActor::OnDead_Implementation()

@@ -63,11 +63,11 @@ struct GAMEPLAY_API FAbilityData
 		Tag = NewTag;
 	}
 	
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSubclassOf<UGameplayAbility> Ability;
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float Level = 0;
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	FGameplayTag Tag;
 };
 
@@ -80,6 +80,7 @@ class GAMEPLAY_API UGameplayAbilitySystemComponent : public UAbilitySystemCompon
 	UFUNCTION(BlueprintCallable)
 	void ApplyGameplayEffect(TSubclassOf<UGameplayEffect> EffectClass, float Level, const AActor * Source = nullptr);
 	void ApplyGameplayEffect(TSubclassOf<UGameplayEffect> EffectClass, float Level,TArray<FCustomEffectValue> Values, const AActor * Source = nullptr);
+	void RemoveGameplayEffect(TSubclassOf<UGameplayEffect> EffectClass);
 	virtual void SetLevel(float Level);
 	virtual void InitializeAttributes(float Level);
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

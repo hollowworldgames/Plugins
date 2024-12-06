@@ -10,8 +10,8 @@
 #include "AttributeTags.h"
 #include "GameplayTagContainer.h"
 #include "UObject/Object.h"
-#include "RPGAttributeSet.generated.h"
-
+//#include "RPGAttributeSet.generated.h"
+/*
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FLevelChange, float , NewLevel);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnRPGDead);
 
@@ -416,4 +416,4 @@ protected :
 	UFUNCTION()
 	void OnRep_Charisma(const FGameplayAttributeData& OldCharisma) const;
 
-};
+};*/

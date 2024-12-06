@@ -6,7 +6,7 @@
 #include "SpaceCharacter.h"
 #include "SpaceCharacterAI.generated.h"
 
-class UCombatAttributeSet;
+class USpaceCombatAttributeSet;
 class UVitalAttributeSet;
 class URPGAttributeSet;
 class USpaceCharacterShipAttributeSet;
@@ -35,7 +35,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Attributes)
 	TObjectPtr<UVitalAttributeSet> VitalAttributes;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Attributes)
-	TObjectPtr<UCombatAttributeSet> CombatAttributes;
+	TObjectPtr<class URPGCombatAttributeSet> CombatAttributes;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Attributes)
 	float Level = 1;
 };

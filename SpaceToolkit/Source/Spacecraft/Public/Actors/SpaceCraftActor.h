@@ -6,12 +6,13 @@
 #include "GameFramework/Actor.h"
 #include "AbilitySystemInterface.h"
 #include "Actors/ViewableActor.h"
+#include "Components/GameplayAbilitySystemComponent.h"
 #include "Interface/SpaceCraftInterface.h"
 #include "Interfaces/ComponentContainerInterface.h"
 #include "Interfaces/DamageReportInterface.h"
 #include "SpaceCraftActor.generated.h"
 
-class UCombatAttributeSet;
+class USpaceCombatAttributeSet;
 class UGameplayEffect;
 class UShipSystemComponent;
 class UVitalAttributeSet;
@@ -24,6 +25,16 @@ class UGameplayAbilitySystemComponent;
 
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FToggle);
+
+USTRUCT(BlueprintType)
+struct FInitialComponentEffects
+{
+	GENERATED_BODY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FGameplayTag Component;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<UGameplayEffect> EffectClass;
+};
 
 UCLASS()
 class SPACECRAFT_API ASpaceCraftActor : public AViewableActor, public IAbilitySystemInterface,
@@ -70,11 +81,11 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
 	TObjectPtr<UFTLComponent> FTLComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
-	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	TObjectPtr<UGameplayAbilitySystemComponent> AbilitySystemComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Attributes)
 	TObjectPtr<UVitalAttributeSet> VitalAttributes;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Attributes)
-	TObjectPtr<UCombatAttributeSet> CombatAttributes;
+	TObjectPtr<class USpaceCombatAttributeSet> CombatAttributes;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
 	TObjectPtr<UShipSystemComponent> Reactor;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
@@ -107,6 +118,10 @@ protected:
 	TMap<FGameplayTag, TObjectPtr<UShipSystemComponent>> Components;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Effects)
 	TSubclassOf<UGameplayEffect> ComponentDamageEffect;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Effects)
+	TArray<FInitialComponentEffects> InitialEffects;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Abilities)
+	TArray<FAbilityData> InitialAbilities;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Defaults)
 	FName DefaultDefinition = NAME_None;
 };

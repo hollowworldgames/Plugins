@@ -2,24 +2,28 @@
 
 
 #include "Calculation/SecondaryAttributeCalculationBase.h"
+
+#include "Attributes/PrimaryAttributeSet.h"
 #include "Attributes/RPGAttributeSet.h"
+#include "Attributes/RPGCombatAttributeSet.h"
+#include "Attributes/VitalAttributeSet.h"
 #include "Components/GameplayAbilitySystemComponent.h"
 #include "GameFramework/Character.h"
 #include "UObject/FastReferenceCollector.h"
 
 USecondaryAttributeCalculationBase::USecondaryAttributeCalculationBase()
 {
-	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGAttributeSet, Level, Source, false, true);
-	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGAttributeSet, Strength, Source, false, true);
-	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGAttributeSet, Agility, Source, false, true);
-	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGAttributeSet, Precision, Source, false, true);
-	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGAttributeSet, Wisdom, Source, false, true);
-	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGAttributeSet, Intelligence, Source, false, true);
-	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGAttributeSet, Luck, Source, false, true);
-	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGAttributeSet, Constitution, Source, false, true);
-	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGAttributeSet, Endurance, Source, false, true);
-	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGAttributeSet, Charisma, Source, false, true);
-	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGAttributeSet, Armor, Source, false, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF2(UVitalAttributeSet, Level, Source, false, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF2(UPrimaryAttributeSet, Strength, Source, false, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF2(UPrimaryAttributeSet, Agility, Source, false, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF2(UPrimaryAttributeSet, Precision, Source, false, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF2(UPrimaryAttributeSet, Wisdom, Source, false, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF2(UPrimaryAttributeSet, Intelligence, Source, false, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF2(UPrimaryAttributeSet, Luck, Source, false, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF2(UPrimaryAttributeSet, Constitution, Source, false, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF2(UPrimaryAttributeSet, Endurance, Source, false, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF2(UPrimaryAttributeSet, Charisma, Source, false, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGCombatAttributeSet, Armor, Source, false, true);
 }
 
 float USecondaryAttributeCalculationBase::ComputeEnergy_Implementation(float Level, float Strength, float Agility,
@@ -180,83 +184,83 @@ void USecondaryAttributeCalculationBase::Execute_Implementation(
 	GET_EXECUTION_ATTRIBUTE(Charisma, ExecutionParams);
 	GET_EXECUTION_ATTRIBUTE(Armor, ExecutionParams);
 
-	float HealthMax = ComputeHealth(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
-	HealthMax += GetAttributeFromGear(HealthMaxTag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGAttributeSet, HealthMax, OutExecutionOutput);
-	WRITE_EXECUTION_ATTRIBUTE_LOCAL(URPGAttributeSet, Health, OutExecutionOutput, HealthMax);
+	float MaxHealth = ComputeHealth(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
+	MaxHealth += GetAttributeFromGear(HealthMaxTag, Source);
+	WRITE_EXECUTION_ATTRIBUTE(UVitalAttributeSet, MaxHealth, OutExecutionOutput);
+	WRITE_EXECUTION_ATTRIBUTE_LOCAL(UVitalAttributeSet, Health, OutExecutionOutput, MaxHealth);
 
-	float EnergyMax = ComputeEnergy(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
-	EnergyMax += GetAttributeFromGear(EnergyMaxTag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGAttributeSet, EnergyMax, OutExecutionOutput);
-	WRITE_EXECUTION_ATTRIBUTE_LOCAL(URPGAttributeSet, Energy, OutExecutionOutput, EnergyMax);
+	float MaxEnergy = ComputeEnergy(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
+	MaxEnergy += GetAttributeFromGear(EnergyMaxTag, Source);
+	WRITE_EXECUTION_ATTRIBUTE(UVitalAttributeSet, MaxEnergy, OutExecutionOutput);
+	WRITE_EXECUTION_ATTRIBUTE_LOCAL(UVitalAttributeSet, Energy, OutExecutionOutput, MaxEnergy);
 
 	float BlockChance = ComputeBlockChance(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
 	BlockChance += GetAttributeFromGear(BlockChanceTag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGAttributeSet, BlockChance, OutExecutionOutput);
+	WRITE_EXECUTION_ATTRIBUTE(URPGMeleeCombatAttributeSet, BlockChance, OutExecutionOutput);
 
 	float BlockValue = ComputeBlockValue(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
 	BlockValue += GetAttributeFromGear(BlockValueTag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGAttributeSet, BlockValue, OutExecutionOutput);
+	WRITE_EXECUTION_ATTRIBUTE(URPGMeleeCombatAttributeSet, BlockValue, OutExecutionOutput);
 
 	float GlancingBlowChance = ComputeGlanceChance(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
 	GlancingBlowChance += GetAttributeFromGear(GlanceChanceTag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGAttributeSet, GlancingBlowChance, OutExecutionOutput);
+	WRITE_EXECUTION_ATTRIBUTE(URPGCombatAttributeSet, GlancingBlowChance, OutExecutionOutput);
 
 	float ParryChance = ComputeParryChance(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
 	ParryChance += GetAttributeFromGear(ParryChanceTag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGAttributeSet, ParryChance, OutExecutionOutput);
+	WRITE_EXECUTION_ATTRIBUTE(URPGMeleeCombatAttributeSet, ParryChance, OutExecutionOutput);
 	
 	float EvadeChance = ComputeEvadeChance(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
 	EvadeChance += GetAttributeFromGear(EvadeChanceTag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGAttributeSet, EvadeChance, OutExecutionOutput);
+	WRITE_EXECUTION_ATTRIBUTE(URPGCombatAttributeSet, EvadeChance, OutExecutionOutput);
 
 	float CriticalChance = ComputeCriticalChance(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
 	CriticalChance += GetAttributeFromGear(CriticalChanceTag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGAttributeSet, CriticalChance, OutExecutionOutput);
+	WRITE_EXECUTION_ATTRIBUTE(URPGCombatAttributeSet, CriticalChance, OutExecutionOutput);
 
 	float CriticalValue = ComputeCriticalValue(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
 	CriticalValue += GetAttributeFromGear(CriticalValueTag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGAttributeSet, CriticalValue, OutExecutionOutput);
+	WRITE_EXECUTION_ATTRIBUTE(URPGCombatAttributeSet, CriticalValue, OutExecutionOutput);
 
 	float CriticalDefense = ComputeCriticalDefense(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
 	CriticalDefense += GetAttributeFromGear(CriticalDefenseTag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGAttributeSet, CriticalDefense, OutExecutionOutput);
+	WRITE_EXECUTION_ATTRIBUTE(URPGCombatAttributeSet, CriticalDefense, OutExecutionOutput);
 	
-	float Accuracy = ComputeAccuracy(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
-	Accuracy += GetAttributeFromGear(AccuracyTag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGAttributeSet, Accuracy, OutExecutionOutput);
+	float HitChance = ComputeAccuracy(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
+	HitChance += GetAttributeFromGear(AccuracyTag, Source);
+	WRITE_EXECUTION_ATTRIBUTE(URPGCombatAttributeSet, HitChance, OutExecutionOutput);
 
 	float Mitigation1 = ComputeMitigation1(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
 	Mitigation1 += GetAttributeFromGear(Mitigation1Tag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGAttributeSet, Mitigation1, OutExecutionOutput);
+	WRITE_EXECUTION_ATTRIBUTE(URPGCombatAttributeSet, Mitigation1, OutExecutionOutput);
 
 	float Mitigation2 = ComputeMitigation2(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
 	Mitigation2 += GetAttributeFromGear(Mitigation2Tag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGAttributeSet, Mitigation2, OutExecutionOutput);
+	WRITE_EXECUTION_ATTRIBUTE(URPGCombatAttributeSet, Mitigation2, OutExecutionOutput);
 
 	float Mitigation3 = ComputeMitigation3(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
 	Mitigation3 += GetAttributeFromGear(Mitigation1Tag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGAttributeSet, Mitigation3, OutExecutionOutput);
+	WRITE_EXECUTION_ATTRIBUTE(URPGCombatAttributeSet, Mitigation3, OutExecutionOutput);
 
 	float Mitigation4 = ComputeMitigation4(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
 	Mitigation4 += GetAttributeFromGear(Mitigation4Tag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGAttributeSet, Mitigation4, OutExecutionOutput);
+	WRITE_EXECUTION_ATTRIBUTE(URPGCombatAttributeSet, Mitigation4, OutExecutionOutput);
 
 	float Resistance1 = ComputeResistance1(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
 	Resistance1 += GetAttributeFromGear(Resistance1Tag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGAttributeSet, Resistance1, OutExecutionOutput);
+	WRITE_EXECUTION_ATTRIBUTE(URPGCombatAttributeSet, Resistance1, OutExecutionOutput);
 
 	float Resistance2 = ComputeResistance2(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
 	Resistance2 += GetAttributeFromGear(Resistance2Tag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGAttributeSet, Resistance2, OutExecutionOutput);
+	WRITE_EXECUTION_ATTRIBUTE(URPGCombatAttributeSet, Resistance2, OutExecutionOutput);
 
 	float Resistance3 = ComputeResistance3(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
 	Resistance3 += GetAttributeFromGear(Resistance1Tag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGAttributeSet, Resistance3, OutExecutionOutput);
+	WRITE_EXECUTION_ATTRIBUTE(URPGCombatAttributeSet, Resistance3, OutExecutionOutput);
 
 	float Resistance4 = ComputeResistance4(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
 	Resistance4 += GetAttributeFromGear(Resistance4Tag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGAttributeSet, Resistance4, OutExecutionOutput);
+	WRITE_EXECUTION_ATTRIBUTE(URPGCombatAttributeSet, Resistance4, OutExecutionOutput);
 }
 
 float USecondaryAttributeCalculationBase::CalculateAttribute(TObjectPtr<UCurveTable> Table, float Level, float Strength,

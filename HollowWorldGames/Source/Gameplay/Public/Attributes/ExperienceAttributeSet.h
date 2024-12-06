@@ -3,13 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
+#include "AttributeTags.h"
 #include "AttributeSetBase.h"
 #include "ScalableFloat.h"
 #include "ExperienceAttributeSet.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FExperienceLevelChange, float , NewLevel);
-GAMEPLAY_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(ExperienceTag);
 
 UCLASS()
 class GAMEPLAY_API UExperienceAttributeSet : public UAttributeSetBase

@@ -117,6 +117,27 @@ void UGameplayAbilitySystemComponent::ApplyGameplayEffect(TSubclassOf<UGameplayE
 	}
 }
 
+void UGameplayAbilitySystemComponent::RemoveGameplayEffect(TSubclassOf<UGameplayEffect> EffectClass)
+{
+	TArray<FGameplayEffectApplied> ToStop;
+	for (auto Effect : EffectsApplied)
+	{
+		if (const FActiveGameplayEffect * ActiveEffect = GetActiveGameplayEffect(Effect.EffectHandle))
+		{
+			if (ActiveEffect->Spec.Def->IsA(EffectClass))
+			{
+				ToStop.Add(Effect);
+			}
+		}
+	}
+
+	for (FGameplayEffectApplied ActiveEffect : ToStop)
+	{
+		RemoveEffect(ActiveEffect);
+		EffectsApplied.Remove(ActiveEffect);
+	}
+}
+
 void UGameplayAbilitySystemComponent::SetLevel(float Level)
 {
 	LogStart(LogSeverity::Information, true) << TEXT("Level set to ") << Level << LogStop();

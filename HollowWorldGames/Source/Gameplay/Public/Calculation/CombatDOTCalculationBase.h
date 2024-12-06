@@ -19,7 +19,7 @@ public :
 	virtual void Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const override;
 	FGameplayTag GetDamageTypeTag(const FGameplayEffectSpec& Spec) const;
 protected :
-	DECLARE_ATTRIBUTE_CAPTUREDEF2(Accuracy)
+	DECLARE_ATTRIBUTE_CAPTUREDEF2(HitChance);
 	DECLARE_ATTRIBUTE_CAPTUREDEF2(Resistance1);
 	DECLARE_ATTRIBUTE_CAPTUREDEF2(Resistance2);
 	DECLARE_ATTRIBUTE_CAPTUREDEF2(Resistance3);

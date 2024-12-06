@@ -45,6 +45,7 @@ public:
 	virtual void ToggleShields() = 0;
 	virtual void SetShields(bool On) = 0;
 	virtual bool GetShields() = 0;
+	
 	virtual UGameplayAbilitySystemComponent * GetSystem(FGameplayTag Tag) const = 0;
 	virtual void Initialize(USpaceCraftDefinitionData * Craft) = 0;
 	virtual void Initialize(FName Craft) = 0;

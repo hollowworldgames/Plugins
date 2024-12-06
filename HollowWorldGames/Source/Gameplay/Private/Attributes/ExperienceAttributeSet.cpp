@@ -6,8 +6,6 @@
 #include "Attributes/VitalAttributeSet.h"
 #include "Net/UnrealNetwork.h"
 
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(ExperienceTag, "Character.Attributes.Experience", "Experience");
-
 float UExperienceAttributeSet::GetAttributeValue(FGameplayTag AttributeTag)
 {
 	GET_IF_TAGMATCHES(Experience, AttributeTag);

@@ -5,15 +5,7 @@
 
 #include "Net/UnrealNetwork.h"
 
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(StrengthTag, "Primary.Attributes.Strength", "Strength");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(AgilityTag,"Primary.Attributes.Agility","Agility");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(PrecisionTag,"Primary.Attributes.Precision","Precision");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(IntelligenceTag,"Primary.Attributes.Intelligence","Intelligence");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(WisdomTag,"Primary.Attributes.Wisdom","Wisdom");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(LuckTag,"Primary.Attributes.Luck","Luck");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(ConstitutionTag,"Primary.Attributes.Constitution","Constitution");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(EnduranceTag,"Primary.Attributes.Endurance","Endurance");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(CharismaTag,"Primary.Attributes.Charisma","Charisma");
+
 
 float UPrimaryAttributeSet::GetAttributeValue(FGameplayTag AttributeTag)
 {

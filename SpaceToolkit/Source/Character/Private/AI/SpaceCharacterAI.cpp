@@ -3,7 +3,7 @@
 
 #include "AI/SpaceCharacterAI.h"
 
-#include "Attributes/CombatAttributeSet.h"
+#include "Attributes/SpaceCombatAttributeSet.h"
 #include "Attributes/RPGAttributeSet.h"
 #include "Attributes/VitalAttributeSet.h"
 #include "Components/GameplayAbilitySystemComponent.h"
@@ -18,7 +18,7 @@ ASpaceCharacterAI::ASpaceCharacterAI()
 
 	AbilitySystemComponent = CreateDefaultSubobject<UGameplayAbilitySystemComponent>("Ability System Component");
 	VitalAttributes = CreateDefaultSubobject<UVitalAttributeSet>("Vital Attributes");
-	CombatAttributes = CreateDefaultSubobject<UCombatAttributeSet>("Combat Attributes");
+	CombatAttributes = CreateDefaultSubobject<USpaceCombatAttributeSet>("Combat Attributes");
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 	AbilitySystemComponent->SetIsReplicated(true);
 }

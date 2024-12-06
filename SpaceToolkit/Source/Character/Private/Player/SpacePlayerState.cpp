@@ -2,7 +2,7 @@
 
 
 #include "Player/SpacePlayerState.h"
-#include "Attributes/CombatAttributeSet.h"
+#include "Attributes/SpaceCombatAttributeSet.h"
 #include "Attributes/ExperienceAttributeSet.h"
 #include "Components/GameplayAbilitySystemComponent.h"
 #include "Gameplay/SpaceCharacterShipAttributeSet.h"
@@ -21,7 +21,7 @@ ASpacePlayerState::ASpacePlayerState()
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 	AbilitySystemComponent->SetIsReplicated(true);
 	VitalAttributes = CreateDefaultSubobject<UVitalAttributeSet>(TEXT("Vital Attributes"));
-	CombatAttributes = CreateDefaultSubobject<UCombatAttributeSet>(TEXT("Combat Attributes"));
+	CombatAttributes = CreateDefaultSubobject<USpaceCombatAttributeSet>(TEXT("Combat Attributes"));
 	ShipAttributes = CreateDefaultSubobject<USpaceCharacterShipAttributeSet>("Ship Attributes");
 	PrimaryAttributes = CreateDefaultSubobject<UPrimaryAttributeSet>(TEXT("Primary Attributes"));
 	ExperienceAttributes = CreateDefaultSubobject<UExperienceAttributeSet>(TEXT("Experience Attributes"));

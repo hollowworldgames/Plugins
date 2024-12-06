@@ -68,4 +68,6 @@ protected:
 	FGameplayTag ComponentTag;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Effects")
 	TArray<FSystemEffectToApply> Effects;
+	UPROPERTY()
+	TObjectPtr<ASpaceCraftActor> Ship;
 };
