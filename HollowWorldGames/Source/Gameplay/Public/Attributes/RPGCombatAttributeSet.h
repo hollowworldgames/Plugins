@@ -249,14 +249,14 @@ protected :
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_BlockValue, Category=Combat)
 	FGameplayAttributeData BlockValue;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Combat)
-	FGameplayTag BlockValueTag = BlockValueTag;
+	FGameplayTag BlockValueTag = ::BlockValueTag;
 	UFUNCTION()
 	void OnRep_BlockValue(const FGameplayAttributeData& OldBlockValue) const;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_ParryChance, Category=Combat)
 	FGameplayAttributeData ParryChance;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Combat)
-	FGameplayTag ParryChanceTag = ParryChanceTag;
+	FGameplayTag ParryChanceTag = ::ParryChanceTag;
 	UFUNCTION()
 	void OnRep_ParryChance(const FGameplayAttributeData& OldParryChance) const;
 };
