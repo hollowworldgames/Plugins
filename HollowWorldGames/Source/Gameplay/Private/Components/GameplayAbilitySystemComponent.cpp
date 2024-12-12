@@ -5,6 +5,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "Attributes/AttributeSetBase.h"
 #include "UtilityStatics.h"
+#include "Misc/EngineVersionComparison.h"
 
 FString FGameplayEffectApplied::GetEffectName() const
 {
@@ -194,6 +195,7 @@ void UGameplayAbilitySystemComponent::AddAbility(FAbilityData Ability, bool Lock
 
 void UGameplayAbilitySystemComponent::AddAbility(TSubclassOf<UGameplayAbility> Ability, int Level, FGameplayTag Status, FGameplayTag AbilityTag)
 {
+#if UE_VERSION_NEWER_THAN(5, 5, 0)
 	if(!HasAbility(AbilityTag))
 	{
 		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(Ability, Level);
@@ -202,10 +204,21 @@ void UGameplayAbilitySystemComponent::AddAbility(TSubclassOf<UGameplayAbility> A
 		FGameplayAbilitySpecHandle GrantedAbility = GiveAbility(AbilitySpec);
 		MarkAbilitySpecDirty(AbilitySpec);
 	}
+#else
+	if(!HasAbility(AbilityTag))
+	{
+		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(Ability, Level);
+		AbilitySpec.DynamicAbilityTags.AddTag(Status);
+		AbilitySpec.DynamicAbilityTags.AddTag(AbilityTag);
+		FGameplayAbilitySpecHandle GrantedAbility = GiveAbility(AbilitySpec);
+		MarkAbilitySpecDirty(AbilitySpec);
+	}
+#endif
 }
 
 bool UGameplayAbilitySystemComponent::MapAbility(FGameplayTag Ability, FGameplayTag Input)
 {
+#if UE_VERSION_NEWER_THAN(5, 5, 0)
 	if(FGameplayAbilitySpec * Spec = GetAbility(Ability))
 	{
 		UnmapAbility(Input); //unmap any ability already mapped
@@ -222,6 +235,24 @@ bool UGameplayAbilitySystemComponent::MapAbility(FGameplayTag Ability, FGameplay
 	{
 		ensureMsgf(false, TEXT("You don't have ability %s"), *Ability.ToString());
 	}
+#else
+	if(FGameplayAbilitySpec * Spec = GetAbility(Ability))
+	{
+		UnmapAbility(Input); //unmap any ability already mapped
+		if(Spec->DynamicAbilityTags.HasTagExact(AbilityUnequippedTag))
+		{
+			MappedAbilities[Input] = Ability;
+			Spec->DynamicAbilityTags.AddTag(AbilityEquippedTag);
+			return true;
+		}
+		//oops tried to equip a locked ability
+		ensureMsgf(false, TEXT("ability %s is locked and can't be equipped"), *Ability.ToString());
+	}
+	else
+	{
+		ensureMsgf(false, TEXT("You don't have ability %s"), *Ability.ToString());
+	}
+#endif
 	return false;
 }
 
@@ -237,6 +268,7 @@ void UGameplayAbilitySystemComponent::UnmapAbility(FGameplayTag Input)
 
 bool UGameplayAbilitySystemComponent::HasAbility(FGameplayTag Ability)
 {
+#if UE_VERSION_NEWER_THAN(5, 5, 0)
 	FScopedAbilityListLock ActiveScopeLock(*this);
 	for(auto A : GetActivatableAbilities())
 	{
@@ -245,11 +277,22 @@ bool UGameplayAbilitySystemComponent::HasAbility(FGameplayTag Ability)
 			return true;
 		}
 	}
+#else
+	FScopedAbilityListLock ActiveScopeLock(*this);
+	for(auto A : GetActivatableAbilities())
+	{
+		if(A.DynamicAbilityTags.HasTagExact(Ability))
+		{
+			return true;
+		}
+	}
+#endif
 	return false;
 }
 
 FGameplayAbilitySpec* UGameplayAbilitySystemComponent::GetAbility(FGameplayTag Ability)
 {
+#if UE_VERSION_NEWER_THAN(5, 5, 0)
 	FScopedAbilityListLock ActiveScopeLock(*this);
 	ensure(GetActivatableAbilities().Num() > 0);
 	for(FGameplayAbilitySpec& A : GetActivatableAbilities())
@@ -259,12 +302,24 @@ FGameplayAbilitySpec* UGameplayAbilitySystemComponent::GetAbility(FGameplayTag A
 			return &A;
 		}
 	}
+#else
+	FScopedAbilityListLock ActiveScopeLock(*this);
+	ensure(GetActivatableAbilities().Num() > 0);
+	for(FGameplayAbilitySpec& A : GetActivatableAbilities())
+	{
+		if(A.DynamicAbilityTags.HasTagExact(Ability))
+		{
+			return &A;
+		}
+	}
+#endif
 	LogStart(LogSeverity::Error, false) << TEXT("Ability Not Found") << *Ability.ToString() << LogStop();
 	return nullptr;
 }
 
 void UGameplayAbilitySystemComponent::SetAbilityStatus(FGameplayTag Ability, FGameplayTag Status)
 {
+#if UE_VERSION_NEWER_THAN(5, 5, 0)
 	FScopedAbilityListLock ActiveScopeLock(*this);
 	for(auto A : GetActivatableAbilities())
 	{
@@ -283,6 +338,26 @@ void UGameplayAbilitySystemComponent::SetAbilityStatus(FGameplayTag Ability, FGa
 			A.GetDynamicSpecSourceTags().AddTag(Status);
 		}
 	}
+#else
+	FScopedAbilityListLock ActiveScopeLock(*this);
+	for(auto A : GetActivatableAbilities())
+	{
+		if(A.DynamicAbilityTags.HasTagExact(Ability))
+		{
+			FGameplayTagContainer Tags = A.DynamicAbilityTags;
+			//remove any status tag from Ability
+			for(FGameplayTag Tag : Tags)
+			{
+				if(Tag.MatchesTag(AbilityStatusTag))
+				{
+					A.DynamicAbilityTags.RemoveTag(Tag);
+				}
+			}
+			//add new status tag
+			A.DynamicAbilityTags.AddTag(Status);
+		}
+	}
+#endif
 }
 
 void UGameplayAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag Tag)
@@ -329,6 +404,7 @@ void UGameplayAbilitySystemComponent::OnAbilityInputReleased(const FGameplayTag 
 
 void UGameplayAbilitySystemComponent::ActivateAbility(FGameplayTag AbilityTag)
 {
+#if UE_VERSION_NEWER_THAN(5, 5, 0)
 	FScopedAbilityListLock ActiveScopeLock(*this);
 	for(auto Ability : GetActivatableAbilities())
 	{
@@ -344,6 +420,23 @@ void UGameplayAbilitySystemComponent::ActivateAbility(FGameplayTag AbilityTag)
 			}
 		}
 	}
+#else
+	FScopedAbilityListLock ActiveScopeLock(*this);
+	for(auto Ability : GetActivatableAbilities())
+	{
+		if(Ability.DynamicAbilityTags.HasTagExact(AbilityTag))
+		{
+			if(!Ability.IsActive())
+			{
+				if(TryActivateAbility(Ability.Handle))
+				{
+					ActiveAbilities.AddUnique(Ability.Handle);
+					OnAbilityActivated.Broadcast(AbilityTag);
+				}
+			}
+		}
+	}
+#endif
 }
 
 void UGameplayAbilitySystemComponent::DeactivateAbility(FGameplayTag AbilityTag)
@@ -356,29 +449,6 @@ void UGameplayAbilitySystemComponent::BindDelegates()
 	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UGameplayAbilitySystemComponent::EffectApplied);
 	OnAbilityEnded.AddUObject(this, &UGameplayAbilitySystemComponent::OnAbilityFinished);
 }
-
-/*float UGameplayAbilitySystemComponent::GetXPForNextLevel(float Level) const
-{
-	float needed = 0;
-	FString Context;
-	const FRealCurve* Curve = nullptr;
-	if(LevelFloat.EvaluateCurveAtLevel(needed, Curve, Level + 1, Context))
-	{
-		return needed;
-	}
-	return 0;
-}
-
-bool UGameplayAbilitySystemComponent::EvaluateXP(float Experience, float Level)
-{
-	const float xpNeeded = GetXPForNextLevel(Level);
-	LogStart(LogSeverity::Information, true) << "XP = " << Experience << " Needed = " << xpNeeded << LogStop();
-	if(Experience > xpNeeded)
-	{
-		return true;
-	}
-	return false;
-}*/
 
 void UGameplayAbilitySystemComponent::RemoveEffect(FGameplayEffectApplied& Effect)
 {
@@ -422,9 +492,22 @@ FGameplayTag UGameplayAbilitySystemComponent::GetAbilityStatus(FGameplayTag Tag)
 	FScopedAbilityListLock ActiveScopeLock(*this);
 	for(auto Ability : GetActivatableAbilities())
 	{
+#if UE_VERSION_NEWER_THAN(5, 5, 0)
+		// 5.5.0 and up only code
 		if(Ability.GetDynamicSpecSourceTags().HasTagExact(Tag))
+        {
+        	for(FGameplayTag TestTag : Ability.GetDynamicSpecSourceTags())
+        	{
+        		if(TestTag.MatchesTag(AbilityStatusTag))
+        		{
+        			return Tag;
+        		}
+        	}
+        }
+#else
+		if(Ability.DynamicAbilityTags.HasTagExact(Tag))
 		{
-			for(FGameplayTag TestTag : Ability.GetDynamicSpecSourceTags())
+			for(FGameplayTag TestTag : Ability.DynamicAbilityTags)
 			{
 				if(TestTag.MatchesTag(AbilityStatusTag))
 				{
@@ -432,6 +515,8 @@ FGameplayTag UGameplayAbilitySystemComponent::GetAbilityStatus(FGameplayTag Tag)
 				}
 			}
 		}
+#endif
+		
 	}
 	return AbilityNoneTag;
 }

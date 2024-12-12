@@ -12,15 +12,15 @@ UE_DEFINE_GAMEPLAY_TAG_COMMENT(MaxEnergyTag,"Vital.Attribute.EnergyMax","Energy 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(IncomingDamageTag, "Vital.Combat.IncomingDamage", "Incoming Damage");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(IncomingHealingTag, "Vital.Combat.IncomingDamage", "Incoming Damage");
 //Primary
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(StrengthTag, "Primary.Attributes.Strength", "Strength");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(AgilityTag,"Primary.Attributes.Agility","Agility");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(PrecisionTag,"Primary.Attributes.Precision","Precision");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(IntelligenceTag,"Primary.Attributes.Intelligence","Intelligence");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(WisdomTag,"Primary.Attributes.Wisdom","Wisdom");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(LuckTag,"Primary.Attributes.Luck","Luck");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(ConstitutionTag,"Primary.Attributes.Constitution","Constitution");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(EnduranceTag,"Primary.Attributes.Endurance","Endurance");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(CharismaTag,"Primary.Attributes.Charisma","Charisma");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(StrengthTag, "Primary.Attribute.Strength", "Strength");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(AgilityTag,"Primary.Attribute.Agility","Agility");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(PrecisionTag,"Primary.Attribute.Precision","Precision");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(IntelligenceTag,"Primary.Attribute.Intelligence","Intelligence");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(WisdomTag,"Primary.Attribute.Wisdom","Wisdom");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(LuckTag,"Primary.Attribute.Luck","Luck");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(ConstitutionTag,"Primary.Attribute.Constitution","Constitution");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(EnduranceTag,"Primary.Attribute.Endurance","Endurance");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(CharismaTag,"Primary.Attribute.Charisma","Charisma");
 //Damage
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(IncomingDamage1Tag,"Combat.Damage.IncomingDamage1","Incoming Damage 1");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(IncomingDamage2Tag,"Combat.Damage.IncomingDamage2","Incoming Damage 2");

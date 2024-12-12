@@ -4,12 +4,7 @@
 #include "Attributes/Professions/GunnerAttributeSet.h"
 #include "Net/UnrealNetwork.h"
 
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(RangeTag,"Gunner.Attributes.Range","Range");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(AccuracyTag,"Gunner.Attributes.Accuracy","Accuracy");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(FireRateTag,"Gunner.Attributes.FireRate","FireRate");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(EfficiencyTag,"Gunner.Attributes.Efficiency","Efficiency");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(ReflexesTag,"Gunner.Attributes.Reflexes","Reflexes");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(TargetAnalysisTag,"Gunner.Attributes.TargetAnalysis","Target Analysis");
+
 
 float UGunnerAttributeSet::GetAttributeValue(FGameplayTag AttributeTag)
 {

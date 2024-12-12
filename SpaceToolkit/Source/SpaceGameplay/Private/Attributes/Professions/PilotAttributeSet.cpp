@@ -5,14 +5,7 @@
 
 #include "Net/UnrealNetwork.h"
 
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(GForceToleranceTag,"Pilot.Attributes.GForceTolerance","G Force Tolerance");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(GForceEnduranceTag,"Pilot.Attributes.GForceEndurance","G Force Endurance");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(ThrusterPowerTag,"Pilot.Attributes.ThrusterPower","Thruster Power");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(ThrusterResponseTag,"Pilot.Attributes.ThrusterResponse","Thruster Response");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(JumpPowerTag,"Pilot.Attributes.JumpPower","Jump Power");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(JumpRangeTag,"Pilot.Attributes.JumpRange","Jump Range");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(JumpSpeedTag,"Pilot.Attributes.JumpSpeed","Jump Speed");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(JumpTimeTag,"Pilot.Attributes.JumpTime","Jump Time");
+
 
 float UPilotAttributeSet::GetAttributeValue(FGameplayTag AttributeTag)
 {

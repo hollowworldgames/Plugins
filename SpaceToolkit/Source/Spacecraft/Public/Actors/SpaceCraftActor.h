@@ -22,6 +22,7 @@ class UNavigationSystemComponent;
 class UTacticalSystemComponent;
 class USpaceFlightModelComponent;
 class UGameplayAbilitySystemComponent;
+class UGravityReceiverComponent;
 
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FToggle);
@@ -106,6 +107,8 @@ protected:
 	TObjectPtr<UShipSystemComponent> Sensor;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
 	TObjectPtr<UShipSystemComponent> LifeSupport;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
+	TObjectPtr<UGravityReceiverComponent> GravityReceiverComponent;
 	UPROPERTY(EditAnywhere, BlueprintAssignable, Category=Events)
 	FToggle OnGearToggle;
 	UPROPERTY(EditAnywhere, BlueprintAssignable, Category=Events)

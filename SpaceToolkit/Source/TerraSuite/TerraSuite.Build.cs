@@ -9,7 +9,8 @@ public class TerraSuite : ModuleRules
         PublicDependencyModuleNames.AddRange(
             new string[]
             {
-                "Core",
+                "Core", 
+                "Galaxy"
             }
         );
 
@@ -21,7 +22,7 @@ public class TerraSuite : ModuleRules
                 "Slate",
                 "SlateCore",
                 "Galaxy",
-                "ProceduralMeshComponent"
+                "ProceduralMeshComponent", "Common"
             }
         );
     }

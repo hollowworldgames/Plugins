@@ -29,7 +29,8 @@ public class Spacecraft : ModuleRules
                 "Interactions",
                 "HeadMountedDisplay", 
                 "Damage",
-                "AIModule"
+                "AIModule",
+                "Galaxy"
             }
         );
     }

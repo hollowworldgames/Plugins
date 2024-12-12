@@ -4,6 +4,7 @@
 #include "Actors/SpaceCraftActor.h"
 
 #include "AbilitySystemBlueprintLibrary.h"
+#include "GalaxyTypes.h"
 #include "MovieSceneSequenceID.h"
 #include "Actors/Systems/BatteryActor.h"
 #include "Actors/Systems/EngineActor.h"
@@ -17,6 +18,7 @@
 #include "Attributes/VitalAttributeSet.h"
 #include "Components/FTLComponent.h"
 #include "Components/GameplayAbilitySystemComponent.h"
+#include "Components/GravityReceiverComponent.h"
 #include "Components/NavigationSystemComponent.h"
 #include "Components/ShipSystemComponent.h"
 #include "Components/SpaceFlightModelComponent.h"
@@ -70,6 +72,10 @@ ASpaceCraftActor::ASpaceCraftActor()
 	LifeSupport = CreateDefaultSubobject<UShipSystemComponent>("LifeSupport Component");
 	LifeSupport->SetupAttachment(GetRootComponent());
 	LifeSupport->SetChildActorClass(ALifeSupportActor::StaticClass());
+
+	GravityReceiverComponent = CreateDefaultSubobject<UGravityReceiverComponent>("Gravity Receiver");
+	GravityReceiverComponent->SetupAttachment(GetRootComponent());
+	GravityReceiverComponent->SetCollisionObjectType(ECC_GravityChannel);
 }
 
 // Called when the game starts or when spawned

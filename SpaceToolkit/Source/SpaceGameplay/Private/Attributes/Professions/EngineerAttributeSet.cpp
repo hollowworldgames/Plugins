@@ -5,17 +5,7 @@
 #include "Attributes/Equipment/ShieldAttributeSet.h"
 #include "Net/UnrealNetwork.h"
 
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(ReactorPowerTag, "Engineer.Attributes.ReactorPower", "Reactor Power");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(ReactorEfficiencyTag,"Engineer.Attributes.ReactorEfficiency","Reactor Efficiency");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(ShieldEfficiencyTag,"Engineer.Attributes.ShieldEfficiency","Reactor Efficiency");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(ShieldStrengthTag,"Engineer.Attributes.ShieldStrength","Reactor Efficiency");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(ShieldReinforcementTag,"Engineer.Attributes.ShieldReinforcement","Reactor Efficiency");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(BatteryEfficiencyTag,"Engineer.Attributes.BatteryEfficiency","Battery Efficiency Efficiency");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(HullStrengthTag,"Engineer.Attributes.HullStrength","Hull Strength");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(HullReinforcementTag,"Engineer.Attributes.HullReinforcement","Hull Reinforcement");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(ComponentStrengthTag,"Engineer.Attributes.ComponentStrength","Component Strength");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(ArmorReinforcementTag,"Engineer.Attributes.ArmorReinforcement","Armor Reinforcement");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(ArmorMassTag,"Engineer.Attributes.ArmorMass","Armor Mass");
+
 
 float UEngineerAttributeSet::GetAttributeValue(FGameplayTag AttributeTag)
 {

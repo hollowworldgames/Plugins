@@ -100,8 +100,6 @@ class GAMEPLAY_API UGameplayAbilitySystemComponent : public UAbilitySystemCompon
 	FGameplayEffectAppliedDelegate& GetEffectApplied() { return OnEffectApplied; }
 	FGameplayEffectAppliedDelegate& GetEffectRemoved() { return OnEffectRemoved; }
 	void BindDelegates();
-	/*float GetXPForNextLevel(float Level) const;
-	bool EvaluateXP(float Experience, float Level);*/
 	UFUNCTION(BlueprintCallable)
 	void RemoveEffect(FGameplayEffectApplied& Effect);
 	UFUNCTION(BlueprintCallable)
@@ -150,8 +148,6 @@ protected :
 	void OnAbilityFinished(const FAbilityEndedData& Data);
 	FGameplayAbilitySpec * GetAbility(FGameplayTag Ability);
 	void EffectApplied(UAbilitySystemComponent * Component, const FGameplayEffectSpec& Effect, FActiveGameplayEffectHandle ActiveEffectHandle) const;
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Settings)
-	//FScalableFloat LevelFloat;
 	UPROPERTY(EditAnywhere, BlueprintAssignable, Category=Events)
 	FGameplayEffectAppliedDelegate OnEffectApplied;
 	UPROPERTY(EditAnywhere, BlueprintAssignable, Category=Events)
