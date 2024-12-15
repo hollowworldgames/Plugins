@@ -9,6 +9,7 @@
 #include "Data/ReactorComponentDataRow.h"
 #include "Data/SensorComponentDataRow.h"
 #include "Data/ShieldComponentDataRow.h"
+#include "Data/ShipComponentsLibrary.h"
 #include "Data/SpaceCraftDataRow.h"
 
 struct FFuelComponentDataRow;
@@ -27,7 +28,7 @@ USpaceCraftDefinitionData* USpaceCraftGameInstance::GetSpaceCraftDefinitionData(
 UBatteryDefinitionData* USpaceCraftGameInstance::GetBatteryDefinitionData(FName ShipName)
 {
 	FString Context;
-	if (FBatteryComponentDataRow * Row = BatteryDefinitions->FindRow<FBatteryComponentDataRow>(ShipName, Context))
+	if (FBatteryComponentDataRow * Row = ComponentLibrary->BatteryDefinitions->FindRow<FBatteryComponentDataRow>(ShipName, Context))
 	{
 		return Row->MakeBatteryDefinitionData();
 	}
@@ -37,7 +38,7 @@ UBatteryDefinitionData* USpaceCraftGameInstance::GetBatteryDefinitionData(FName 
 UEngineDefinitionData* USpaceCraftGameInstance::GetEngineDefinitionData(FName ComponentName)
 {
 	FString Context;
-	if (FEngineComponentDataRow * Row = EngineDefinitions->FindRow<FEngineComponentDataRow>(ComponentName, Context))
+	if (FEngineComponentDataRow * Row = ComponentLibrary->EngineDefinitions->FindRow<FEngineComponentDataRow>(ComponentName, Context))
 	{
 		return Row->MakeEngineDefinitionData();
 	}
@@ -47,7 +48,7 @@ UEngineDefinitionData* USpaceCraftGameInstance::GetEngineDefinitionData(FName Co
 UFuelDefinitionData* USpaceCraftGameInstance::GetFuelDefinitionData(FName ComponentName) const
 {
 	FString Context;
-	if (FFuelComponentDataRow * Row = FuelDefinitions->FindRow<FFuelComponentDataRow>(ComponentName, Context))
+	if (FFuelComponentDataRow * Row = ComponentLibrary->FuelDefinitions->FindRow<FFuelComponentDataRow>(ComponentName, Context))
 	{
 		return Row->MakeFuelDefinitionData();
 	}
@@ -57,7 +58,7 @@ UFuelDefinitionData* USpaceCraftGameInstance::GetFuelDefinitionData(FName Compon
 UShieldDefinitionData* USpaceCraftGameInstance::GetShieldDefinitionData(FName ComponentName) const
 {
 	FString Context;
-	if (FShieldComponentDataRow * Row = ShieldDefinitions->FindRow<FShieldComponentDataRow>(ComponentName, Context))
+	if (FShieldComponentDataRow * Row = ComponentLibrary->ShieldDefinitions->FindRow<FShieldComponentDataRow>(ComponentName, Context))
 	{
 		return Row->MakeShieldDefinitionData();
 	}
@@ -67,7 +68,7 @@ UShieldDefinitionData* USpaceCraftGameInstance::GetShieldDefinitionData(FName Co
 UReactorDefinitionData* USpaceCraftGameInstance::GetReactorDefinitionData(FName ComponentName) const
 {
 	FString Context;
-	if (FReactorComponentDataRow * Row = ReactorDefinitions->FindRow<FReactorComponentDataRow>(ComponentName, Context))
+	if (FReactorComponentDataRow * Row = ComponentLibrary->ReactorDefinitions->FindRow<FReactorComponentDataRow>(ComponentName, Context))
 	{
 		return Row->MakeReactorDefinitionData();
 	}
@@ -77,7 +78,7 @@ UReactorDefinitionData* USpaceCraftGameInstance::GetReactorDefinitionData(FName 
 USensorDefinitionData* USpaceCraftGameInstance::GetSensorDefinitionData(FName ComponentName) const
 {
 	FString Context;
-	if (FSensorComponentDataRow * Row = SensorDefinitions->FindRow<FSensorComponentDataRow>(ComponentName, Context))
+	if (FSensorComponentDataRow * Row = ComponentLibrary->SensorDefinitions->FindRow<FSensorComponentDataRow>(ComponentName, Context))
 	{
 		return Row->MakeSensorDefinitionData();
 	}
@@ -87,7 +88,7 @@ USensorDefinitionData* USpaceCraftGameInstance::GetSensorDefinitionData(FName Co
 ULifeSupportDefinitionData* USpaceCraftGameInstance::GetLifeSupportDefinitionData(FName ComponentName) const
 {
 	FString Context;
-	if (FLifeSupportComponentDataRow * Row = SensorDefinitions->FindRow<FLifeSupportComponentDataRow>(ComponentName, Context))
+	if (FLifeSupportComponentDataRow * Row = ComponentLibrary->LifeSupportDefinitions->FindRow<FLifeSupportComponentDataRow>(ComponentName, Context))
 	{
 		return Row->MakeLifeSupportDefinitionData();
 	}

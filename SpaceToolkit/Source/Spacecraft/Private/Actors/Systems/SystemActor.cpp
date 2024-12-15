@@ -14,6 +14,7 @@ ASystemActor::ASystemActor()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	SetRootComponent(Root = CreateDefaultSubobject<USceneComponent>("Root"));
 	AbilitySystemComponent = CreateDefaultSubobject<UGameplayAbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 	AbilitySystemComponent->SetIsReplicated(true);
@@ -36,13 +37,17 @@ void ASystemActor::InitializeAttributes(ASpaceCraftActor * SystemOwner, USystemD
 		ShipAbilityComponent->AddAbility(StartAbility, false);
 		ShipAbilityComponent->AddAbility(StopAbility, false);
 	}
+	InitializeAttributes(SystemData);
+	StartEffects(Ship);
+}
+
+void ASystemActor::InitializeAttributes(USystemDefinitionData* SystemData)
+{
 	if (ensure(AbilitySystemComponent) && ensure(SystemData))
 	{
-		AbilitySystemComponent->InitAbilityActorInfo(this, SystemOwner);
+		AbilitySystemComponent->InitAbilityActorInfo(this, Ship);
 		//add abilities
-		
 		AbilitySystemComponent->SetAttributeValue(LevelTag, SystemData->Level);
-		StartEffects(SystemOwner);
 	}
 }
 

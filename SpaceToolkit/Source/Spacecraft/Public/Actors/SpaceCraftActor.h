@@ -12,6 +12,7 @@
 #include "Interfaces/DamageReportInterface.h"
 #include "SpaceCraftActor.generated.h"
 
+class USpaceCraftDataAsset;
 class USpaceCombatAttributeSet;
 class UGameplayEffect;
 class UShipSystemComponent;
@@ -125,6 +126,6 @@ protected:
 	TArray<FInitialComponentEffects> InitialEffects;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Abilities)
 	TArray<FAbilityData> InitialAbilities;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Defaults)
-	FName DefaultDefinition = NAME_None;
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category=Defaults)
+	TObjectPtr<USpaceCraftDataAsset> DefaultDataAsset;
 };

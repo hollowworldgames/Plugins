@@ -9,9 +9,8 @@
 class USpaceCraftGameInstance;
 class ASpaceCraftActor;
 class USpaceCraftDefinitionData;
-/**
- * 
- */
+class UShipComponentsLibrary;
+
 USTRUCT()
 struct SPACECRAFT_API FSpaceCraftDataRow : public FTableRowBase
 {
@@ -44,4 +43,6 @@ public :
 	FName RightShield;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FName LeftShield;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UShipComponentsLibrary> Library;
 };

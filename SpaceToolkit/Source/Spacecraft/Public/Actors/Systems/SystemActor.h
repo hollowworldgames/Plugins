@@ -49,11 +49,14 @@ public:
 	void SetOn(bool On);
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	virtual void InitializeAttributes(ASpaceCraftActor * SystemOwner, USystemDefinitionData * SystemData);
+	virtual void InitializeAttributes(USystemDefinitionData * SystemData);
 	FGameplayTag GetComponentTag() const { return ComponentTag; }
 	void StartEffects(ASpaceCraftActor * SystemOwner) const;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
+	USceneComponent * Root;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Components")
 	TObjectPtr<UGameplayAbilitySystemComponent> AbilitySystemComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Attributes")

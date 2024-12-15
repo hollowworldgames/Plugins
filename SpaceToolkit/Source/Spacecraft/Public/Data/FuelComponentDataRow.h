@@ -16,7 +16,7 @@ struct SPACECRAFT_API FFuelComponentDataRow : public FTableRowBase
 	GENERATED_BODY()
 public :
 	UFuelDefinitionData* MakeFuelDefinitionData() const;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(ClampMax="5", ClampMin="1", UIMin = "1", UIMax = "5", Delta = "1"))
 	float Level;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float MaxFuel;

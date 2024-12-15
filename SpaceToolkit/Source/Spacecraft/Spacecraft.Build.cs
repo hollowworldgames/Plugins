@@ -10,7 +10,7 @@ public class Spacecraft : ModuleRules
             new string[]
             {
                 "Core", "GameplayAbilities","GameplayTasks",
-                "GameplayTags", "ViewPoints", "Gameplay","SpaceGameplay"
+                "GameplayTags", "ViewPoints", "Gameplay","SpaceGameplay", "Galaxy"
             }
         );
 

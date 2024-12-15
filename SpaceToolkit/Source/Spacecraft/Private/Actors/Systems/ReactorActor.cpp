@@ -40,7 +40,7 @@ void AReactorActor::InitializeAttributes(ASpaceCraftActor* SystemOwner, USystemD
 
 	UReactorDefinitionData * ReactorData = Cast<UReactorDefinitionData>(SystemData);
 	
-	if(ensure(AbilitySystemComponent))
+	if(ensure(ReactorData) && ensure(AbilitySystemComponent))
 	{
 		TArray<FCustomEffectValue> Values;
 		Values.Add(FCustomEffectValue(ReactorPowerOutputBonusTag, ReactorData->PowerOutput));

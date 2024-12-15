@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
-#include "USpaceCraftDefinitionData.generated.h"
+#include "SpaceCraftDefinitionData.generated.h"
 
 class UReactorDefinitionData;
 class UEngineDefinitionData;
@@ -44,4 +44,5 @@ public :
 	TObjectPtr<USensorDefinitionData> SensorData;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TObjectPtr<ULifeSupportDefinitionData> LifeSupportData;
+	
 };

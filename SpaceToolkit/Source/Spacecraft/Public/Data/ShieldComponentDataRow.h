@@ -18,7 +18,7 @@ public :
 	UShieldDefinitionData * MakeShieldDefinitionData() const;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FName Name;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(ClampMax="5", ClampMin="1", UIMin = "1", UIMax = "5", Delta = "1"))
 	float Level;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float HitPointsBonus;

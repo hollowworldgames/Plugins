@@ -18,7 +18,7 @@ public :
 	USensorDefinitionData * MakeSensorDefinitionData() const;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FName Name;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(ClampMax="5", ClampMin="1", UIMin = "1", UIMax = "5", Delta = "1"))
 	float Level;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float SignalStrength;

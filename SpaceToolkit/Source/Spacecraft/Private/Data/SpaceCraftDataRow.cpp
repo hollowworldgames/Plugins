@@ -3,7 +3,8 @@
 
 #include "Data/SpaceCraftDataRow.h"
 
-#include "Data/USpaceCraftDefinitionData.h"
+#include "Data/ShipComponentsLibrary.h"
+#include "Data/SpaceCraftDefinitionData.h"
 #include "Kismet/GameplayStatics.h"
 #include "Utility/SpaceCraftGameInstance.h"
 
@@ -26,3 +27,4 @@ USpaceCraftDefinitionData* FSpaceCraftDataRow::MakeSpaceCraftDefinitionData(USpa
 	}
 	return SpaceCraftDefinitionData;
 }
+

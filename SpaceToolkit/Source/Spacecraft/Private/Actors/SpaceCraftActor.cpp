@@ -23,7 +23,8 @@
 #include "Components/ShipSystemComponent.h"
 #include "Components/SpaceFlightModelComponent.h"
 #include "Components/TacticalSystemComponent.h"
-#include "Data/USpaceCraftDefinitionData.h"
+#include "Data/SpaceCraftDataAsset.h"
+#include "Data/SpaceCraftDefinitionData.h"
 #include "Utility/SpaceCraftGameInstance.h"
 
 // Sets default values
@@ -88,13 +89,9 @@ void ASpaceCraftActor::BeginPlay()
 	VitalAttributes->OnDead.AddDynamic(this, &ASpaceCraftActor::OnDead);
 
 	Components.Add(LifeSupport->GetComponentTag(), LifeSupport);
-	if (!DefaultDefinition.IsNone())
+	if (ensure(DefaultDataAsset))
 	{
-		USpaceCraftGameInstance * Instance = Cast<USpaceCraftGameInstance>(GetGameInstance());
-		if (ensure(Instance))
-		{
-			Initialize(Instance->GetSpaceCraftDefinitionData(DefaultDefinition));
-		}
+		Initialize(DefaultDataAsset->CreateDefinitionData());
 	}
 
 	for (FInitialComponentEffects Effect : InitialEffects)

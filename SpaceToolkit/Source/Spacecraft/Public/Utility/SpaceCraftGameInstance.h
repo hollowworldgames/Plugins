@@ -6,6 +6,7 @@
 #include "Actors/Systems/LifeSupportActor.h"
 #include "Data/SpaceCraftDataRow.h"
 #include "Settings/SettingsGameInstance.h"
+#include "Utility/GalaxyGameInstance.h"
 #include "SpaceCraftGameInstance.generated.h"
 
 
@@ -15,10 +16,11 @@ class UShieldDefinitionData;
 class UFuelDefinitionData;
 class UEngineDefinitionData;
 class UBatteryDefinitionData;
+class UShipComponentsLibrary;
 class USpaceCraftDefinitionData;
 
 UCLASS()
-class SPACECRAFT_API USpaceCraftGameInstance : public USettingsGameInstance
+class SPACECRAFT_API USpaceCraftGameInstance : public UGalaxyGameInstance
 {
 	GENERATED_BODY()
 public :
@@ -42,17 +44,5 @@ protected :
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Spacecraft")
 	TObjectPtr<UDataTable> CraftDefinitions;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
-	TObjectPtr<UDataTable> ReactorDefinitions;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
-	TObjectPtr<UDataTable> BatteryDefinitions;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
-	TObjectPtr<UDataTable> LiftSupportDefinitions;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
-	TObjectPtr<UDataTable> SensorDefinitions;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
-	TObjectPtr<UDataTable> EngineDefinitions;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
-	TObjectPtr<UDataTable> ShieldDefinitions;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
-	TObjectPtr<UDataTable> FuelDefinitions;
+	TObjectPtr<UShipComponentsLibrary> ComponentLibrary;
 };
