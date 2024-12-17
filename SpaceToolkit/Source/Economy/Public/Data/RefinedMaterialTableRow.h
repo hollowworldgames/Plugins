@@ -11,9 +11,9 @@ USTRUCT(BlueprintType)
 struct FMineableResourceNeeded
 {
 	GENERATED_BODY()
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Resources)
 	FGameplayTag ResourceName;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Resources)
 	float UnitsRequired;
 };
 
@@ -22,10 +22,10 @@ struct ECONOMY_API FRefinedMaterialTableRow : public FTableRowBase
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 	FGameplayTag MaterialName;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category = Settings)
 	FString Description;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Resources)
 	TArray<FMineableResourceNeeded> Resources;
 };

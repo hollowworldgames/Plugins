@@ -24,9 +24,9 @@ struct FSpawnMe
 		Spawnable = Spawn;
 		Type = SpawnType;
 	}
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Spawning")
 	TScriptInterface<ISpawnable> Spawnable;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Spawning")
 	int Type;
 };
 

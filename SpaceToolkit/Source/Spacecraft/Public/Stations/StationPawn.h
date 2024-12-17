@@ -35,7 +35,7 @@ protected:
 	void EnterStation(ACharacter * Character);
 	UFUNCTION(BlueprintImplementableEvent)
 	void BeginExitStation(ACharacter * Character);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Stations")
     void ExitComplete();
 	UFUNCTION()
     void OnBeginInteract(ACharacter* Character, UInteractableComponent* Component);

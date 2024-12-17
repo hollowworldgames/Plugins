@@ -29,12 +29,12 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-	UPROPERTY(VisibleAnywhere, Transient)
+	UPROPERTY(VisibleAnywhere, Transient, Category="Meterials")
 	FGameplayTag CurrentConstructObjectTag;
-	UPROPERTY(VisibleAnywhere, Transient)
+	UPROPERTY(VisibleAnywhere, Transient, Category="Meterials")
 	FGameplayTag CurrentRefineMaterialTag;
-	UPROPERTY(VisibleAnywhere, Transient)
+	UPROPERTY(VisibleAnywhere, Transient, Category="Meterials")
 	FGameplayTagContainer RefinableMaterials;
-	UPROPERTY(VisibleAnywhere, Transient)
+	UPROPERTY(VisibleAnywhere, Transient, Category="Materials")
 	FGameplayTagContainer ConstructableObjects;
 };

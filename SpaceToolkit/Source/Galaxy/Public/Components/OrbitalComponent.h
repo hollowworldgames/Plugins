@@ -21,9 +21,9 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 	                           FActorComponentTickFunction* ThisTickFunction) override;
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category="Orbital")
 	void SetOrbital(UOrbital* NewOrbital);
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category="Orbital")
 	UOrbital * GetOrbital() const { return Orbital; }
 protected:
 	// Called when the game starts

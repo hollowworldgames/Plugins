@@ -15,9 +15,9 @@ struct SPACECRAFT_API FEngineComponentDataRow : public FTableRowBase
 {
 	GENERATED_BODY()
 public :
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Engine")
 	FString Name;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(ClampMax="5", ClampMin="1", UIMin = "1", UIMax = "5", Delta = "1"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(ClampMax="5", ClampMin="1", UIMin = "1", UIMax = "5", Delta = "1"), Category = "Engine")
 	float Level = 1;
 	UEngineDefinitionData* MakeEngineDefinitionData() const;
 };

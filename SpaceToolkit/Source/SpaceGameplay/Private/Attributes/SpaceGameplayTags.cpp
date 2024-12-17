@@ -17,16 +17,16 @@ UE_DEFINE_GAMEPLAY_TAG_COMMENT(FuelNeededTag,"Reactor.Attribute.FuelNeeded","Rea
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(MaxPowerOutputTag,"Reactor.Attribute.MaxPowerOutput","Reactor Output");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(ReactorOnTag,"Reactor.State.On","Reactor On");
 
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(HitChanceTag, "Combat.Attribute.HitChance", "Hit Chance");
+/*UE_DEFINE_GAMEPLAY_TAG_COMMENT(HitChanceTag, "Combat.Attribute.HitChance", "Hit Chance");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(EvadeChanceTag,"Combat.Attribute.EvadeChance","Evade Chance");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(GlanceChanceTag,"Combat.Attribute.GlanceChance","Glance Chance");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(GlanceValueTag,"Combat.Attribute.GlanceValue","Glance Value");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(KineticMitigationTag,"Combat.Attribute.KineticMitigation","Kinetic Mitigation");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(EnergyMitigationTag,"Combat.Attribute.EnergyMitigation","Energy Mitigation");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(EnergyMitigationTag,"Combat.Attribute.EnergyMitigation","Energy Mitigation");*/
 
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(CriticalChanceTag,"Combat.Attribute.CriticalChance","Critical Chance");
+/*UE_DEFINE_GAMEPLAY_TAG_COMMENT(CriticalChanceTag,"Combat.Attribute.CriticalChance","Critical Chance");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(CriticalDamageTag,"Combat.Attribute.CriticalDamage","Critical Damage");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(CriticalDefenseTag,"Combat.Attribute.CriticalDefense","Critical Defense");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(CriticalDefenseTag,"Combat.Attribute.CriticalDefense","Critical Defense");*/
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(FrontShieldTag,"Combat.Attribute.FrontShield","Front Shield");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(MaxFrontShieldTag,"Combat.Attribute.MaxFrontShield","Max Front Shield");

@@ -12,9 +12,9 @@ USTRUCT(BlueprintType)
 struct FComponentAvailability
 {
 	GENERATED_BODY();
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "Components")
 	FGameplayTag Material;
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "Components")
 	int Qty;
 };
 // This class does not need to be modified.

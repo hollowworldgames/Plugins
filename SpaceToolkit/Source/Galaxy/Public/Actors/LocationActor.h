@@ -20,7 +20,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	void AddComet();
 	void SetLocation(const FSystemId& SystemId);
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "Location")
 	ULocation * GetLocation() const { return Location;}
 	void ClearLocation();
 protected:

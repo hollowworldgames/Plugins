@@ -16,13 +16,13 @@ class GALAXY_API UGalaxyGameInstance : public USettingsGameInstance
 {
 	GENERATED_BODY()
 public :
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "Galaxy Game Instance")
 	UGalaxyAsset * GetGalaxyAsset() const { return GalaxyAsset; }
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "Galaxy Game Instance")
 	FSystemId GetCurrentLocation() const { return CurrentLcoation; }
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Galaxy Game Instance")
 	void SetCurrentLocation(FSystemId Location) { CurrentLcoation = Location; }
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "Galaxy Game Instance")
 	ULocation* GetLocation() const;
 	USolarSystem* GetCurrentSolarSystem() const;
 

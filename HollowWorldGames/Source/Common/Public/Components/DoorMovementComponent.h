@@ -27,28 +27,28 @@ class COMMON_API UDoorMovementComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UDoorMovementComponent();
-	UFUNCTION(BlueprintCallable, CallInEditor)
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Door Movement")
 	void Open();
-	UFUNCTION(BlueprintCallable, CallInEditor)
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Door Movement")
 	void Close();
-	UFUNCTION(BlueprintCallable, CallInEditor)
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Door Movement")
 	void SetOpened();
-	UFUNCTION(BlueprintCallable, CallInEditor)
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Door Movement")
 	void SetClosed();
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
 	float ChangeTime = 1;
-	UPROPERTY(EditAnywhere, BlueprintAssignable)
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category = "Events")
 	FDoorDelegate OnOpen;
-	UPROPERTY(EditAnywhere, BlueprintAssignable)
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category = "Events")
 	FDoorDelegate OnClose;
-	UPROPERTY(EditAnywhere, BlueprintAssignable)
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category = "Events")
 	FDoorDelegate OnOpened;
-	UPROPERTY(EditAnywhere, BlueprintAssignable)
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category = "Events")
 	FDoorDelegate OnClosed;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Positions")
 	FVector OpenPosition;
@@ -59,6 +59,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Positions")
 	FRotator CloseRotation;
 	float ChangeDelta = 0;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Transient)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Transient, Category = "Status")
 	EDoorState State = EDoorState::EDoorState_Closed;
 };

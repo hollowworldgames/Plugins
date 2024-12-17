@@ -50,7 +50,7 @@ FVector UOrbital::GetOrbitalScale() const
 void UPlanetoid::Generate(FSystemId NewSystemId, UGalaxyAsset * Asset, double NewRadius, int Satellite)
 {
 	Super::Generate(NewSystemId, Asset, NewRadius, Satellite);
-	FRandomGenerator64 Random(SystemId.GetSeed());
+	FRandomGenerator64 Random(SystemId.Seed);
 	if(Satellite > 0)
 	{
 		if(ensure(SatelliteChances.Contains(PlanetType)) && ensure(PlanetSizeChoices.Contains(PlanetType)))
@@ -85,7 +85,7 @@ FVector UPlanetoid::GetOrbitalScale() const
 void UFieldAsteroid::Generate(FSystemId NewSystemId, UGalaxyAsset * Asset, double NewRadius, int Satellite)
 {
 	Super::Generate(NewSystemId, Asset, NewRadius, Satellite);
-	FRandomGenerator64 Random(SystemId.GetSeed());
+	FRandomGenerator64 Random(SystemId.Seed);
 	double Angle = 0;
 	if(Satellite%2 == 0)
 	{
@@ -106,7 +106,7 @@ void UFieldAsteroid::SetInstanceId(int32 NewInstanceId)
 void UAsteroidOrbital::Generate(FSystemId NewSystemId, UGalaxyAsset * Asset, double NewRadius, int Satellite)
 {
 	Super::Generate(NewSystemId, Asset, NewRadius, Satellite);
-	FRandomGenerator64 Random(NewSystemId.GetSeed());
+	FRandomGenerator64 Random(NewSystemId.Seed);
 	Scale = Random.RandVector(MinSizeVariation, MaxSizeVariation);
 	Scale *= UConverterStatics::MetersToUUnits(Random.RandRange(MinSizeM, MaxSizeM));
 	Rotation = Random.RandRotation();
@@ -116,5 +116,5 @@ void UAsteroidOrbital::Generate(FSystemId NewSystemId, UGalaxyAsset * Asset, dou
 void UCloudOrbital::Generate(FSystemId NewSystemId, UGalaxyAsset * Asset, double NewRadius, int Satellite)
 {
 	Super::Generate(NewSystemId, Asset, NewRadius, Satellite);
-	FRandomGenerator64 Random(SystemId.GetSeed());
+	FRandomGenerator64 Random(SystemId.Seed);
 }

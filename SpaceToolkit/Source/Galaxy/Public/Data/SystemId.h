@@ -18,31 +18,31 @@ struct GALAXY_API FSystemId
 
 	FSystemId(int NewSectorX, int NewSectorY, int NewSystemX, int NewSystemY, const FVector& NewGalaxyPosition,
 			  int NewSystemZ, int64 NewSeed, int NewRing = 0, int NewSubRing = 0, int NewSatellite = 0);
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sector")
 	int SectorX;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sector")
 	int SectorY;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "System")
 	int SystemX;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "System")
 	int SystemY;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "System")
 	int SystemZ;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Location")
 	int Ring;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Location")
 	int SubRing;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Location")
 	int Satellite;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Location")
 	ELocationType Type = ELocationType::ELocationType_System;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 	int64 Seed;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 	FVector GalaxyPosition;
-	int64 GetSeed() const { return Seed; };
-	FVector GetGalaxyLocation() const { return GalaxyPosition; };
-	void SetGalaxyLocation(const FVector& Location) { GalaxyPosition = Location; };
+	//int64 GetSeed() const { return Seed; };
+	//FVector GetGalaxyLocation() const { return GalaxyPosition; };
+	//void SetGalaxyLocation(const FVector& Location) { GalaxyPosition = Location; };
 	bool IsSystem() const;
 	bool IsLocation() const;
 	bool IsSameLocation(const FSystemId& System) const;

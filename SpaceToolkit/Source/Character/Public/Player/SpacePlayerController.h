@@ -19,6 +19,6 @@ public :
 	virtual FGenericTeamId GetGenericTeamId() const override { return TeamId; }
 protected :
 	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Replicated)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Replicated, Category = "Team")
 	FGenericTeamId TeamId;
 };

@@ -14,8 +14,8 @@ struct SPACECRAFT_API FReactorComponentDataRow : public FTableRowBase
 	GENERATED_BODY()
 public :
 	UReactorDefinitionData * MakeReactorDefinitionData() const;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Reactor Component")
 	FName Name;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(ClampMax="5", ClampMin="1", UIMin = "1", UIMax = "5", Delta = "1"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(ClampMax="5", ClampMin="1", UIMin = "1", UIMax = "5", Delta = "1"), Category = "Reactor Component")
 	float Level;
 };

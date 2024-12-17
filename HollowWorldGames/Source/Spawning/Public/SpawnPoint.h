@@ -23,13 +23,13 @@ class SPAWNING_API ISpawnPoint
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "SpawnPoint")
 	APawn * Spawn(const TScriptInterface<ISpawnable>& Spawnable);
 	virtual APawn * Spawn_Implementation(const TScriptInterface<ISpawnable>& Spawnable) = 0;
 	virtual bool IsOccupied() = 0;
 	virtual FVector GetLocation() = 0;
 	virtual FRotator GetRotation() = 0;
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "SpawnPoint")
 	FName GetSpawnName();
 	virtual FName GetSpawnName_Implementation() = 0;
 	virtual int GetSpawnType() = 0;

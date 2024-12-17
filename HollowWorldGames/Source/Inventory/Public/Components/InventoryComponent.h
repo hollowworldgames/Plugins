@@ -31,11 +31,11 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 	                           FActorComponentTickFunction* ThisTickFunction) override;
-	UFUNCTION(Server, Reliable, BlueprintCallable)
+	UFUNCTION(Server, Reliable, BlueprintCallable, Category = "Inventory")
 	void AddToSlot_Server(int Slot,UObject* Item);
-	UFUNCTION(Server, Reliable, BlueprintCallable)
+	UFUNCTION(Server, Reliable, BlueprintCallable, Category = "Inventory")
 	void AddToAny_Server(UObject* Item);
-	UFUNCTION(Server, Reliable, BlueprintCallable)
+	UFUNCTION(Server, Reliable, BlueprintCallable, Category = "Inventory")
 	void RemoveFromSlot_Server(int Slot);
 protected:
 	// Called when the game starts

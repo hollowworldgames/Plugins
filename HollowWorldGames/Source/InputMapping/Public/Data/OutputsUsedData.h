@@ -11,7 +11,7 @@ USTRUCT(BlueprintType)
 struct FOutputUsed
 {
 	GENERATED_BODY()
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "OutputsUsedData")
 	FGameplayTag Output;
 };
 

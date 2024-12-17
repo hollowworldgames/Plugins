@@ -20,16 +20,16 @@ class SPAWNING_API ISpawnable
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Spawnable")
 	TSubclassOf<APawn> GetSpawnClass();
 	virtual TSubclassOf<APawn> GetSpawnClass_Implementation() = 0;
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Spawnable")
 	UTexture2D * GetSpawnImage();
 	virtual UTexture2D * GetSpawnImage_Implementation() = 0;
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Spawnable")
 	FName GetSpawnName();
 	virtual FName GetSpawnName_Implementation() = 0;
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Spawnable")
 	double GetSpawnHeight();
 	virtual double GetSpawnHeight_Implementation() = 0;
 	virtual FSpawnNotify& GetNotify() = 0;

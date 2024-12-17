@@ -14,9 +14,9 @@ USTRUCT(BlueprintType)
 struct FDamageable
 {
 	GENERATED_BODY()
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "settings")
 	FGameplayTag ComponentTag;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "settings")
 	FName ComponentBone;
 };
 
@@ -43,7 +43,7 @@ protected:
 	virtual void ApplyDamageToComponent(FGameplayTag Tag, const UDamageType* DamageType, float Damage);
 	// Called when the game starts
 	virtual void BeginPlay() override;
-	UPROPERTY(VisibleAnywhere, Transient, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, Transient, BlueprintReadOnly, Category = Damage)
 	TMap<FGameplayTag, TObjectPtr<UDamageableDefinition>> Damageables;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Damage)
 	TSubclassOf<UDamageType> CollisionDamageType;

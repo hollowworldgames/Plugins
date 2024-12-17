@@ -20,7 +20,7 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 	                           FActorComponentTickFunction* ThisTickFunction) override;
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category="Mineable")
 	void SetMineableResources(const FSystemId& SystemId);
 protected:
 	// Called when the game starts

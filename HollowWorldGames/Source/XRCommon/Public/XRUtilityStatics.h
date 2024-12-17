@@ -15,10 +15,10 @@ class XRCOMMON_API UXRUtilityStatics : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 public :
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category="XR Utility")
 	static bool IsXRRunning();
-	UFUNCTION(BlueprintPure,Meta = (WorldContext = "WorldContext"))
+	UFUNCTION(BlueprintPure,Meta = (WorldContext = "WorldContext"), Category="XR Utility")
 	static AXRHandActor* GetXRHandActor(const UObject * WorldContext, EHand Hand);
-	UFUNCTION(BlueprintPure,Meta = (WorldContext = "WorldContext"))
+	UFUNCTION(BlueprintPure,Meta = (WorldContext = "WorldContext"), Category="XR Utility")
 	static UMotionControllerComponent* GetMotionControllerComponent(const UObject * WorldContext, const EHand Hand);
 };

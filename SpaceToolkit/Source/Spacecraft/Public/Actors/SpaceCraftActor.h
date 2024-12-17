@@ -32,9 +32,9 @@ USTRUCT(BlueprintType)
 struct FInitialComponentEffects
 {
 	GENERATED_BODY()
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Effects)
 	FGameplayTag Component;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Effects)
 	TSubclassOf<UGameplayEffect> EffectClass;
 };
 

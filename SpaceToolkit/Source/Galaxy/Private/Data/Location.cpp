@@ -111,7 +111,7 @@ FRotator ULocation::GetRotation() const
 void UPlanet::Generate(FSystemId NewSystemId, UGalaxyAsset* Asset, int NewRing, int NewSubRing, double NewRadius)
 {
 	Super::Generate(NewSystemId, Asset, NewRing, NewSubRing, NewRadius);
-	FRandomGenerator64 Random(SystemId.GetSeed());
+	FRandomGenerator64 Random(SystemId.Seed);
 	ensure(RingTypeChances.Contains(NewRing));
 	FRingChanceData ChanceData = RingTypeChances[Ring];
 	Type = Random.GetRandomItem(ChanceData.Chances);
@@ -169,7 +169,7 @@ void UPlanet::Generate(FSystemId NewSystemId, UGalaxyAsset* Asset, int NewRing, 
 void UAsteroidField::Generate(FSystemId NewSystemId, UGalaxyAsset* Asset, int NewRing, int NewSubRing, double NewRadius)
 {
 	Super::Generate(NewSystemId, Asset, NewRing, NewSubRing, NewRadius);
-	FRandomGenerator64 Random(SystemId.GetSeed());
+	FRandomGenerator64 Random(SystemId.Seed);
 	int AsteroidCount = Random.RandRange(MinAsteroids, MaxAsteroids);
 	double SpawnRadius = 0;
 	while(AsteroidCount-- > 0)
@@ -187,6 +187,6 @@ void UAsteroidField::Generate(FSystemId NewSystemId, UGalaxyAsset* Asset, int Ne
 void UComet::Generate(FSystemId NewSystemId, UGalaxyAsset* Asset, int NewRing, int NewSubRing, double NewRadius)
 {
 	Super::Generate(NewSystemId, Asset, NewRing, NewSubRing, NewRadius);
-	FRandomGenerator64 Random(SystemId.GetSeed());
+	FRandomGenerator64 Random(SystemId.Seed);
 	
 }

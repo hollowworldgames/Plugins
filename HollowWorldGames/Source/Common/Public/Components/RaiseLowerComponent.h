@@ -28,27 +28,27 @@ public:
 	URaiseLowerComponent();
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	UFUNCTION(BlueprintCallable, CallInEditor)
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "RaiseLower")
 	void Raise();
-	UFUNCTION(BlueprintCallable, CallInEditor)
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "RaiseLower")
 	void Lower();
-	UFUNCTION(BlueprintCallable, CallInEditor)
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "RaiseLower")
 	void SetRaised();
-	UFUNCTION(BlueprintCallable, CallInEditor)
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "RaiseLower")
 	void SetLowered();
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "RaiseLower")
 	ERaiseLowerState GetState() const { return State; }
 protected:
 	// Called when the game starts
-	UPROPERTY(EditAnywhere, BlueprintAssignable)
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category = "Events")
 	FRaiseLowerDelegate OnRaise;
-	UPROPERTY(EditAnywhere, BlueprintAssignable)
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category = "Events")
 	FRaiseLowerDelegate OnLower;
-	UPROPERTY(EditAnywhere, BlueprintAssignable)
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category = "Events")
 	FRaiseLowerDelegate OnRaised;
-	UPROPERTY(EditAnywhere, BlueprintAssignable)
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category = "Events")
 	FRaiseLowerDelegate OnLowered;
-	UPROPERTY(EditAnywhere, BlueprintAssignable)
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category = "Events")
 	FRaiseLowerDelegate StartSound;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Positions")
 	FVector RaisePosition;
@@ -58,14 +58,14 @@ protected:
 	FVector LowerPosition;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Positions")
 	FRotator LowerRotation;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
 	float ChangeTime = 1;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="Settings")
 	float ChangeDelayLower = 1;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="Settings")
 	float ChangeDelayRaise = 1;
 	float ChangeDelta = 0;
 	float DelayDelta = -1;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Transient)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Transient, Category = "Status")
 	ERaiseLowerState State = ERaiseLowerState::ERaiseLowerState_Lowered;
 };

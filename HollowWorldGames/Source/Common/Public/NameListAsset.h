@@ -11,7 +11,7 @@ struct FNameTableRow : public FTableRowBase
 {
 	GENERATED_BODY()
 	public :
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Names")
 	FName Name;
 };
 
@@ -27,16 +27,16 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 	UDataTable* Last;
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Name List")
 	TArray<FName> GetFirstNames();
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Name List")
 	TArray<FName> GetMiddleNames();
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Name List")
 	TArray<FName> GetLastNames();
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Name List")
 	FName GetRandomFirstName();
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Name List")
 	FName GetRandomMiddleName();
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Name List")
 	FName GetRandomLastName();
 };

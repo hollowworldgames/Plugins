@@ -17,9 +17,9 @@ class UShieldDefinitionData : public USystemDefinitionData
 {
 	GENERATED_BODY()
 public :
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Shield)
 	float HitPoints;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Shield)
 	float PowerToHitPoints;
 };
 

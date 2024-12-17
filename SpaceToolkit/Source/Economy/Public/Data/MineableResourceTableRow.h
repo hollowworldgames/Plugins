@@ -22,16 +22,16 @@ struct ECONOMY_API FMineableResourceTableRow : public FTableRowBase
 {
 	GENERATED_BODY()
 public :
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Resources)
 	FString ResourceName;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Resources)
 	FString Description;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Resources)
 	EResourceRarity Rarity;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Resources)
 	FGameplayTag ResourceClass;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Resources)
 	FGameplayTag ResourceCategory;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Resources)
 	TMap<FGameplayTag, float> Attributes;
 };

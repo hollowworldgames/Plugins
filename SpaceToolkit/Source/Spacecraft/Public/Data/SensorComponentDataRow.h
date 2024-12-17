@@ -16,12 +16,12 @@ struct SPACECRAFT_API FSensorComponentDataRow : public FTableRowBase
 	GENERATED_BODY()
 public :
 	USensorDefinitionData * MakeSensorDefinitionData() const;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sensor")
 	FName Name;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(ClampMax="5", ClampMin="1", UIMin = "1", UIMax = "5", Delta = "1"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(ClampMax="5", ClampMin="1", UIMin = "1", UIMax = "5", Delta = "1"), Category = "Sensor")
 	float Level;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sensor")
 	float SignalStrength;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sensor")
 	float SignalResolution;
 };

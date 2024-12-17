@@ -108,9 +108,9 @@ public :
 	virtual FVector GetPosition() const;
 	virtual FRotator GetRotation() const;
 	FSystemId GetSystemId() const { return SystemId; }
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "Location")
 	TArray<UOrbital*> GetOrbitals() const { return Orbitals; }
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "Location")
 	ELocationType GetLocationType() const { return LocationType; }
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")

@@ -57,17 +57,17 @@ public:
 	virtual void LoadActorState(uint64 ActorId);
 	virtual void SaveActorState();
 	FDataLoaded& GetDataLoaded() { return OnLoaded; }
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category="DataAccess")
 	float GetFloatAttribute(FString Attribute);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category="DataAccess")
 	FString GetStringAttribute(FString Attribute);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category="DataAccess")
 	int GetIntAttribute(FString Attribute);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category="DataAccess")
 	virtual float SetFloatAttribute(FString Attribute, float Value);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category="DataAccess")
 	virtual FString SetStringAttribute(FString Attribute, FString Value);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category="DataAccess")
 	virtual int SetIntAttribute(FString Attribute, int Value);
 	int GetCharacterId() const { return CharacterId; }
 	TArray<FRecord> GetRecordsOfType(int Type) const;

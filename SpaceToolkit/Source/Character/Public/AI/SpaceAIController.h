@@ -22,6 +22,6 @@ protected:
 	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Replicated)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Replicated, Category = "Team")
 	FGenericTeamId TeamID;
 };

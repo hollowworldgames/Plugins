@@ -12,11 +12,11 @@ UCLASS()
 class COMMON_API USettingsGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Settings Instance")
 	void LoadSettings();
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Settings Instance")
 	void SaveSettings();
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Settings Instance")
 	void ResetSettings();
 protected :
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Settings)

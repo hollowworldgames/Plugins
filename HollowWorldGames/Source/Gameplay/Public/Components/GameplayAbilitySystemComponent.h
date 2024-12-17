@@ -63,11 +63,11 @@ struct GAMEPLAY_API FAbilityData
 		Tag = NewTag;
 	}
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability")
 	TSubclassOf<UGameplayAbility> Ability;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability")
 	float Level = 0;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability")
 	FGameplayTag Tag;
 };
 
@@ -77,7 +77,7 @@ class GAMEPLAY_API UGameplayAbilitySystemComponent : public UAbilitySystemCompon
 	GENERATED_BODY()
 	public :
 	const TArray<FGameplayEffectApplied>& GetAppliedEffects() { return EffectsApplied; }
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Ability")
 	void ApplyGameplayEffect(TSubclassOf<UGameplayEffect> EffectClass, float Level, const AActor * Source = nullptr);
 	void ApplyGameplayEffect(TSubclassOf<UGameplayEffect> EffectClass, float Level,TArray<FCustomEffectValue> Values, const AActor * Source = nullptr);
 	void RemoveGameplayEffect(TSubclassOf<UGameplayEffect> EffectClass);
@@ -94,18 +94,18 @@ class GAMEPLAY_API UGameplayAbilitySystemComponent : public UAbilitySystemCompon
 	void OnAbilityInputPressed(FGameplayTag Tag);
 	void OnAbilityInputHeld(FGameplayTag Tag);
 	void OnAbilityInputReleased(FGameplayTag Tag);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Ability")
 	void ActivateAbility(FGameplayTag AbilityTag);
 	void DeactivateAbility(FGameplayTag AbilityTag);
 	FGameplayEffectAppliedDelegate& GetEffectApplied() { return OnEffectApplied; }
 	FGameplayEffectAppliedDelegate& GetEffectRemoved() { return OnEffectRemoved; }
 	void BindDelegates();
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Ability")
 	void RemoveEffect(FGameplayEffectApplied& Effect);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Ability")
 	void ApplyGameplayEffects(TArray<TSubclassOf<UGameplayEffect>> Effects, float Level, AActor * Source = nullptr);
 	void RemoveAllAbilities();
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Ability")
 	float GetEffectDurationRemaining(FGameplayTag Tag);
 	FGameplayTag GetAbilityStatus(FGameplayTag Tag);
 	FGameplayTagContainer& GetCooldownTags() { return Cooldowns; }

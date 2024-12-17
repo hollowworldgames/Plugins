@@ -14,7 +14,7 @@ struct FWeaponGroup
 {
 	GENERATED_BODY()
 public :
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Weapons)
 	TArray<TObjectPtr<UWeaponActorComponent>> Weapons;
 };
 

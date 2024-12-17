@@ -11,9 +11,9 @@ USTRUCT(BlueprintType)
 struct FMaterialAvailability
 {
 	GENERATED_BODY();
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "Materials")
 	FGameplayTag Material;
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "Materials")
 	double Qty;
 };
 // This class does not need to be modified.

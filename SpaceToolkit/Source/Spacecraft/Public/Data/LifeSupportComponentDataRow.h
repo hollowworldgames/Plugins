@@ -16,8 +16,8 @@ struct SPACECRAFT_API FLifeSupportComponentDataRow : public FTableRowBase
 	GENERATED_BODY()
 public :
 	ULifeSupportDefinitionData * MakeLifeSupportDefinitionData() const;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LifeSupport")
 	FName Name;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(ClampMax="5", ClampMin="1", UIMin = "1", UIMax = "5", Delta = "1"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(ClampMax="5", ClampMin="1", UIMin = "1", UIMax = "5", Delta = "1"), Category = "LifeSupport")
 	float Level;
 };

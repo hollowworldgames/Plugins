@@ -11,11 +11,11 @@ USTRUCT(BlueprintType)
 struct FThrusterPoint
 {
 	GENERATED_BODY()
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Thruster Point")
 	FVector Location;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Thruster Point")
 	FName Bone;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Thruster Point")
 	FVector Force;
 	void ApplyForce(UPrimitiveComponent* Root) const;
 };
@@ -24,9 +24,9 @@ USTRUCT(BlueprintType)
 struct FThrusterSet
 {
 	GENERATED_BODY()
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Thruster")
 	float Target = 0;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Thruster")
 	float Throttle = 0;
 	void UpdateThrottleValue(float DeltaTime, float ChangeRate);
 };

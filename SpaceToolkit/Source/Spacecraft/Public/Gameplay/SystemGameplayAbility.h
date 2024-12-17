@@ -17,15 +17,15 @@ class SPACECRAFT_API USystemGameplayAbility : public UGameplayAbility
 public :
 	void SetSystemTag(FGameplayTag Tag) { SystemTag = Tag; }
 protected :
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "System Gameplay Ability")
 	UGameplayAbilitySystemComponent* GetSystemAbilityComponent(FGameplayTag System);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "System Gameplay Ability")
 	void ApplyEffectToSystem(FGameplayTag System, TSubclassOf<UGameplayEffect> Effect);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "System Gameplay Ability")
 	void ApplyEffectsToSystem();
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "System Gameplay Ability")
 	void RemoveEffectFromSystem(FGameplayTag System, TSubclassOf<UGameplayEffect> Effect);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "System Gameplay Ability")
 	void RemoveEffectsFromSystem();
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Tags")
 	FGameplayTag SystemTag;

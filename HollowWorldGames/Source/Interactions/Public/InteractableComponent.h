@@ -22,7 +22,7 @@ public:
 	UInteractableComponent();
 	// Called every frame
 	virtual void OnInteraction(TScriptInterface<IInteractor> interactor) override;
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Interactable")
 	void OnInteractComplete();
 	FInteractNotify GetOnBeginInteract() const { return OnBeginInteract; }
 	FInteractNotify GetOnCompleteInteract() const { return OnCompleteInteract; }

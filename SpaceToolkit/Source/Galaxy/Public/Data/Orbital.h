@@ -18,20 +18,20 @@ class GALAXY_API UOrbital : public UObject
 public :
 	virtual void Generate(FSystemId NewSystemId, UGalaxyAsset * Asset, double NewRadius, int Satellite);
 	virtual void Generate(FSystemOrbital Orbital);
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "Orbital")
 	virtual EOrbitalType GetOrbitalType() const;
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "Orbital")
 	virtual FVector GetOrbitalLocation() const;
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "Orbital")
 	virtual FRotator GetOrbitalRotation() const;
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "Orbital")
 	virtual FVector GetOrbitalScale() const;
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "Orbital")
 	FSystemId GetSystemId() const { return SystemId; }
 protected :
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
 	FSystemId SystemId;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
 	double Radius = 0;
 };
 
@@ -41,7 +41,7 @@ struct FAtmosphereChoices
 {
 	GENERATED_BODY()
 public :
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Atmosphere")
 	TArray<EAtmosphereType> Choices;
 };
 
@@ -49,9 +49,9 @@ USTRUCT(BlueprintType)
 struct FPlanetSizeChoice
 {
 	GENERATED_BODY()
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 	double MinSizeKm = 1000;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 	double MaxSizeKm = 3000;
 };
 
@@ -62,7 +62,7 @@ class GALAXY_API UPlanetoid : public UOrbital
 public :
 	virtual EOrbitalType GetOrbitalType() const override { return EOrbitalType::EOrbitalType_Planet; }
 	void SetPlanetType(EPlanetType NewType) { PlanetType = NewType; }
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "Planetoid")
 	EPlanetType GetPlanetType() const { return PlanetType; }
 	void SetPlanetSize(double NewSize) { SizeKm = NewSize; }
 	void SetShowRing(bool NewShowRing) { ShowRing = NewShowRing; }
@@ -71,9 +71,9 @@ public :
 	virtual void Generate(FSystemOrbital Orbital) override;
 	virtual FVector GetOrbitalScale() const override;
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
 	EPlanetType PlanetType;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
 	EAtmosphereType AtmosphereType = EAtmosphereType::EAtmosphereType_None;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=GeneratorSettings)
 	TMap<EPlanetType, FSatelliteChance> SatelliteChances;
@@ -81,11 +81,11 @@ protected:
 	TMap<EPlanetType, FAtmosphereChoices> AtmosphereChoices;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=GeneratorSettings)
 	TMap<EPlanetType, FPlanetSizeChoice> PlanetSizeChoices;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Settings)
 	double SizeKm = 0;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Settings)
 	bool ShowRing = false;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Settings)
 	float Gravity = 1.0f;
 };
 

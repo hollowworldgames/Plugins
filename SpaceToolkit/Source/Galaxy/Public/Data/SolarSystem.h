@@ -27,11 +27,11 @@ public :
 	TArray<TObjectPtr<class UStar>> GetStars() const { return Stars; }
 	FSystemId GetSystemId() const { return SystemId; }
 protected :
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Solar System")
 	TArray<TObjectPtr<ULocation>> Locations;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Solar System")
 	TArray<TObjectPtr<UStar>> Stars;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Solar System")
 	TArray<FSystemId> ConnectedSystems;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Classes)
 	TSubclassOf<UStar> StarClass;

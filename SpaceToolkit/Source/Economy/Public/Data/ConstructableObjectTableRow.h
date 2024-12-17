@@ -38,14 +38,14 @@ struct ECONOMY_API FConstructableObjectTableRow : public FTableRowBase
 {
 	GENERATED_BODY()
 public :
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Constructable Object")
 	FGameplayTag ObjectName;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Constructable Object")
 	TArray<FNeeded> Resources;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Constructable Object")
 	TArray<FNeeded> Materials;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Constructable Object")
 	TArray<FNeeded> Components;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Constructable Object")
 	TArray<FGameplayTag> Attributes;
 };

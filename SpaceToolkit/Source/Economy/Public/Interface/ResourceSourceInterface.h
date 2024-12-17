@@ -11,9 +11,9 @@ USTRUCT(BlueprintType)
 struct FResourceAvailability
 {
 	GENERATED_BODY();
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "Resource")
 	FGameplayTag Resource;
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "Resource")
 	double Qty;
 };
 

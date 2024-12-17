@@ -75,11 +75,11 @@ public:
 	void OnQuestAccepted_Server(const UQuestData * Quest);
 	UFUNCTION(Client, Reliable)
 	void OnQuestAccepted_Client(const UQuestData * Quest);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Quest")
 	void OnQuestGiverAvailable(TScriptInterface<IQuestGiverInterface> NewGiver);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Quest")
 	void OnQuestGiverUnavailable(TScriptInterface<IQuestGiverInterface> RemovedGiver);
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "Quest")
 	TScriptInterface<IQuestGiverInterface> GetCurrentGiver() const { return Giver; }
 	void UpdateQuestState(int QuestId, int StageId, bool Complete, int Qty, bool Active);
 	virtual void LoadQuestState(const FRecord& Record);

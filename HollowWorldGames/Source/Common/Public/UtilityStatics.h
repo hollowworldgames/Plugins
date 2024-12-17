@@ -74,55 +74,55 @@ class COMMON_API UUtilityStatics : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 	public:
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static FVector GetDirectionFrom(FVector from, FVector to);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static FVector GetDirectionTo(FVector from, FVector to);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static FVector GetVectorFrom(FVector from, FVector to);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static FVector GetVectorTo(FVector from, FVector to);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static float GetHeadingTo(FRotator current, FVector from, FVector to);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static float GetPitchAngleTo(FRotator current, FVector from, FVector to);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static float GetRollAngleTo(FVector from, FVector to);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static float GetBankAngleTo(FVector from, FVector to);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static float GetAOA(FVector wind, FVector forward, FVector right, bool left);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static void SetComponentCOM(UPrimitiveComponent* component, FVector com);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static bool IsOffensive(AActor* source, AActor* other);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static bool IsDefensive(AActor* source, AActor* other);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static bool IsInRange(AActor* source, AActor * other, double distance);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static bool IsAimedAt(AActor* source, AActor* other, float accuracy);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static bool IsAlignedTo(AActor* source, FVector location, float accuracy);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static FVector GetAimPoint(AActor* source, AActor* target, float muzzleVelocity);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static bool IsInFront(AActor* source, FVector location);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static bool IsInBack(AActor* source, FVector location);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static bool IsRight(AActor* source, FVector location);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static bool IsLeft(AActor* source, FVector location);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static bool IsUp(AActor* source, FVector location);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static bool IsDown(AActor* source, FVector location);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static float DeadZone(float value, float limit = 0.1f);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static float ApplySensitivity(float value, float sensitivity = 1);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static UObject* GetRandomFromList(TArray<UObject*>& list, bool remove = false);
 	template<typename t> static t GetRandomItem(TArray<t>& list) //note no checks here
 	{
@@ -130,37 +130,37 @@ class COMMON_API UUtilityStatics : public UBlueprintFunctionLibrary
 		int index = FMath::RandRange(0, list.Num()-1);
 		return list[index];
 	}
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static double InverseLerp(double value, double min, double max);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static float MapToRange(float min, float max, float value);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static FName MakeName(int seed);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static FVector2D GetViewportSize();
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static FVector2D GetViewportCenter();
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static float NormalizeValue(float value, float min, float max);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static float ComputeAOA(FVector forward, const FVector& Wind, const FVector& axis);
-	UFUNCTION(BlueprintPure, Category = Game)
+	UFUNCTION(BlueprintPure, Category = "Utility Statics")
 		static TArray<FString> GetAllSaveGameSlotNames();
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static double Distance(AActor* Character, AActor* Opponent);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static FVector ComputeTorqueFromForce(FVector force, FVector location, FRotator orientation);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static float MoveTowardTargetValue(float current, float target, float rate, float delta, float min, float max);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static int MakeIndex2D(int x, int y, int sliceSize);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 		static FVector2D ToIndex2D(int index, int sliceSize);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 	static int MakeIndex3D(int x, int y, int z, FVector sliceSize);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 	static FVector ToIndex3D(int index, FVector sliceSize);
-	UFUNCTION(BlueprintCallable, Category = "Object")
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 	static UObject * GetDefaultObject(TSubclassOf<UObject> ObjectClass);
 	template<typename t> static t GetNextItem(TArray<t>& items, t item)
 	{
@@ -197,31 +197,31 @@ class COMMON_API UUtilityStatics : public UBlueprintFunctionLibrary
 		}
 		return items[items.Num()-1];
 	}
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 	static FVector ComputeImpactForce(AActor* Me, AActor* Them);
-	UFUNCTION(BlueprintPure, Meta = (WorldContext = "WorldContext"))
+	UFUNCTION(BlueprintPure, Meta = (WorldContext = "WorldContext"), Category = "Utility Statics")
 	static APawn * GetLocalPlayerPawn(const UObject * WorldContext);
 	template <typename t> static t* GetTableRowByTag(UDataTable* Table, const FGameplayTag Tag)
 	{
 		return Table->FindRow<t>(Tag.GetTagName(), TEXT(""));
 	}
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 	static float GetHighestFloat(TArray<float> Array);// Doesn't check array is value
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 	static float Roll(float Sides);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 	static bool RollChance(float Sides, float Chance);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 	static bool Roll100(float Chance);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 	static bool Roll1000(float Chance);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Utility Statics")
 	static bool IsHit(float Accuracy, float EvadeChance, float BlockChance, bool& IsBlocked, bool& IsEvaded);
-	UFUNCTION(BlueprintCallable, Meta = (WorldContext = "WorldContext"))
+	UFUNCTION(BlueprintCallable, Meta = (WorldContext = "WorldContext"), Category = "Utility Statics")
 	static void ShowMouse(const UObject * WorldContext);
-	UFUNCTION(BlueprintCallable, Meta = (WorldContext = "WorldContext"))
+	UFUNCTION(BlueprintCallable, Meta = (WorldContext = "WorldContext"), Category = "Utility Statics")
 	static void HideMouse(const UObject * WorldContext);
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "Utility Statics")
 	static float ScaleAxisTo01(double Value);
 	static void CopyTextureToArray(UTexture2D *Texture, TArray<FColor> &Array);
 };

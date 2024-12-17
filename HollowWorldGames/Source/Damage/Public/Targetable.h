@@ -23,18 +23,18 @@ class DAMAGE_API ITargetable
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category="Targetable")
 	virtual int64 GetId() { return Id; }
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category="Targetable")
 	virtual void SetId(int64 id) { Id = id; }
 	virtual ETeamAttitude::Type GetTeamAttitude(AActor * Actor);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category="Targetable")
 	virtual AActor * GetActor() = 0;
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category="Targetable")
 	virtual FVector GetLocation() = 0;
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category="Targetable")
 	virtual FRotator GetRotation() = 0;
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category="Targetable")
 	virtual void NotifyTracking(TScriptInterface<ITargetable> tracker) = 0;
 	virtual double GetSignature() = 0;
 	virtual bool IsDestroyed() = 0;

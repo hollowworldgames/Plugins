@@ -13,11 +13,11 @@ USTRUCT(BlueprintType)
 struct FInputMapping
 {
 	GENERATED_BODY()
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "InputMapping")
 	FGameplayTag InputTag;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "InputMapping")
 	FGameplayTag OutputTag;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "InputMapping")
 	bool Invert = false;
 };
 

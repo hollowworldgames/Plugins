@@ -24,21 +24,21 @@ class SPACECRAFT_API USpaceCraftGameInstance : public UGalaxyGameInstance
 {
 	GENERATED_BODY()
 public :
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Spacecraft GameInstance")
 	USpaceCraftDefinitionData * GetSpaceCraftDefinitionData(FName ShipName);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Spacecraft GameInstance")
 	UBatteryDefinitionData * GetBatteryDefinitionData(FName ComponentName);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Spacecraft GameInstance")
 	UEngineDefinitionData * GetEngineDefinitionData(FName ComponentName);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Spacecraft GameInstance")
 	UFuelDefinitionData * GetFuelDefinitionData(FName ComponentName) const;
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Spacecraft GameInstance")
 	UShieldDefinitionData * GetShieldDefinitionData(FName ComponentName) const;
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Spacecraft GameInstance")
 	UReactorDefinitionData * GetReactorDefinitionData(FName ComponentName) const;
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Spacecraft GameInstance")
 	USensorDefinitionData * GetSensorDefinitionData(FName ComponentName) const;
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Spacecraft GameInstance")
 	ULifeSupportDefinitionData * GetLifeSupportDefinitionData(FName ComponentName) const;
 protected :
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Spacecraft")

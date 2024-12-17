@@ -19,7 +19,7 @@ class USystemDefinitionData : public UObject
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
 	float Level = 1;
 };
 
@@ -27,9 +27,9 @@ USTRUCT(BlueprintType)
 struct FSystemEffectToApply
 {
 	GENERATED_BODY()
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Effects")
 	TSubclassOf<UGameplayEffect> Effect;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Effects")
 	FGameplayTag Component;
 };
 
@@ -43,9 +43,9 @@ public:
 	ASystemActor();
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintNativeEvent, Category = "SystemActor")
 	bool IsOn();
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintNativeEvent, Category = "SystemActor")
 	void SetOn(bool On);
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	virtual void InitializeAttributes(ASpaceCraftActor * SystemOwner, USystemDefinitionData * SystemData);

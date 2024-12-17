@@ -11,7 +11,7 @@
 void USolarSystem::GenerateLocations(FSystemId NewSystemId, UGalaxyAsset * Asset)
 {
 	SystemId = NewSystemId;
-	FRandomGenerator64 Random(SystemId.GetSeed());
+	FRandomGenerator64 Random(SystemId.Seed);
 	int StarCount = Random.RandRange(MaxStars, MaxStars);
 	int LocationCount = Random.RandRange(MinLocations, MaxLocations);
 	int CometCount = Random.RandRange(MinComets, MaxComets);

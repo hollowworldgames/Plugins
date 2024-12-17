@@ -30,21 +30,21 @@ public:
 	UOpenCloseComponent();
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	UFUNCTION(BlueprintCallable, CallInEditor)
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Open Close")
 	void Open();
-	UFUNCTION(BlueprintCallable, CallInEditor)
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Open Close")
 	void Close();
-	UFUNCTION(BlueprintCallable, CallInEditor)
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Open Close")
 	void SetOpened();
-	UFUNCTION(BlueprintCallable, CallInEditor)
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Open Close")
 	void SetClosed();
 	EOpenCloseState GetState() const { return State; }
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
 	float ChangeTime = 1;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
 	float DelayTime = 1;
 	UPROPERTY(EditAnywhere, BlueprintAssignable, Category=Events)
 	FOpenCloseDelegate OnOpen;
@@ -66,6 +66,6 @@ protected:
 	USoundCue * Sound;
 	float ChangeDelta = 0;
 	float DelayDelta = -1;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Transient)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Transient, Category = "Status")
 	EOpenCloseState State = EOpenCloseState::EOpenCloseState_Closed;
 };

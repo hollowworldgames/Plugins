@@ -19,29 +19,29 @@ class SPAWNING_API USpawnerWidget : public UUserWidget
 {
 	GENERATED_BODY()
 public :
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "SpawnerWidget")
 	void SetSpawnerActor(ASpawnerActor * Spawn);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "SpawnerWidget")
 	void SetSpawnerPawn(ASpawnerPawn * Pawn);
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "SpawnerWidget")
 	TScriptInterface<ISpawner> GetSpawner() const { return Spawner; }
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "SpawnerWidget")
 	void NextSpawnable();
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "SpawnerWidget")
 	void PreviousSpawnable();
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "SpawnerWidget")
 	TScriptInterface<ISpawnable> GetCurrentSpawnable();
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "SpawnerWidget")
 	void NextSpawnPoint();
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "SpawnerWidget")
 	void PreviousSpawnPoint();
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "SpawnerWidget")
 	TScriptInterface<ISpawnable> GetCurrentSpawnPoint();
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "SpawnerWidget")
 	void Spawn();
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "SpawnerWidget")
 	void SpawnRandom();
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "SpawnerWidget")
 	void OnInteraction();
 protected:
 	UPROPERTY(VisibleAnywhere, Transient, BlueprintReadWrite, Category=Status)

@@ -11,9 +11,9 @@ USTRUCT(BlueprintType)
 struct FPlanetLodLevel
 {
 	GENERATED_BODY()
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
 	double ViewDistance;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
 	int Complexity;
 };
 
@@ -22,6 +22,6 @@ class TERRASUITE_API UPlanetLodSettingsAsset : public UDataAsset
 {
 	GENERATED_BODY()
 public :
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 	TArray<FPlanetLodLevel> LodLevels;
 };
