@@ -6,6 +6,7 @@
 #include "GameplayEffectExtension.h"
 #include "GameplayEffectTypes.h"
 #include "Animation/AnimNode_Inertialization.h"
+#include "Components/GameplayAbilitySystemComponent.h"
 
 void UAttributeSetBase::SetAttributeValue(FGameplayTag Attribute, float Value)
 {
@@ -15,6 +16,14 @@ void UAttributeSetBase::SetAttributeValue(FGameplayTag Attribute, float Value)
 FGameplayTag UAttributeSetBase::GetAttributeTag(FGameplayAttribute Attribute)
 {
 	return FGameplayTag();
+}
+
+void UAttributeSetBase::Initialize(UGameplayAbilitySystemComponent * AbilitySystemComponent, float Level, const TArray<FCustomEffectValue>& Attributes) const
+{
+	if (AbilitySystemComponent)
+	{
+		AbilitySystemComponent->ApplyGameplayEffect(InitializeEffect, Level, Attributes);
+	}
 }
 
 void UAttributeSetBase::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)

@@ -21,7 +21,8 @@ public class Interactions : ModuleRules
                 "Slate",
                 "SlateCore",
                 "Common",
-                "UMG"
+                "UMG",
+                "InputCore"
             }
         );
     }

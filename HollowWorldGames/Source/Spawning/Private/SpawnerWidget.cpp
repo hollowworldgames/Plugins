@@ -4,8 +4,8 @@
 #include "SpawnerWidget.h"
 
 #include "UtilityStatics.h"
-#include "InteractableStationComponent.h"
-#include "Interactor.h"
+#include "Components/InteractableStationComponent.h"
+#include "Interfaces/Interactor.h"
 #include "SpawnController.h"
 #include "Kismet/GameplayStatics.h"
 #include "Spawner.h"

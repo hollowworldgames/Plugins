@@ -27,7 +27,7 @@ public:
 	UFUNCTION(NetMulticast, Reliable)
 	void Multicast_PostLoad();
 	virtual UDataAccessComponent * GetDataAccessComponent() const override { return DataAccessComponent; }
-	virtual void Load(uint64 ActorId) override;
+	virtual void Load(int64 ActorId) override;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -40,6 +40,8 @@ protected:
 	TSubclassOf<UDataAccessComponent> ClientDataClass;
 	UPROPERTY(VisibleAnywhere, Transient, BlueprintReadOnly, Category=Data)
 	TObjectPtr<UDataAccessComponent> DataAccessComponent;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Data)
+	int64 ActorId;
 };
 
 

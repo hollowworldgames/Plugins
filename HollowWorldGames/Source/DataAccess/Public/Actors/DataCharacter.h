@@ -27,7 +27,7 @@ public:
 	virtual void OnLoaded();
 	virtual void OnPrepareSave() const;
 	virtual UDataAccessComponent * GetDataAccessComponent() const override { return DataAccessComponent; }
-	virtual void Load(uint64 ActorId) override;
+	virtual void Load(int64 NewActorId) override;
 	virtual void OnRep_PlayerState() override;
 	virtual void PossessedBy(AController* NewController) override;
 protected:
@@ -42,6 +42,8 @@ protected:
 	TSubclassOf<UDataAccessComponent> ClientDataClass;
 	UPROPERTY(VisibleAnywhere, Transient, BlueprintReadOnly, Category=Data)
 	TObjectPtr<UDataAccessComponent> DataAccessComponent;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Data)
+	int64 ActorId;
 private:
 	UFUNCTION(NetMulticast, Reliable)
     virtual void Multicast_PostLoad();

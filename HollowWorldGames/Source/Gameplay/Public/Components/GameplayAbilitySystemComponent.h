@@ -38,7 +38,7 @@ struct FGameplayEffectApplied
 	FGameplayEffectSpecHandle SpecHandle;
 	UPROPERTY()
 	FActiveGameplayEffectHandle EffectHandle;
-	void Apply(UAbilitySystemComponent * Target, const AActor * Source, TSubclassOf<UGameplayEffect> EffectClass, float Level, TArray<FCustomEffectValue> Values);
+	void Apply(UAbilitySystemComponent * Target, const AActor * Source, TSubclassOf<UGameplayEffect> EffectClass, float Level,const TArray<FCustomEffectValue>& Values);
 	bool Remove() const;
 	FString GetEffectName() const;
 	bool IsExpired() const;
@@ -79,10 +79,10 @@ class GAMEPLAY_API UGameplayAbilitySystemComponent : public UAbilitySystemCompon
 	const TArray<FGameplayEffectApplied>& GetAppliedEffects() { return EffectsApplied; }
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 	void ApplyGameplayEffect(TSubclassOf<UGameplayEffect> EffectClass, float Level, const AActor * Source = nullptr);
-	void ApplyGameplayEffect(TSubclassOf<UGameplayEffect> EffectClass, float Level,TArray<FCustomEffectValue> Values, const AActor * Source = nullptr);
+	void ApplyGameplayEffect(TSubclassOf<UGameplayEffect> EffectClass, float Level,const TArray<FCustomEffectValue>& Values, const AActor * Source = nullptr);
 	void RemoveGameplayEffect(TSubclassOf<UGameplayEffect> EffectClass);
-	virtual void SetLevel(float Level);
-	virtual void InitializeAttributes(float Level);
+	//virtual void SetLevel(float Level);
+	//virtual void InitializeAttributes(float Level);
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void AddAbilities(TArray<FAbilityData> Abilities, float OverrideLevel = 0);
 	void AddAbility(FAbilityData Ability,bool Locked);
@@ -104,21 +104,22 @@ class GAMEPLAY_API UGameplayAbilitySystemComponent : public UAbilitySystemCompon
 	void RemoveEffect(FGameplayEffectApplied& Effect);
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 	void ApplyGameplayEffects(TArray<TSubclassOf<UGameplayEffect>> Effects, float Level, AActor * Source = nullptr);
+	void ApplyGameplayEffects(TArray<TSubclassOf<UGameplayEffect>> Effects, float Level, const TArray<FCustomEffectValue>& Values, AActor * Source = nullptr);
 	void RemoveAllAbilities();
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 	float GetEffectDurationRemaining(FGameplayTag Tag);
 	FGameplayTag GetAbilityStatus(FGameplayTag Tag);
 	FGameplayTagContainer& GetCooldownTags() { return Cooldowns; }
-	void EnterCombat();
-	void ExitCombat();
-	bool IsInCombat() const { return ComponentHasTag(CombatTag.GetTagName()); }
-	void SetDeadState();
+	//void EnterCombat();
+	//void ExitCombat();
+	//bool IsInCombat() const { return ComponentHasTag(CombatTag.GetTagName()); }
+	//void SetDeadState();
 	bool HasTag(FGameplayTag GameplayTag) const;
 	UAttributeSetBase * GetAttributeSet(const TSubclassOf<UAttributeSetBase>& SubClass) const;
 	float GetAttributeValue(FGameplayTag Attribute) const;
 	void SetAttributeValue(FGameplayTag SkillId, float Level);
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Abilities)
-	FGameplayTag CombatTag;
+	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Abilities)
+	FGameplayTag CombatTag;*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Abilities)
 	FGameplayTag AbilityEquippedTag;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Abilities)
@@ -154,12 +155,12 @@ protected :
 	FGameplayEffectAppliedDelegate OnEffectRemoved;
 	UPROPERTY(EditAnywhere, BlueprintAssignable, Category=Events)
 	FDamageNotify OnDamageEvent;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Settings)
+	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Settings)
 	TSubclassOf<UGameplayEffect> LevelUpClass;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Settings)
 	TSubclassOf<UGameplayEffect> InCombatClass;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Settings)
-	TSubclassOf<UGameplayEffect> DeadClass;
+	TSubclassOf<UGameplayEffect> DeadClass;*/
 	UPROPERTY(Transient, EditAnywhere, BlueprintReadWrite, Category=Abilities)
 	TArray<FGameplayEffectApplied> EffectsApplied;
 	UPROPERTY(Transient, BlueprintReadWrite, Category=Abilities)

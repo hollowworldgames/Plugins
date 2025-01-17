@@ -61,6 +61,12 @@ float UDamageModelComponent::GetHealthPercent(FGameplayTag Tag)
 	return 0;
 }
 
+void UDamageModelComponent::ReportHit_Multicast_Implementation(FVector Location, FVector Normal, float Damage, FGameplayTag Component,
+	const AActor* Victim)
+{
+	
+}
+
 void UDamageModelComponent::OnCollision(AActor* Me, AActor* Them, FVector Vector, const FHitResult& HitResult)
 {
 	float Damage = 0;

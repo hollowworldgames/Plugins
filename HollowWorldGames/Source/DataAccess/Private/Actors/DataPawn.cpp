@@ -38,8 +38,9 @@ void ADataPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-void ADataPawn::Load(uint64 ActorId)
+void ADataPawn::Load(int64 NewActorId)
 {
+	ActorId = NewActorId;
 	TSubclassOf<UDataAccessComponent> DataClass;
 	switch(GetNetMode())
 	{

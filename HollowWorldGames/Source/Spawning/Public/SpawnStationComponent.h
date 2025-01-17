@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "InteractableStationComponent.h"
+#include "Components/InteractableStationComponent.h"
 #include "SpawnStationComponent.generated.h"
 
 

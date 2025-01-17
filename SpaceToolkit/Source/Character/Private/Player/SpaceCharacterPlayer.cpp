@@ -5,7 +5,7 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "Interactable.h"
+#include "Interfaces/Interactable.h"
 #include "Attributes/RPGAttributeSet.h"
 #include "Camera/CameraComponent.h"
 #include "Components/GameplayAbilitySystemComponent.h"

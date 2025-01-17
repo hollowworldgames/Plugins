@@ -224,6 +224,8 @@ class COMMON_API UUtilityStatics : public UBlueprintFunctionLibrary
 	UFUNCTION(BlueprintPure, Category = "Utility Statics")
 	static float ScaleAxisTo01(double Value);
 	static void CopyTextureToArray(UTexture2D *Texture, TArray<FColor> &Array);
+	UFUNCTION(BlueprintPure, Category = "Utility Statics")
+	static float Clamp01(const float Value) { return FMath::Clamp(Value, 0.0f, 1.0f); }
 };
 
 enum class LogSeverity

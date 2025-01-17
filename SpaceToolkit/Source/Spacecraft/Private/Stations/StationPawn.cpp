@@ -7,10 +7,10 @@
 #include "Camera/CameraComponent.h"
 #include "Components/ViewPointComponent.h"
 #include "GameFramework/Character.h"
-#include "InteractableComponent.h"
+#include "Components/InteractableComponent.h"
 #include "MotionControllerComponent.h"
 #include "Components/CapsuleComponent.h"
-#include "Components/TextRenderComponent.h"
+
 
 // Sets default values
 AStationPawn::AStationPawn()

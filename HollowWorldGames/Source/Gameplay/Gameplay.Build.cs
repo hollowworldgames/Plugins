@@ -25,7 +25,11 @@ public class Gameplay : ModuleRules
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"Core","GameplayTasks", "GameplayAbilities", "GameplayTags","Common"
+				"Core",
+				"GameplayTasks",
+				"GameplayAbilities",
+				"GameplayTags",
+				"Common"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);

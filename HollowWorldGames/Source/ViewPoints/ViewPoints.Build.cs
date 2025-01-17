@@ -19,7 +19,7 @@ public class ViewPoints : ModuleRules
                 "CoreUObject",
                 "Engine",
                 "Slate",
-                "SlateCore", "Common", "EnhancedInput", "XRBase"
+                "SlateCore", "Common", "EnhancedInput", "XRBase","GameplayTags"
             }
         );
     }

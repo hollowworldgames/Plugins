@@ -12,7 +12,7 @@
 #include "VitalAttributeSet.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDead);
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnComponentDead, FGameplayTag, Component);
 
 
 UCLASS()
@@ -36,6 +36,8 @@ public :
 	ATTRIBUTE_TAG_ACCESSOR(UVitalAttributeSet, IncomingHealing);
 	UPROPERTY()
 	FOnDead OnDead;
+	UPROPERTY()
+	FOnComponentDead OnComponentDead;
 	virtual float GetAttributeValue(FGameplayTag AttributeTag) override;
 	virtual void SetAttributeValue(FGameplayTag Attribute, float Value) override;
 	virtual FGameplayTag GetAttributeTag(FGameplayAttribute Attribute) override;

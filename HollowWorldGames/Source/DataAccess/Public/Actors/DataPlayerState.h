@@ -15,7 +15,7 @@ class DATAACCESS_API ADataPlayerState : public APlayerState
 public :
 	UFUNCTION()
 	void Multicast_PostLoad();
-	void Load(uint64 ActorId);
+	virtual void Load(uint64 ActorId);
 	UDataAccessComponent * GetDataAccessComponent() const { return DataAccessComponent; }
 	void InitializeDataComponent();
 protected :

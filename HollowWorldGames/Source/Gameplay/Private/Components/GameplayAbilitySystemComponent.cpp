@@ -17,7 +17,8 @@ bool FGameplayEffectApplied::IsExpired() const
 	return GetDurationType() == EGameplayEffectDurationType::HasDuration && Duration < 0;
 }
 
-void FGameplayEffectApplied::Apply(UAbilitySystemComponent* Target, const AActor* Source, TSubclassOf<UGameplayEffect> EffectClass, float Level, TArray<FCustomEffectValue> Values)
+void FGameplayEffectApplied::Apply(UAbilitySystemComponent* Target, const AActor* Source, TSubclassOf<UGameplayEffect> EffectClass, float Level,
+	const TArray<FCustomEffectValue>& Values)
 {
 	UAbilitySystemComponent * SourceComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(const_cast<AActor*>(Source));
     if(SourceComponent)
@@ -100,7 +101,7 @@ void UGameplayAbilitySystemComponent::ApplyGameplayEffect(TSubclassOf<UGameplayE
 }
 
 void UGameplayAbilitySystemComponent::ApplyGameplayEffect(TSubclassOf<UGameplayEffect> EffectClass, float Level,
-	TArray<FCustomEffectValue> Values, const AActor* Source)
+	const TArray<FCustomEffectValue>& Values, const AActor* Source)
 {
 	if(!IsValid(Source))
 	{
@@ -139,7 +140,7 @@ void UGameplayAbilitySystemComponent::RemoveGameplayEffect(TSubclassOf<UGameplay
 	}
 }
 
-void UGameplayAbilitySystemComponent::SetLevel(float Level)
+/*void UGameplayAbilitySystemComponent::SetLevel(float Level)
 {
 	LogStart(LogSeverity::Information, true) << TEXT("Level set to ") << Level << LogStop();
 	ApplyGameplayEffect(LevelUpClass, Level);
@@ -152,7 +153,7 @@ void UGameplayAbilitySystemComponent::InitializeAttributes(float Level)
 	{
 		ApplyGameplayEffect(Effect, Level);
 	}
-}
+}*/
 
 void UGameplayAbilitySystemComponent::TickComponent(float DeltaTime, ELevelTick TickType,
                                                     FActorComponentTickFunction* ThisTickFunction)
@@ -468,6 +469,15 @@ void UGameplayAbilitySystemComponent::ApplyGameplayEffects(TArray<TSubclassOf<UG
 	}
 }
 
+void UGameplayAbilitySystemComponent::ApplyGameplayEffects(TArray<TSubclassOf<UGameplayEffect>> Effects, float Level,
+	const TArray<FCustomEffectValue>& Values, AActor* Source)
+{
+	for(const TSubclassOf<UGameplayEffect> Effect : Effects)
+	{
+		ApplyGameplayEffect(Effect, Level, Values, Source);
+	}
+}
+
 void UGameplayAbilitySystemComponent::RemoveAllAbilities()
 {
 	//FScopedAbilityListLock ActiveScopeLock(*this);
@@ -521,7 +531,7 @@ FGameplayTag UGameplayAbilitySystemComponent::GetAbilityStatus(FGameplayTag Tag)
 	return AbilityNoneTag;
 }
 
-void UGameplayAbilitySystemComponent::EnterCombat()
+/*void UGameplayAbilitySystemComponent::EnterCombat()
 {
 	if(!ComponentHasTag(CombatTag.GetTagName()))
 	{
@@ -536,12 +546,12 @@ void UGameplayAbilitySystemComponent::ExitCombat()
 	FGameplayTagContainer Tags;
 	Tags.AddTag(CombatTag);
 	RemoveActiveEffectsWithGrantedTags(Tags);
-}
+}*/
 
-void UGameplayAbilitySystemComponent::SetDeadState()
+/*void UGameplayAbilitySystemComponent::SetDeadState()
 {
 	ApplyGameplayEffect(DeadClass, 1);
-}
+}*/
 
 bool UGameplayAbilitySystemComponent::HasTag(FGameplayTag GameplayTag) const
 {

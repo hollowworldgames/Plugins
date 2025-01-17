@@ -6,10 +6,12 @@
 #include "AttributeSet.h"
 #include "AttributeMacros.h"
 #include "NativeGameplayTags.h"
+#include "Components/GameplayAbilitySystemComponent.h"
 #include "AbilitySystemComponent.h"
 #include "GameplayTagContainer.h"
 #include "AttributeSetBase.generated.h"
 
+class UGameplayAbilitySystemComponent;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAttributeChanged, FGameplayTag, AttributeTag, float, NewValue);
 
 UCLASS()
@@ -21,13 +23,16 @@ public :
 	bool HasAttribute(FGameplayTag Tag) const { return AttributeTags.HasTag(Tag); }
 	virtual void SetAttributeValue(FGameplayTag Attribute, float Value);
 	virtual FGameplayTag GetAttributeTag(FGameplayAttribute Attribute);
-	FAttributeChanged GetAttributeChanged() { return OnAttributeChanged;};
+	FAttributeChanged GetAttributeChanged() { return OnAttributeChanged;}
+	void Initialize(UGameplayAbilitySystemComponent * AbilitySystemComponent, float Level, const TArray<FCustomEffectValue>& Attributes) const;
 protected :
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Tags)
 	FGameplayTagContainer AttributeTags;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Events)
 	FAttributeChanged OnAttributeChanged;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Effects)
+	TSubclassOf<UGameplayEffect> InitializeEffect;
 };
 
 #define CHECK_IF_ATTRIBUTE(AttributeName, Attribute)\

@@ -31,8 +31,9 @@ void ADataActor::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void ADataActor::Load(uint64 ActorId)
+void ADataActor::Load(int64 NewActorId)
 {
+	ActorId = NewActorId;
 	TSubclassOf<UDataAccessComponent> DataClass;
 	switch(GetNetMode())
 	{

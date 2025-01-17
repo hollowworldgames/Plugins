@@ -15,6 +15,17 @@ float UExperienceAttributeSet::GetAttributeValue(FGameplayTag AttributeTag)
 void UExperienceAttributeSet::SetAttributeValue(FGameplayTag Attribute, float Value)
 {
 	SET_IF_TAGMATCHES(Experience, Attribute, Value);
+	if (Attribute == ExperienceTag)//set level if experience changed
+	{
+		if (UGameplayAbilitySystemComponent * AbilitySystemComponent = Cast<UGameplayAbilitySystemComponent>(GetOwningAbilitySystemComponent()))
+		{
+			AbilitySystemComponent->SetAttributeValue(LevelTag, LevelFromXP.GetValueAtLevel(Value));
+		}
+		else
+		{
+			ensureMsgf(false, TEXT("Experience Attribute Set is Missing Vital Attribute Set"));
+		}
+	}
 	Super::SetAttributeValue(Attribute, Value);
 }
 

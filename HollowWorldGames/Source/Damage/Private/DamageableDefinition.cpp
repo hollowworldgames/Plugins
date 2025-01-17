@@ -4,6 +4,8 @@
 #include "DamageableDefinition.h"
 
 #include "DamageBase.h"
+#include "DamageModelComponent.h"
+#include "DamageReceiverComponent.h"
 
 bool UDamageableDefinition::ApplyDamage(const UDamageType * DamageType, float Damage)
 {
@@ -56,4 +58,9 @@ bool UDamageableDefinition::DoDamageTick(float DeltaTime)
 void UDamageableDefinition::ApplyLeakage(float DeltaTime)
 {
 	
+}
+
+void UDamageableDefinition::Initialize(UDamageModelComponent* DamageModelComponent)
+{
+	DamageModelComponent->AddDamageable(this);
 }

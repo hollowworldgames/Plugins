@@ -24,5 +24,5 @@ class DATAACCESS_API IDataComponentInterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	virtual UDataAccessComponent * GetDataAccessComponent() const = 0;
-	virtual void Load(uint64 ActorId) = 0;
+	virtual void Load(int64 ActorId) = 0;
 };

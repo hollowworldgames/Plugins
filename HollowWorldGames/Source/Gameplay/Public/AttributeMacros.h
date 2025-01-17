@@ -152,6 +152,16 @@ Set##HealthAttributeName(Get##HealthAttributeName() - Damage);\
 if(PreviousHealth > 0 && Get##HealthAttributeName() <= 0) { OnDead.Broadcast(); }\
 }
 
+#define PROCESS_INCOMING_COMPONENT_DAMAGE(IncomingAttributeName, HealthAttributeName, Data, Component, OnDead) \
+if(Data.EvaluatedData.Attribute == Get##IncomingAttributeName##Attribute()) \
+{\
+float PreviousHealth = Get##HealthAttributeName();\
+float Damage = Get##IncomingAttributeName();\
+Set##IncomingAttributeName(0);\
+Set##HealthAttributeName(Get##HealthAttributeName() - Damage);\
+if(PreviousHealth > 0 && Get##HealthAttributeName() <= 0) { OnDead.Broadcast(Component); }\
+}
+
 #define PROCESS_INCOMING_DAMAGE_NOTIFY(IncomingAttributeName, HealthAttributeName, Data, Notify) \
 if(Data.EvaluatedData.Attribute == Get##IncomingAttributeName##Attribute()) \
 {\

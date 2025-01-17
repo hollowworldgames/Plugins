@@ -6,9 +6,23 @@
 #include "AbilitySystemComponent.h"
 #include "AttributeSetBase.h"
 #include "AttributeTags.h"
+#include "GameplayEffectExecutionCalculation.h"
 #include "PrimaryAttributeSet.generated.h"
 
-
+UCLASS()
+class GAMEPLAY_API UPrimaryAttributeCalculation : public UGameplayEffectExecutionCalculation
+{
+	GENERATED_BODY()
+public :
+	UPrimaryAttributeCalculation();
+	virtual void Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const override;
+protected :
+	DECLARE_ATTRIBUTE_CAPTUREDEF2(Level);
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Curve)
+	FScalableFloat StrengthCurve;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Curve)
+	FScalableFloat AgilityCurve;
+};
 
 UCLASS()
 class GAMEPLAY_API UPrimaryAttributeSet : public UAttributeSetBase

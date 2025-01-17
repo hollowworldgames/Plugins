@@ -35,6 +35,8 @@ public:
 	void AddDamageable(UDamageableDefinition * Definition);
 	float GetHealth(FGameplayTag Tag);
 	float GetHealthPercent(FGameplayTag Tag);
+	UFUNCTION(NetMulticast, Reliable)
+	void ReportHit_Multicast(FVector Location, FVector Normal, float Damage, FGameplayTag Component, const AActor* Victim);
 protected:
 	virtual void OnCollision(AActor* Me, AActor* Them, FVector Vector, const FHitResult& HitResult) override;
 	virtual void OnDamage(AActor* Me, float X, const UDamageType* Damage, AController* Controller, AActor* Them) override;

@@ -12,15 +12,19 @@ UCLASS()
 class COMMON_API USettingsGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
+public :
+	virtual void Init() override;
+	virtual void Shutdown() override;
+protected :
 	UFUNCTION(BlueprintCallable, Category = "Settings Instance")
 	void LoadSettings();
 	UFUNCTION(BlueprintCallable, Category = "Settings Instance")
 	void SaveSettings();
 	UFUNCTION(BlueprintCallable, Category = "Settings Instance")
 	void ResetSettings();
-protected :
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Settings)
 	TArray<TObjectPtr<USettingAsset>> Settings;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Settings)
-	FString SettingsPath = "./Settings.xml";
+	UPROPERTY(VisibleAnywhere, Transient, BlueprintReadOnly, Category=Settings)
+	FString SettingsPath;
 };

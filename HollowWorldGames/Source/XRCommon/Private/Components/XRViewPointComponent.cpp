@@ -4,7 +4,7 @@
 #include "Components/XRViewPointComponent.h"
 #include "Actors/XRHandActor.h"
 #include "MotionControllerComponent.h"
-#include "XRUtilityStatics.h"
+#include "Utility/XRUtilityStatics.h"
 
 // Sets default values for this component's properties
 UXRViewPointComponent::UXRViewPointComponent()

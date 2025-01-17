@@ -19,7 +19,7 @@ public class InputMapping : ModuleRules
                 "CoreUObject",
                 "Engine",
                 "Slate",
-                "SlateCore"
+                "SlateCore", "GameplayAbilities", "Gameplay"
             }
         );
     }

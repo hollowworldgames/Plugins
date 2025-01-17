@@ -38,8 +38,9 @@ void ADataCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-void ADataCharacter::Load(uint64 ActorId)
+void ADataCharacter::Load(int64 NewActorId)
 {
+	ActorId = NewActorId;
 	if(ensure(DataAccessComponent))
 	{
 		DataAccessComponent->LoadActorState(ActorId);

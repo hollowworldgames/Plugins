@@ -23,7 +23,7 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	virtual void Load(uint64 ActorId) override;
+	virtual void Load(int64 NewActorId) override;
 	void Save() const;
 	UFUNCTION()
 	virtual void OnLoaded();
@@ -41,6 +41,8 @@ protected:
 	TSubclassOf<UDataAccessComponent> ClientDataClass;
 	UPROPERTY(VisibleAnywhere, Transient, BlueprintReadOnly, Category=Data)
 	TObjectPtr<UDataAccessComponent> DataAccessComponent;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Data)
+	int64 ActorId;
 private :
 	UFUNCTION(NetMulticast, Reliable)
 	void Multicast_PostLoad();

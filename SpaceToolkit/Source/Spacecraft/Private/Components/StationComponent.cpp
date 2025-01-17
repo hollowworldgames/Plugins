@@ -3,7 +3,7 @@
 
 #include "Components/StationComponent.h"
 
-#include "InteractableComponent.h"
+#include "Components/InteractableComponent.h"
 #include "Stations/StationPawn.h"
 
 

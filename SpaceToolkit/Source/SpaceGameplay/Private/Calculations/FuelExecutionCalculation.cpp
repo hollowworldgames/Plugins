@@ -3,7 +3,7 @@
 
 #include "Calculations/FuelExecutionCalculation.h"
 
-#include "Attributes/Equipment/FuelAttributeSet.h"
+#include "Attributes/Equipment/FuelAttributeSet2.h"
 #include "Attributes/VitalAttributeSet.h"
 #include "Components/GameplayAbilitySystemComponent.h"
 
@@ -11,7 +11,7 @@ UFuelExecutionCalculation::UFuelExecutionCalculation()
 {
 	DEFINE_ATTRIBUTE_CAPTUREDEF2(UVitalAttributeSet, Health, Source, false, true);
 	DEFINE_ATTRIBUTE_CAPTUREDEF2(UVitalAttributeSet, MaxHealth, Source, false, true);
-	DEFINE_ATTRIBUTE_CAPTUREDEF2(UFuelAttributeSet, Fuel, Source, false, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF2(UFuelAttributeSet2, Fuel, Source, false, true);
 	DEFINE_ATTRIBUTE_CAPTUREDEF2(UReactorAttributeSet, FuelNeeded, Target, false, true);
 }
 
@@ -38,5 +38,5 @@ void UFuelExecutionCalculation::Execute_Implementation(const FGameplayEffectCust
 		}
 	}
 	WRITE_EXECUTION_ATTRIBUTE(UReactorAttributeSet, FuelAvailable, OutExecutionOutput);
-	WRITE_EXECUTION_ATTRIBUTE(UFuelAttributeSet, Fuel, OutExecutionOutput);
+	WRITE_EXECUTION_ATTRIBUTE(UFuelAttributeSet2, Fuel, OutExecutionOutput);
 }

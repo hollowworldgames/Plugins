@@ -7,7 +7,7 @@
 #include "SystemActor.h"
 #include "FuelActor.generated.h"
 
-class UFuelAttributeSet;
+class UFuelAttributeSet2;
 
 SPACECRAFT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(FuelMaxFuelBonusTag);
 
@@ -35,7 +35,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Attributes")
-	TObjectPtr<UFuelAttributeSet> FuelAttributes;
+	TObjectPtr<UFuelAttributeSet2> FuelAttributes;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Effects")
 	TSubclassOf<UGameplayEffect> InitializeEffect;
 };

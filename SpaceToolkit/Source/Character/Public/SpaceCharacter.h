@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Actors/DataCharacter.h"
 #include "AbilitySystemInterface.h"
-#include "Interactor.h"
+#include "Interfaces/Interactor.h"
 #include "Interfaces/GameplayActorInterface.h"
 #include "SpaceCharacter.generated.h"
 
@@ -32,6 +32,7 @@ public:
 	virtual void OnInteractableUnavailable(TScriptInterface<IInteractable> Interactable) override;
 	virtual void OnInteractionBegin(TScriptInterface<IInteractable> Interactable) override;
 	virtual void OnInteractionEnd(TScriptInterface<IInteractable> Interactable) override;
+	virtual void OnInteraction() override {}
 	virtual APawn * GetInteractingPawn() override { return this; }
 	virtual AController * GetInteractingController() override { return Controller; }
 protected:

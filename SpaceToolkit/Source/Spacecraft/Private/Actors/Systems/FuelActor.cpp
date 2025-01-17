@@ -4,7 +4,7 @@
 #include "Actors/Systems/FuelActor.h"
 
 #include "Attributes/VitalAttributeSet.h"
-#include "Attributes/Equipment/FuelAttributeSet.h"
+#include "Attributes/Equipment/FuelAttributeSet2.h"
 #include "Interfaces/ComponentContainerInterface.h"
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(FuelMaxFuelBonusTag,"Fuel.Bonus.MaxFuel","Fuel Max Fuel Bonus");
@@ -13,7 +13,7 @@ AFuelActor::AFuelActor()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	FuelAttributes = CreateDefaultSubobject<UFuelAttributeSet>("FuelAttributes");
+	FuelAttributes = CreateDefaultSubobject<UFuelAttributeSet2>("FuelAttributes");
 	ComponentTag = FuelTankComponentTag;
 }
 
