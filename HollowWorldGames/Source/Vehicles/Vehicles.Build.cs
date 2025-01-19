@@ -26,7 +26,8 @@ public class Vehicles : ModuleRules
                 "SlateCore",
                 "GameplayAbilities",
                 "GameplayTags",
-                "GameplayTasks"
+                "GameplayTasks",
+                "AIModule"
                 
             }
         );

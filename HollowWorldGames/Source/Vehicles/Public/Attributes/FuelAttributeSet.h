@@ -7,8 +7,8 @@
 #include "Attributes/AttributeSetBase.h"
 #include "FuelAttributeSet.generated.h"
 
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(FuelCapacityTag);
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(FuelMaxCapacityTag);
+VEHICLES_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(FuelCapacityTag);
+VEHICLES_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(FuelMaxCapacityTag);
 
 UCLASS()
 class VEHICLES_API UFuelAttributeSet : public UAttributeSetBase

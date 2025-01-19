@@ -6,8 +6,8 @@
 #include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
 
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(PowerGenerationTag, "Vehicle.Attribute.Fuel.Capacity", "Fuel Capacity")
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(PowerMaxGenerationTag, "Vehicle.Attribute.Fuel.MaxCapacity", "Fuel Max Capacity")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(FuelCapacityTag, "Vehicle.Attribute.Fuel.Capacity", "Fuel Capacity")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(FuelMaxCapacityTag, "Vehicle.Attribute.Fuel.MaxCapacity", "Fuel Max Capacity")
 
 float UFuelAttributeSet::GetAttributeValue(FGameplayTag AttributeTag)
 {

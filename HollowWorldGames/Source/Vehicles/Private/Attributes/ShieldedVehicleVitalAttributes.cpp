@@ -9,7 +9,9 @@
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(FuselageHealthTag, "Vehicle.Attribute.Fuselage.Health", "Fuselage Health")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(FuselageMaxHealthTag, "Vehicle.Attribute.Fuselage.MaxHealth", "Fuselage Max Health")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(ForwardShieldHealthTag, "Vehicle.Attribute.Shield.Forward.Health", "Forward Shield Health")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(ForwardShieldMaxHealthTag, "Vehicle.Attribute.Shield.Forward.MaxHealth", "Forward Shield MTrustax Health")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(RearShieldHealthTag, "Vehicle.Attribute.Shield.Rear.Health", "Rear Shield Health")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(RearShieldMaxHealthTag, "Vehicle.Attribute.Shield.Rear.MaxHealth", "Rear Shield Max Health")
 
 
 float UShieldedVehicleVitalAttributes::GetAttributeValue(FGameplayTag AttributeTag)

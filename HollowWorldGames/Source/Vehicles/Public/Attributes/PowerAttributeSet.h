@@ -6,8 +6,8 @@
 #include "Attributes/AttributeSetBase.h"
 #include "PowerAttributeSet.generated.h"
 
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(PowerGeneratedTag);
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(PowerMaxGeneratedTag);
+VEHICLES_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(PowerGeneratedTag);
+VEHICLES_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(PowerMaxGeneratedTag);
 
 UCLASS()
 class VEHICLES_API UPowerAttributeSet : public UAttributeSetBase

@@ -9,6 +9,24 @@
 #include "Kismet/GameplayStatics.h"
 
 
+void FSensorPing::UpdateTrackInfo(const AActor* Track, const AActor* Tracker, const int Class)
+{
+	Direction = UUtilityStatics::GetDirectionTo(Track->GetActorLocation(), Tracker->GetActorLocation());
+	Expiration = 1.0f;
+	PingClass = Class;
+}
+
+void FSensorTargetTrack::UpdateTrackInfo(AActor* Track, AActor* Tracker)
+{
+	Target = Track;
+	Location = Track->GetActorLocation();
+	Rotation = Track->GetActorRotation();
+	if (const IGenericTeamAgentInterface * GenericTeamAgent = Cast<IGenericTeamAgentInterface>(Track))
+	{
+		Attitude = GenericTeamAgent->GetTeamAttitudeTowards(*Tracker);
+	}
+}
+
 // Sets default values for this component's properties
 UVehicleTacticalSystemComponent::UVehicleTacticalSystemComponent()
 {
@@ -27,17 +45,6 @@ void UVehicleTacticalSystemComponent::BeginPlay()
 	GetOwner()->GetComponents(Weapons);
 }
 
-void FTargetTrack::UpdateTrackInfo(AActor* Track, AActor* Tracker)
-{
-	Target = Track;
-	Location = Track->GetActorLocation();
-	Rotation = Track->GetActorRotation();
-	if (const IGenericTeamAgentInterface * GenericTeamAgent = Cast<IGenericTeamAgentInterface>(Track))
-	{
-		Attitude = GenericTeamAgent->GetTeamAttitudeTowards(*Tracker);
-	}
-}
-
 void UVehicleTacticalSystemComponent::UpdateTrack(const TScriptInterface<class ITargetable>& Targetable)
 {
 	if (Tracks.Contains(Targetable->GetId()))
@@ -47,6 +54,18 @@ void UVehicleTacticalSystemComponent::UpdateTrack(const TScriptInterface<class I
 	else
 	{
 		Tracks.Add(Targetable->GetId()).UpdateTrackInfo(Targetable->GetActor(), GetOwner());
+	}
+}
+
+void UVehicleTacticalSystemComponent::UpdatePing(const TScriptInterface<class ITargetable>& Targetable)
+{
+	if (Pings.Contains(Targetable->GetId()))
+	{
+		Pings[Targetable->GetId()].UpdateTrackInfo(Targetable->GetActor(), GetOwner(), 0);
+	}
+	else
+	{
+		Pings.Add(Targetable->GetId()).UpdateTrackInfo(Targetable->GetActor(), GetOwner(), 0);
 	}
 }
 
@@ -69,7 +88,12 @@ void UVehicleTacticalSystemComponent::TickComponent(float DeltaTime, ELevelTick 
 			}
 		}
 	}
+	CheckForExpiredTracks(DeltaTime);
+	CheckForExpiredPings(DeltaTime);
+}
 
+void UVehicleTacticalSystemComponent::CheckForExpiredTracks(float DeltaTime)
+{
 	TArray<int> ToRemove;
 
 	for (auto Track : Tracks)
@@ -87,11 +111,30 @@ void UVehicleTacticalSystemComponent::TickComponent(float DeltaTime, ELevelTick 
 	}
 }
 
+void UVehicleTacticalSystemComponent::CheckForExpiredPings(float DeltaTime)
+{
+	TArray<int> ToRemove;
+
+	for (auto Track : Pings)
+	{
+		Track.Value.TickTrack(DeltaTime);
+		if (Track.Value.IsExpired())
+		{
+			ToRemove.Add(Track.Key);
+		}
+	}
+
+	for (const auto Remove : ToRemove)
+	{
+		Pings.Remove(Remove);
+	}
+}
+
 void UVehicleTacticalSystemComponent::OnPressTrigger(int WeaponGroup)
 {
 	if (WeaponGroups.Contains(WeaponGroup))
 	{
-		FWeaponGroup Group = WeaponGroups[WeaponGroup];
+		FWeaponGrouping Group = WeaponGroups[WeaponGroup];
 		for (TObjectPtr Weapon : Group.Weapons)
 		{
 			Weapon->SetTriggerPressed();
@@ -103,7 +146,7 @@ void UVehicleTacticalSystemComponent::OnReleaseTrigger(int WeaponGroup)
 {
 	if (WeaponGroups.Contains(WeaponGroup))
 	{
-		FWeaponGroup Group = WeaponGroups[WeaponGroup];
+		FWeaponGrouping Group = WeaponGroups[WeaponGroup];
 		for (TObjectPtr Weapon : Group.Weapons)
 		{
 			Weapon->SetTriggerReleased();
@@ -111,9 +154,9 @@ void UVehicleTacticalSystemComponent::OnReleaseTrigger(int WeaponGroup)
 	}
 }
 
-TArray<FTargetTrack> UVehicleTacticalSystemComponent::GetTargetTracks() const
+TArray<FSensorTargetTrack> UVehicleTacticalSystemComponent::GetTargetTracks() const
 {
-	TArray<FTargetTrack> OutputTracks;
+	TArray<FSensorTargetTrack> OutputTracks;
 	for (auto Track : Tracks)
 	{
 		OutputTracks.Add(Track.Value);
@@ -121,13 +164,18 @@ TArray<FTargetTrack> UVehicleTacticalSystemComponent::GetTargetTracks() const
 	return OutputTracks;
 }
 
-FTargetTrack UVehicleTacticalSystemComponent::GetCurrentTrack() const
+FSensorTargetTrack UVehicleTacticalSystemComponent::GetCurrentTrack() const
 {
 	if (Tracks.Contains(CurrentTarget))
 	{
 		return Tracks[CurrentTarget];
 	}
-	return FTargetTrack();
+	return FSensorTargetTrack();
+}
+
+void UVehicleTacticalSystemComponent::OnTrackedBy(TScriptInterface<ITargetable> Tracker)
+{
+	
 }
 
 bool UVehicleTacticalSystemComponent::IsDetectable(const TScriptInterface<class ITargetable>& Targetable) const

@@ -8,7 +8,7 @@
 
 class UDamageResistance;
 // This class does not need to be modified.
-UINTERFACE()
+UINTERFACE(NotBlueprintable, BlueprintType)
 class UShieldedVehicleInterface : public UInterface
 {
 	GENERATED_BODY()
@@ -25,4 +25,15 @@ class VEHICLES_API IShieldedVehicleInterface
 public:
 	virtual TObjectPtr<UDamageResistance> GetShieldDamageResistance() = 0;
 	virtual TObjectPtr<UDamageResistance> GetArmorDamageResistance() = 0;
+	virtual float GetFrontShield() = 0;
+	virtual float GetFrontMaxShield() = 0;
+	virtual float GetFrontShieldPercent() = 0;
+	virtual float GetRearShield() = 0;
+	virtual float GetRearMaxShield() = 0;
+	virtual float GetRearShieldPercent() = 0;
+	virtual float GetFuselageHealth() = 0;
+	virtual float GetFuselageMaxHealth() = 0;
+	//Blueprint Accessors
+	UFUNCTION(BlueprintCallable, Category = "Vehicles", meta = (DisplayName = "GetFrontShield"))
+	virtual float K2_GetFrontShield() { return GetFrontShield(); }
 };

@@ -78,7 +78,7 @@ void UMouseInteractorComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 				{
 					if (Actor->Implements<UInteractable>())
 					{
-						if (Actor != Interactable)
+						if (Actor != Interactable.GetObject())
 						{
 							Clear();
 							Highlightable = Actor;

@@ -6,12 +6,12 @@
 #include "Attributes/AttributeSetBase.h"
 #include "ShieldedVehicleVitalAttributes.generated.h"
 
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(FuselageHealthTag);
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(FuselageMaxHealthTag);
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(ForwardShieldHealthTag);
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(ForwardShieldMaxHealthTag);
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(RearShieldHealthTag);
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(RearShieldMaxHealthTag);
+VEHICLES_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(FuselageHealthTag);
+VEHICLES_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(FuselageMaxHealthTag);
+VEHICLES_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(ForwardShieldHealthTag);
+VEHICLES_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(ForwardShieldMaxHealthTag);
+VEHICLES_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(RearShieldHealthTag);
+VEHICLES_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(RearShieldMaxHealthTag);
 
 UCLASS()
 class VEHICLES_API UShieldedVehicleVitalAttributes : public UAttributeSetBase
