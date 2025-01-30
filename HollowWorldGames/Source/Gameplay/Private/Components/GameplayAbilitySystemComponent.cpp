@@ -6,6 +6,12 @@
 #include "Attributes/AttributeSetBase.h"
 #include "UtilityStatics.h"
 #include "Misc/EngineVersionComparison.h"
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(AbilityStatusTag,"Ability.Status","Ability Equipped");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(AbilityEquippedTag,"Ability.Status.Equipped","Ability Equipped");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(AbilityUnequippedTag,"Ability.Status.Unequipped","Ability Unequipped");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(AbilityLockedTag,"Ability.Status.Locked","Ability Locked");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(AbilityNotPurchasedTag,"Ability.Status.NotPurchased","Ability Not Purchased");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(AbilityNoneTag,"Ability.Status.None","Ability None");
 
 FString FGameplayEffectApplied::GetEffectName() const
 {
@@ -21,7 +27,7 @@ void FGameplayEffectApplied::Apply(UAbilitySystemComponent* Target, const AActor
 	const TArray<FCustomEffectValue>& Values)
 {
 	UAbilitySystemComponent * SourceComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(const_cast<AActor*>(Source));
-    if(SourceComponent)
+    if(IsValidEnsure(SourceComponent))
     {
     	FGameplayEffectContextHandle Handle = SourceComponent->MakeEffectContext();
 		Handle.AddSourceObject(Source);
@@ -139,21 +145,6 @@ void UGameplayAbilitySystemComponent::RemoveGameplayEffect(TSubclassOf<UGameplay
 		EffectsApplied.Remove(ActiveEffect);
 	}
 }
-
-/*void UGameplayAbilitySystemComponent::SetLevel(float Level)
-{
-	LogStart(LogSeverity::Information, true) << TEXT("Level set to ") << Level << LogStop();
-	ApplyGameplayEffect(LevelUpClass, Level);
-	InitializeAttributes(Level);
-}
-
-void UGameplayAbilitySystemComponent::InitializeAttributes(float Level)
-{
-	for(TSubclassOf<UGameplayEffect> Effect : AttributeInitializers)
-	{
-		ApplyGameplayEffect(Effect, Level);
-	}
-}*/
 
 void UGameplayAbilitySystemComponent::TickComponent(float DeltaTime, ELevelTick TickType,
                                                     FActorComponentTickFunction* ThisTickFunction)
@@ -647,6 +638,24 @@ void UGameplayAbilitySystemComponent::ReportDamage_Client_Implementation(ECombat
 	const AActor* Attacker, const AActor* Target, FGameplayTag DamageType) const
 {
 	OnDamageEvent.Broadcast(Result, Damage, Attacker, Target, DamageType);
+}
+
+void UGameplayAbilitySystemComponent::AttributeChanged(FGameplayTag AttributeTag, float Value)
+{
+	OnAttributeChanged.Broadcast(AttributeTag, Value);
+}
+
+void UGameplayAbilitySystemComponent::BeginPlay()
+{
+	Super::BeginPlay();
+	for (UAttributeSet * AttributeSet : GetSpawnedAttributes())
+	{
+		UAttributeSetBase * SetBase = Cast<UAttributeSetBase>(AttributeSet);
+		if (IsValidEnsure(SetBase))
+		{
+			SetBase->GetAttributeChanged().AddDynamic(this, &UGameplayAbilitySystemComponent::AttributeChanged);
+		}
+	}
 }
 
 void UGameplayAbilitySystemComponent::OnAbilityFinished(const FAbilityEndedData& Data)

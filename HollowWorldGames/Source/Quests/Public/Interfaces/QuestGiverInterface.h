@@ -25,6 +25,6 @@ class QUESTS_API IQuestGiverInterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	virtual TArray<UQuestData*> GetAvailableQuests(TScriptInterface<IQuestReceiverInterface> Receiver) = 0;
-	virtual void TurnIn(TScriptInterface<IQuestReceiverInterface> Receiver, UQuestData * Quest) = 0;
-	virtual void Accept(TScriptInterface<IQuestReceiverInterface> Receiver, UQuestData * Quest) = 0;
+	virtual void TurnIn(TScriptInterface<IQuestReceiverInterface> Receiver,const UQuestData * Quest) = 0;
+	virtual void Accept(TScriptInterface<IQuestReceiverInterface> Receiver,const UQuestData * Quest) = 0;
 };

@@ -17,17 +17,14 @@ class GAMEPLAY_API UCombatCalculationBase : public UGameplayEffectExecutionCalcu
 public :
 	UCombatCalculationBase();
 	virtual void Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const override;
-	FGameplayTag GetDamageTypeTag(const FGameplayEffectSpec& Spec) const;
+	
 protected :
+	virtual FGameplayTag GetDamageTypeTag(const FGameplayEffectSpec& Spec) const;
+	virtual float GetDamage(FGameplayTag DamageType, const FGameplayEffectSpec& Spec) const;
+	virtual float GetDamageBoost(const FGameplayTag DamageType, const FGameplayEffectSpec& Spec) const;
+	virtual float GetMitigation(const FGameplayTag DamageType, const FGameplayEffectCustomExecutionParameters& ExecutionParams,
+		const FAggregatorEvaluateParameters& EvaluateParameters) const;
 	DECLARE_ATTRIBUTE_CAPTUREDEF2(HitChance);
-	DECLARE_ATTRIBUTE_CAPTUREDEF2(Mitigation1);
-	DECLARE_ATTRIBUTE_CAPTUREDEF2(Mitigation2);
-	DECLARE_ATTRIBUTE_CAPTUREDEF2(Mitigation3);
-	DECLARE_ATTRIBUTE_CAPTUREDEF2(Mitigation4);
-	DECLARE_ATTRIBUTE_CAPTUREDEF2(DamageBoost1);
-	DECLARE_ATTRIBUTE_CAPTUREDEF2(DamageBoost2);
-	DECLARE_ATTRIBUTE_CAPTUREDEF2(DamageBoost3);
-	DECLARE_ATTRIBUTE_CAPTUREDEF2(DamageBoost4);
 	DECLARE_ATTRIBUTE_CAPTUREDEF2(BlockChance);
 	DECLARE_ATTRIBUTE_CAPTUREDEF2(BlockValue);
 	DECLARE_ATTRIBUTE_CAPTUREDEF2(ParryChance);
@@ -38,21 +35,5 @@ protected :
 	DECLARE_ATTRIBUTE_CAPTUREDEF2(CriticalDefense);
 	DECLARE_ATTRIBUTE_CAPTUREDEF2(CriticalValue);
 	DECLARE_ATTRIBUTE_CAPTUREDEF2(Penetration);
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Tags)
-	FGameplayTag DamageTypeTag;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Tags)
-	FGameplayTag DamageTypeTag1;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Tags)
-	FGameplayTag DamageTypeTag2;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Tags)
-	FGameplayTag DamageTypeTag3;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Tags)
-	FGameplayTag DamageTypeTag4;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Tags)
-	FGameplayTag MinDamageTag;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Tags)
-	FGameplayTag MaxDamageTag;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Tags)
-	FGameplayTag AbilityDamageBonusTag;
 };
+

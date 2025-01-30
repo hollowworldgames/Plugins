@@ -7,6 +7,9 @@
 #include "QuestGiverComponent.generated.h"
 
 
+class UQuestReceiverComponent;
+class UQuestData;
+
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class QUESTS_API UQuestGiverComponent : public UActorComponent
 {
@@ -15,13 +18,14 @@ class QUESTS_API UQuestGiverComponent : public UActorComponent
 public:
 	// Sets default values for this component's properties
 	UQuestGiverComponent();
-
+	TArray<UQuestData*> GetAvailableQuests(UQuestReceiverComponent * Receiver);
+	UFUNCTION(BlueprintImplementableEvent)
+	void DoQuestStart(UQuestData * Quest);
+	UFUNCTION(BlueprintImplementableEvent)
+	void DoInteractStart();
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-
-public:
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
-	                           FActorComponentTickFunction* ThisTickFunction) override;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Quests")
+	TArray<TObjectPtr<UQuestData>> QuestsOffered;
 };

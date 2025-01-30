@@ -8,23 +8,39 @@
 
 class IInventoryStorable;
 
+
+
+USTRUCT(BlueprintType)
+struct FInventoryItem
+{
+	GENERATED_BODY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int64 ItemId = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int Qty = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int MaxQty = 0;
+};
+
+
 USTRUCT(BlueprintType)
 struct FInventorySlot
 {
 	GENERATED_BODY()
 	UPROPERTY()
-	TArray<TObjectPtr<UObject>> Stack;
-	TObjectPtr<UObject> RemoveItem();
-	void AddItem(TObjectPtr<UObject> Storable);
+	FInventoryItem Item;
+	FInventoryItem RemoveItem();
+	void AddItem(FInventoryItem Storable);
 	void Swap(FInventorySlot& Slot);
-	bool CanFit(TObjectPtr<UObject> Storable);
+	bool CanFit(FInventoryItem Storable);
 };
+
+
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class INVENTORY_API UInventoryComponent : public UActorComponent
 {
 	GENERATED_BODY()
-
 public:
 	// Sets default values for this component's properties
 	UInventoryComponent();
@@ -32,11 +48,12 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 	                           FActorComponentTickFunction* ThisTickFunction) override;
 	UFUNCTION(Server, Reliable, BlueprintCallable, Category = "Inventory")
-	void AddToSlot_Server(int Slot,UObject* Item);
+	void AddToSlot_Server(int Slot, FInventoryItem Item);
 	UFUNCTION(Server, Reliable, BlueprintCallable, Category = "Inventory")
-	void AddToAny_Server(UObject* Item);
+	void AddToAny_Server(FInventoryItem Item);
 	UFUNCTION(Server, Reliable, BlueprintCallable, Category = "Inventory")
 	void RemoveFromSlot_Server(int Slot);
+	bool CanFit(UObject* Item);
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;

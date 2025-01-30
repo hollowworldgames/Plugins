@@ -29,7 +29,8 @@ public class Gameplay : ModuleRules
 				"GameplayTasks",
 				"GameplayAbilities",
 				"GameplayTags",
-				"Common"
+				"Common",
+				"DataAccess"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -42,6 +43,7 @@ public class Gameplay : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
+				"AIModule"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

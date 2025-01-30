@@ -113,8 +113,8 @@ if(Data.EvaluatedData.Attribute == Get##IncomingExperience##Attribute())\
 	{\
 		Set##Experience(Get##Experience() + Get##IncomingExperience());\
 		Set##IncomingExperience(0);\
-		float NewLevel = LevelFromExperience.GetValueAtLevel(GetExperience());\
-		if(NewLevel > GetLevel())\
+		float NewLevel = LevelFromExperience.GetValueAtLevel(Get##Experience());\
+		if(NewLevel > Get##Level())\
 		{\
 			Set##Level(NewLevel);\
 			OnLevelChanged.Broadcast(NewLevel);\

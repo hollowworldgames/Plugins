@@ -9,7 +9,7 @@
 class UDataAccessComponent;
 // This class does not need to be modified.
 UINTERFACE()
-class UDataComponentInterface : public UInterface
+class DATAACCESS_API UDataComponentInterface : public UInterface
 {
 	GENERATED_BODY()
 };

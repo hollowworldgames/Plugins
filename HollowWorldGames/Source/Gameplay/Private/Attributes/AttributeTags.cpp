@@ -1,6 +1,14 @@
 ﻿// (c) Copyright 2024 Hollow World Games llc All Rights Reserved
-#include "Attributes/AttributeTags.h"
+#include <Attributes/AttributeTags.h>
 
+//Race Class Profession Skill etc
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(RaceTag,"Character.Race","Race");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(ClassTag,"Character.Class","Class");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(ProfessionTag,"Character.Profession","Profession");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(SkillTag,"Character.Skill","Skill");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(GenderTag,"Character.Gender","Gender");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(MaleTag,"Character.Gender.Male","Male");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(FemaleTag,"Character.Gender.Female","Female");
 // Level/ Experience
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(LevelTag,"Primary.Attribute.Level","Level");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(ExperienceTag,"Primary.Attribute.Experience","Experience");
@@ -22,7 +30,13 @@ UE_DEFINE_GAMEPLAY_TAG_COMMENT(ConstitutionTag,"Primary.Attribute.Constitution",
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(EnduranceTag,"Primary.Attribute.Endurance","Endurance");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(CharismaTag,"Primary.Attribute.Charisma","Charisma");
 //Damage
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(IncomingDamage1Tag,"Combat.Damage.IncomingDamage1","Incoming Damage 1");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(MinDamageTag,"Combat.Parameters.Min", "Damage Minimum");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(MaxDamageTag,"Combat.Parameters.Max", "Damage Maximum");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(DamageTypeTag,"Combat.DamageType", "Damage Type");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(MaxRangeTag,"Combat.Parameters.MaxRange","Max Range");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(MinRangeTag,"Combat.Parameters.MinRange","Min Range");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(AbilityDamageBoostTag,"Ability.Damage.Boost", "Ability Damage Boost");
+/*UE_DEFINE_GAMEPLAY_TAG_COMMENT(IncomingDamage1Tag,"Combat.Damage.IncomingDamage1","Incoming Damage 1");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(IncomingDamage2Tag,"Combat.Damage.IncomingDamage2","Incoming Damage 2");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(IncomingDamage3Tag,"Combat.Damage.IncomingDamage3","Incoming Damage 3");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(IncomingDamage4Tag,"Combat.Damage.IncomingDamage4","Incoming Damage 4");
@@ -37,7 +51,7 @@ UE_DEFINE_GAMEPLAY_TAG_COMMENT(Mitigation4Tag,"Combat.Damage.Mitigation4","Mitig
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(Resistance1Tag,"Combat.Damage.Resistance1","Resistance 1");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(Resistance2Tag,"Combat.Damage.Resistance1","Resistance 2");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(Resistance3Tag,"Combat.Damage.Resistance1","Resistance 3");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(Resistance4Tag,"Combat.Damage.Resistance1","Resistance 4");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(Resistance4Tag,"Combat.Damage.Resistance1","Resistance 4");*/
 //Combat
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(ArmorTag,"Combat.Attribute.Armor","Armor");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(PenetrationTag,"Combat.Attribute.Penetration","Penetration");

@@ -68,6 +68,10 @@ struct COMMON_API FMultiControlAxis
 		TMap<int,float> Values;
 };
 
+FORCEINLINE bool IsValidEnsure(const UObject* Test)
+{
+	return ensure(Test && FInternalUObjectBaseUtilityIsValidFlagsChecker::CheckObjectValidBasedOnItsFlags(Test));
+}
 
 UCLASS()
 class COMMON_API UUtilityStatics : public UBlueprintFunctionLibrary

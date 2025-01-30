@@ -9,7 +9,7 @@ public class XRCommon : ModuleRules
         PublicDependencyModuleNames.AddRange(
             new string[]
             {
-                "Core","Common","ViewPoints","XRBase","HeadMountedDisplay"
+                "Core","Common","ViewPoints","XRBase","HeadMountedDisplay","GameplayTags","InputCore",
             }
         );
 

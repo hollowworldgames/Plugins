@@ -30,18 +30,24 @@ struct FStringValue
 };
 
 USTRUCT(BlueprintType)
-struct FRecord
+struct DATAACCESS_API FRecord
 {
 	GENERATED_BODY()
 	UPROPERTY()
 	FGameplayTag RecordTag;
 	UPROPERTY()
-	int RecordType = 0;
+	TMap<FGameplayTag, FNumericValue> NumericValues;
 	UPROPERTY()
-	TMap<FString, FNumericValue> NumericValues;
-	UPROPERTY()
-	TMap<FString, FStringValue> StringValues;
+	TMap<FGameplayTag, FStringValue> StringValues;
 	bool operator ==(const FRecord& Record) const { return RecordTag == Record.RecordTag; }
+	float GetFloatValue(const FGameplayTag Tag) const;
+	int GetIntValue(const FGameplayTag Tag) const;
+	FName GetNameValue(const FGameplayTag Tag) const;
+	FString GetStringValue(const FGameplayTag Tag) const;
+	bool GetBoolValue(const FGameplayTag Tag) const { return GetIntValue(Tag) == 1; }
+	void AddNumericValue(const FGameplayTag& Tag, int Value);
+	void AddNumericValue(const FGameplayTag& Tag, float Value);
+	void AddNumericValue(const FGameplayTag& Tag, bool Value);
 };
 
 
@@ -58,29 +64,37 @@ public:
 	virtual void SaveActorState();
 	FDataLoaded& GetDataLoaded() { return OnLoaded; }
 	UFUNCTION(BlueprintCallable, Category="DataAccess")
-	float GetFloatAttribute(FString Attribute);
+	float GetFloatAttribute(FGameplayTag Attribute);
 	UFUNCTION(BlueprintCallable, Category="DataAccess")
-	FString GetStringAttribute(FString Attribute);
+	FString GetStringAttribute(FGameplayTag Attribute);
 	UFUNCTION(BlueprintCallable, Category="DataAccess")
-	int GetIntAttribute(FString Attribute);
+	FName GetNameAttribute(FGameplayTag Attribute);
 	UFUNCTION(BlueprintCallable, Category="DataAccess")
-	virtual float SetFloatAttribute(FString Attribute, float Value);
+	int GetIntAttribute(FGameplayTag Attribute);
 	UFUNCTION(BlueprintCallable, Category="DataAccess")
-	virtual FString SetStringAttribute(FString Attribute, FString Value);
+	bool GetBoolAttribute(FGameplayTag Attribute);
 	UFUNCTION(BlueprintCallable, Category="DataAccess")
-	virtual int SetIntAttribute(FString Attribute, int Value);
+	virtual float SetFloatAttribute(FGameplayTag Attribute, float Value);
+	UFUNCTION(BlueprintCallable, Category="DataAccess")
+	virtual FString SetStringAttribute(FGameplayTag Attribute, FString Value);
+	UFUNCTION(BlueprintCallable, Category="DataAccess")
+	virtual int SetIntAttribute(FGameplayTag Attribute, int Value);
+	UFUNCTION(BlueprintCallable, Category="DataAccess")
+	virtual bool SetBoolAttribute(FGameplayTag Attribute, bool Value);
 	int GetCharacterId() const { return CharacterId; }
-	TArray<FRecord> GetRecordsOfType(int Type) const;
+	TArray<FRecord> GetRecordsOfType(FGameplayTag Type) const;
 	virtual void WriteRecord(FRecord& Record);
 protected:
 	UPROPERTY(EditAnywhere, BlueprintAssignable, Category=Events)
 	FDataLoaded OnLoaded;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=DataCache)
-	TMap<FString,FNumericValue> NumericAttributes;
+	TMap<FGameplayTag,FNumericValue> NumericAttributes;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=DataCache)
-	TMap<FString,FStringValue> StringAttributes;
+	TMap<FGameplayTag,FStringValue> StringAttributes;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Data)
 	int CharacterId = 0;
 	UPROPERTY(VisibleAnywhere, Transient, BlueprintReadOnly, Category=Data)
 	TArray<FRecord> Records;
 };
+
+

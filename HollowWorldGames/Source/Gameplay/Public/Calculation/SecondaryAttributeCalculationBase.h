@@ -50,30 +50,6 @@ public :
 	float ComputeAccuracy(float Level, float Strength, float Agility, float Precision, float Intelligence, float Wisdom,
 					  float Luck, float Constitution, float Endurance, float Charisma, float Armor) const;
 	UFUNCTION(BlueprintNativeEvent)
-	float ComputeMitigation1(float Level, float Strength, float Agility, float Precision, float Intelligence, float Wisdom,
-					  float Luck, float Constitution, float Endurance, float Charisma, float Armor) const;
-	UFUNCTION(BlueprintNativeEvent)
-	float ComputeMitigation2(float Level, float Strength, float Agility, float Precision, float Intelligence, float Wisdom,
-					  float Luck, float Constitution, float Endurance, float Charisma, float Armor) const;
-	UFUNCTION(BlueprintNativeEvent)
-	float ComputeMitigation3(float Level, float Strength, float Agility, float Precision, float Intelligence, float Wisdom,
-					  float Luck, float Constitution, float Endurance, float Charisma, float Armor) const;
-	UFUNCTION(BlueprintNativeEvent)
-    float ComputeMitigation4(float Level, float Strength, float Agility, float Precision, float Intelligence, float Wisdom,
-                      float Luck, float Constitution, float Endurance, float Charisma, float Armor) const;
-	UFUNCTION(BlueprintNativeEvent)
-	float ComputeResistance1(float Level, float Strength, float Agility, float Precision, float Intelligence, float Wisdom,
-					  float Luck, float Constitution, float Endurance, float Charisma, float Armor) const;
-	UFUNCTION(BlueprintNativeEvent)
-	float ComputeResistance2(float Level, float Strength, float Agility, float Precision, float Intelligence, float Wisdom,
-					  float Luck, float Constitution, float Endurance, float Charisma, float Armor) const;
-	UFUNCTION(BlueprintNativeEvent)
-	float ComputeResistance3(float Level, float Strength, float Agility, float Precision, float Intelligence, float Wisdom,
-					  float Luck, float Constitution, float Endurance, float Charisma, float Armor) const;
-	UFUNCTION(BlueprintNativeEvent)
-	float ComputeResistance4(float Level, float Strength, float Agility, float Precision, float Intelligence, float Wisdom,
-					  float Luck, float Constitution, float Endurance, float Charisma, float Armor) const;
-	UFUNCTION(BlueprintNativeEvent)
 	float GetAttributeFromGear(FGameplayTag Attribute, const ACharacter * Character) const;
 	virtual void Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const override;
 

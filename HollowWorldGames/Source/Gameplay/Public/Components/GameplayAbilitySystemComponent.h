@@ -9,6 +9,7 @@
 
 class UAttributeSetBase;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAttributeChanged, FGameplayTag, AttributeTag, float, NewValue);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FGameplayEffectAppliedDelegate, FGameplayTagContainer&, Tags);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityNotify, const FGameplayTag& , Ability);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_FiveParams(FDamageNotify, ECombatRollResult, Result, float, Damage, const AActor *, Attacker, const AActor *, Target, FGameplayTag, DamageType);
@@ -33,8 +34,8 @@ USTRUCT(BlueprintType)
 struct FGameplayEffectApplied
 {
 	GENERATED_BODY()
-	public :
-		UPROPERTY()
+public :
+	UPROPERTY()
 	FGameplayEffectSpecHandle SpecHandle;
 	UPROPERTY()
 	FActiveGameplayEffectHandle EffectHandle;
@@ -75,14 +76,12 @@ UCLASS()
 class GAMEPLAY_API UGameplayAbilitySystemComponent : public UAbilitySystemComponent
 {
 	GENERATED_BODY()
-	public :
+public :
 	const TArray<FGameplayEffectApplied>& GetAppliedEffects() { return EffectsApplied; }
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 	void ApplyGameplayEffect(TSubclassOf<UGameplayEffect> EffectClass, float Level, const AActor * Source = nullptr);
 	void ApplyGameplayEffect(TSubclassOf<UGameplayEffect> EffectClass, float Level,const TArray<FCustomEffectValue>& Values, const AActor * Source = nullptr);
 	void RemoveGameplayEffect(TSubclassOf<UGameplayEffect> EffectClass);
-	//virtual void SetLevel(float Level);
-	//virtual void InitializeAttributes(float Level);
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void AddAbilities(TArray<FAbilityData> Abilities, float OverrideLevel = 0);
 	void AddAbility(FAbilityData Ability,bool Locked);
@@ -110,30 +109,11 @@ class GAMEPLAY_API UGameplayAbilitySystemComponent : public UAbilitySystemCompon
 	float GetEffectDurationRemaining(FGameplayTag Tag);
 	FGameplayTag GetAbilityStatus(FGameplayTag Tag);
 	FGameplayTagContainer& GetCooldownTags() { return Cooldowns; }
-	//void EnterCombat();
-	//void ExitCombat();
-	//bool IsInCombat() const { return ComponentHasTag(CombatTag.GetTagName()); }
-	//void SetDeadState();
 	bool HasTag(FGameplayTag GameplayTag) const;
 	UAttributeSetBase * GetAttributeSet(const TSubclassOf<UAttributeSetBase>& SubClass) const;
 	float GetAttributeValue(FGameplayTag Attribute) const;
 	void SetAttributeValue(FGameplayTag SkillId, float Level);
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Abilities)
-	FGameplayTag CombatTag;*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Abilities)
-	FGameplayTag AbilityEquippedTag;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Abilities)
-	FGameplayTag AbilityUnequippedTag;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Abilities)
-	FGameplayTag AbilityLockedTag;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Abilities)
-	FGameplayTag AbilityNotPurchasedTag;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Abilities)
-	FGameplayTag AbilityNoneTag;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Abilities)
-	FGameplayTag AbilityStatusTag;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Abilities)
-	FGameplayTag AbilityCooldownTag;
+	FAttributeChanged& GetAttributeChanged() { return OnAttributeChanged; }
 	TArray<FGameplayAbilitySpecHandle> GetActiveAbilities();
 	UPROPERTY(EditDefaultsOnly, BlueprintAssignable, Category=Events)
 	FAbilityNotify OnDeactivateAbility;
@@ -146,6 +126,9 @@ class GAMEPLAY_API UGameplayAbilitySystemComponent : public UAbilitySystemCompon
 	void ReportDamage_Client(ECombatRollResult Result, float Damage, const AActor * Attacker, const AActor * Target, FGameplayTag DamageType) const;
 protected :
 	UFUNCTION()
+	void AttributeChanged(FGameplayTag AttributeTag, float Value);
+	virtual void BeginPlay() override;
+	UFUNCTION()
 	void OnAbilityFinished(const FAbilityEndedData& Data);
 	FGameplayAbilitySpec * GetAbility(FGameplayTag Ability);
 	void EffectApplied(UAbilitySystemComponent * Component, const FGameplayEffectSpec& Effect, FActiveGameplayEffectHandle ActiveEffectHandle) const;
@@ -155,12 +138,8 @@ protected :
 	FGameplayEffectAppliedDelegate OnEffectRemoved;
 	UPROPERTY(EditAnywhere, BlueprintAssignable, Category=Events)
 	FDamageNotify OnDamageEvent;
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Settings)
-	TSubclassOf<UGameplayEffect> LevelUpClass;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Settings)
-	TSubclassOf<UGameplayEffect> InCombatClass;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Settings)
-	TSubclassOf<UGameplayEffect> DeadClass;*/
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category=Events)
+	FAttributeChanged OnAttributeChanged;
 	UPROPERTY(Transient, EditAnywhere, BlueprintReadWrite, Category=Abilities)
 	TArray<FGameplayEffectApplied> EffectsApplied;
 	UPROPERTY(Transient, BlueprintReadWrite, Category=Abilities)

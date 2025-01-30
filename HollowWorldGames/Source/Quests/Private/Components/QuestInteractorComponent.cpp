@@ -27,5 +27,6 @@ void UQuestInteractorComponent::OnInteracted(AActor* Interactor) const
 		{
 			QuestComponent->OnQuestReceiveItem(QuestId, StageId, GetOwner());
 		}
+		OnInteractedWith.Broadcast(Interactor);
 	}
 }

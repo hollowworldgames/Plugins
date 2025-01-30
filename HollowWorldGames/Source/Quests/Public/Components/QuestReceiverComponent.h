@@ -51,6 +51,7 @@ struct FQuestState
 	void OnQuestGiveItem(int StageId, AActor* Receiver);
 	void UpdateStage(int StageId, bool bComplete, int Qty);
 	void SetStageIndex();
+	bool HasQuest(UQuestData * Quest) const;
 	UPROPERTY()
 	int ActiveStage = 0;
 	UPROPERTY()
@@ -84,6 +85,8 @@ public:
 	void UpdateQuestState(int QuestId, int StageId, bool Complete, int Qty, bool Active);
 	virtual void LoadQuestState(const FRecord& Record);
 	virtual void WriteQuestStage(int QuestId, int StageId, bool Complete, int Qty);
+	bool HasQuest(const TObjectPtr<UQuestData>& Quest);
+
 protected:
 	UFUNCTION(Client, Reliable)
 	void UpdateQuestState_Client(int QuestId, int StageId, bool Complete, int Qty, bool Active);

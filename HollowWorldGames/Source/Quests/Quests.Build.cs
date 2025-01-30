@@ -9,7 +9,7 @@ public class Quests : ModuleRules
         PublicDependencyModuleNames.AddRange(
             new string[]
             {
-                "Core","DataAccess"
+                "Core","DataAccess","GameplayTags"
             }
         );
 

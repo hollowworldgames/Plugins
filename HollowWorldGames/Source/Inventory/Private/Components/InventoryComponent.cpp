@@ -7,41 +7,45 @@
 #include "Net/UnrealNetwork.h"
 
 
-TObjectPtr<UObject> FInventorySlot::RemoveItem()
+FInventoryItem FInventorySlot::RemoveItem()
 {
-	if(Stack.Num() > 0)
+	if(Item.Qty > 0)
 	{
-		TObjectPtr<UObject> Out = Stack[0];
-		Stack.RemoveAt(0);
-		return Out;
+		FInventoryItem RemovedItem;
+		RemovedItem.Qty = 1;
+		RemovedItem.ItemId = Item.ItemId;
+		Item.Qty--;
+		if (Item.Qty < 1)
+		{
+			Item.ItemId = 0;
+			Item.MaxQty = 0;
+			Item.Qty = 0;
+		}
+		return RemovedItem;
 	}
-	return nullptr;
+	return FInventoryItem();
 }
 
-void FInventorySlot::AddItem(TObjectPtr<UObject> Storable)
+void FInventorySlot::AddItem(FInventoryItem Storable)
 {
-	if(Storable->Implements<UInventoryStorable>())
+	if(Storable.ItemId == Item.ItemId)
 	{
-		Stack.Add(Storable);
+		Item.Qty += Storable.Qty;
 	}
 }
 
 void FInventorySlot::Swap(FInventorySlot& Slot)
 {
-	TArray<TObjectPtr<UObject>> Temp = Stack;
-	Stack = Slot.Stack;
-	Slot.Stack = Temp;
+	FInventoryItem Temp = Item;
+	Item = Slot.Item;
+	Slot.Item = Temp;
 }
 
-bool FInventorySlot::CanFit(TObjectPtr<UObject> Storable)
+bool FInventorySlot::CanFit(const FInventoryItem Storable)
 {
-	if(Storable->Implements<UInventoryStorable>())
+	if(Item.ItemId == Storable.ItemId && Item.Qty + Storable.Qty < Item.MaxQty)
 	{
-		TScriptInterface<IInventoryStorable> Store = Storable;
-		if(ensure(Store))
-		{
-			
-		}
+		Item.Qty += Storable.Qty;
 	}
 	return false;
 }
@@ -54,6 +58,11 @@ UInventoryComponent::UInventoryComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
+}
+
+bool UInventoryComponent::CanFit(UObject* Item)
+{
+	return false;
 }
 
 // Called when the game starts
@@ -87,11 +96,11 @@ void UInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	// ...
 }
 
-void UInventoryComponent::AddToAny_Server_Implementation(UObject * Item)
+void UInventoryComponent::AddToAny_Server_Implementation(FInventoryItem Item)
 {
 }
 
-void UInventoryComponent::AddToSlot_Server_Implementation(int Slot,UObject * Item)
+void UInventoryComponent::AddToSlot_Server_Implementation(int Slot, FInventoryItem Item)
 {
 }
 

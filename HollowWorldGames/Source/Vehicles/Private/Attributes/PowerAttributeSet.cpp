@@ -6,8 +6,8 @@
 #include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
 
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(PowerGenerationTag, "Vehicle.Attribute.Power.Generated", "Power Generated")
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(PowerMaxGenerationTag, "Vehicle.Attribute.Power.MaxGenerated", "Power Max Generated")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(PowerGeneratedTag, "Vehicle.Attribute.Power.Generated", "Power Generated")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(PowerMaxGeneratedTag, "Vehicle.Attribute.Power.MaxGenerated", "Power Max Generated")
 
 float UPowerAttributeSet::GetAttributeValue(FGameplayTag AttributeTag)
 {

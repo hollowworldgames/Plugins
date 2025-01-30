@@ -9,7 +9,7 @@ public class Inventory : ModuleRules
         PublicDependencyModuleNames.AddRange(
             new string[]
             {
-                "Core",
+                "Core", "Interactions",
             }
         );
 

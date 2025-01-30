@@ -16,6 +16,57 @@ void FStringValue::SetValue(FString NewValue)
 	Dirty = true;
 }
 
+float FRecord::GetFloatValue(const FGameplayTag Tag) const
+{
+	if (NumericValues.Contains(Tag))
+	{
+		return NumericValues[Tag].Value;
+	}
+	return 0;
+}
+
+int FRecord::GetIntValue(const FGameplayTag Tag) const
+{
+	if (NumericValues.Contains(Tag))
+	{
+		return NumericValues[Tag].Value;
+	}
+	return 0;
+}
+
+FName FRecord::GetNameValue(const FGameplayTag Tag) const
+{
+	if (StringValues.Contains(Tag))
+	{
+		return FName(StringValues[Tag].Value);
+	}
+	return NAME_None;
+}
+
+FString FRecord::GetStringValue(const FGameplayTag Tag) const
+{
+	if (StringValues.Contains(Tag))
+	{
+		return StringValues[Tag].Value;
+	}
+	return "";
+}
+
+void FRecord::AddNumericValue(const FGameplayTag& Tag, int Value)
+{
+	NumericValues[Tag].Value = Value;
+}
+
+void FRecord::AddNumericValue(const FGameplayTag& Tag, float Value)
+{
+	NumericValues[Tag].Value = Value;
+}
+
+void FRecord::AddNumericValue(const FGameplayTag& Tag, bool Value)
+{
+	NumericValues[Tag].Value = (Value) ?  1.0f : 0.0f;
+}
+
 // Sets default values for this component's properties
 UDataAccessComponent::UDataAccessComponent()
 {
@@ -31,12 +82,22 @@ void UDataAccessComponent::LoadActorState(uint64 ActorId)
 	ensureMsgf(false, TEXT("Load Actor State Not Override"));
 }
 
+
+FName UDataAccessComponent::GetNameAttribute(FGameplayTag Attribute)
+{
+	if (StringAttributes.Contains(Attribute))
+	{
+		return FName(StringAttributes[Attribute].Value);
+	}
+	return NAME_None;
+}
+
 void UDataAccessComponent::SaveActorState()
 {
 	ensureMsgf(false, TEXT("Save Actor State Not Override"));
 }
 
-float UDataAccessComponent::GetFloatAttribute(FString Attribute)
+float UDataAccessComponent::GetFloatAttribute(FGameplayTag Attribute)
 {
 	if(NumericAttributes.Contains(Attribute))
 	{
@@ -45,7 +106,7 @@ float UDataAccessComponent::GetFloatAttribute(FString Attribute)
 	return 0;
 }
 
-FString UDataAccessComponent::GetStringAttribute(FString Attribute)
+FString UDataAccessComponent::GetStringAttribute(FGameplayTag Attribute)
 {
 	if(StringAttributes.Contains(Attribute))
 	{
@@ -54,7 +115,7 @@ FString UDataAccessComponent::GetStringAttribute(FString Attribute)
 	return FString();
 }
 
-int UDataAccessComponent::GetIntAttribute(FString Attribute)
+int UDataAccessComponent::GetIntAttribute(FGameplayTag Attribute)
 {
 	if(NumericAttributes.Contains(Attribute))
 	{
@@ -63,30 +124,49 @@ int UDataAccessComponent::GetIntAttribute(FString Attribute)
 	return 0;
 }
 
-float UDataAccessComponent::SetFloatAttribute(FString Attribute, float Value)
+
+bool UDataAccessComponent::GetBoolAttribute(FGameplayTag Attribute)
+{
+	if(NumericAttributes.Contains(Attribute))
+	{
+		return static_cast<int>(NumericAttributes[Attribute].Value) == 1;
+	}
+	return true;
+}
+
+float UDataAccessComponent::SetFloatAttribute(FGameplayTag Attribute, float Value)
 {
 	NumericAttributes[Attribute].SetValue(Value);
 	return Value;
 }
 
-FString UDataAccessComponent::SetStringAttribute(FString Attribute, FString Value)
+FString UDataAccessComponent::SetStringAttribute(FGameplayTag Attribute, FString Value)
 {
 	StringAttributes[Attribute].SetValue(Value);
 	return Value;
 }
 
-int UDataAccessComponent::SetIntAttribute(FString Attribute, int Value)
+int UDataAccessComponent::SetIntAttribute(FGameplayTag Attribute, int Value)
 {
 	NumericAttributes[Attribute].SetValue(Value);
 	return Value;
 }
 
-TArray<FRecord> UDataAccessComponent::GetRecordsOfType(int Type) const
+bool UDataAccessComponent::SetBoolAttribute(FGameplayTag Attribute, bool Value)
+{
+	NumericAttributes[Attribute].SetValue((Value) ?  1.0f : 0.0f);
+	return Value;
+}
+
+TArray<FRecord> UDataAccessComponent::GetRecordsOfType(FGameplayTag Type) const
 {
 	TArray<FRecord> OutRecords;
 	for(const FRecord& Record : Records)
 	{
-		OutRecords.Add(Record);
+		if (Record.RecordTag.MatchesTag(Type))
+		{
+			OutRecords.Add(Record);
+		}
 	}
 	return OutRecords;
 }

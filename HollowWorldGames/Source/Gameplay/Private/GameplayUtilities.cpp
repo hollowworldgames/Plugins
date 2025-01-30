@@ -8,10 +8,69 @@
 
 float UGameplayUtilities::ParryValue = 0.4f;
 
-ECombatRollResult UGameplayUtilities::DoCombatRoll(FVector4f& Damage, float Accuracy, FVector4f Mitigation,
-                                                                float BlockChance, float BlockValue, float ParryChance, float EvadeChance,
-                                                                float GlanceChance, float GlanceValue, float CriticalChance, float CriticalDefense, float CriticalValue,
-                                                                float PenetrationChance, float PenetrationValue)
+ECombatRollResult UGameplayUtilities::DoCombatRoll(float& Damage, const float Accuracy, const float Mitigation, const float BlockChance,
+	const float BlockValue, const float ParryChance, const float EvadeChance, const float GlanceChance, const float GlanceValue, const float CriticalChance,
+	const float CriticalDefense, const float CriticalValue, const float PenetrationChance, float PenetrationValue)
+{
+	if(UUtilityStatics::Roll1000(Accuracy))
+	{
+		if(BlockChance > 0)
+		{
+			if(UUtilityStatics::Roll1000(BlockChance))
+			{
+				Damage = Damage * (BlockValue / 1000);
+				Damage = ApplyMitigation(Damage, Mitigation);
+				return ECombatRollResult::Block;		
+			}
+		}
+		if(ParryChance > 0)
+		{
+			if(UUtilityStatics::Roll1000(ParryChance))
+			{
+				Damage = Damage * ParryValue;
+				Damage = ApplyMitigation(Damage, Mitigation);
+				return ECombatRollResult::Parry;
+			}
+		}
+		if(EvadeChance > 0)
+		{
+			if(UUtilityStatics::Roll1000(EvadeChance))
+			{
+				Damage = 0;
+				return ECombatRollResult::Evade;
+			}
+		}
+		if(GlanceChance > 0)
+		{
+			if(UUtilityStatics::Roll1000(GlanceChance))
+			{
+				Damage = Damage * ((1000 - GlanceValue)/1000);
+				Damage = ApplyMitigation(Damage, Mitigation);
+				return ECombatRollResult::Glance;
+			}
+		}
+		//do crit here
+		if(ApplyCriticalHit(Damage, CriticalChance, CriticalDefense, CriticalValue))
+		{
+			//critical Hit
+			Damage = ApplyMitigation(Damage, Mitigation);
+			return ECombatRollResult::CriticalHit;
+		}
+		if(!UUtilityStatics::Roll1000(PenetrationChance))
+		{
+			Damage = ApplyMitigation(Damage, Mitigation);
+			return ECombatRollResult::Hit;
+		}
+		return ECombatRollResult::PenetratingHit;
+	}
+	
+	return ECombatRollResult::Miss;
+}
+
+ECombatRollResult UGameplayUtilities::DoCombatRoll(FVector4f& Damage, const float Accuracy, const FVector4f Mitigation,
+                                                   const float BlockChance, const float BlockValue, const float ParryChance, const float EvadeChance,
+                                                   const float GlanceChance, const float GlanceValue, const float CriticalChance, const float CriticalDefense,
+                                                   const float CriticalValue, const float PenetrationChance, const float PenetrationValue)
 {
 	if(UUtilityStatics::Roll1000(Accuracy))
 	{
@@ -83,20 +142,20 @@ ECombatRollResult UGameplayUtilities::DoCombatRoll(FVector4f& Damage, float Accu
 	return ECombatRollResult::Miss;
 }
 
-float UGameplayUtilities::ApplyMitigation(float Damage, float Mitigation)
+float UGameplayUtilities::ApplyMitigation(const float Damage, const float Mitigation)
 {
 	return Damage * (1 - Mitigation / 1000);
 }
 
-FVector4f UGameplayUtilities::ApplyMitigation(FVector4f Damage, float Mitigation1, float Mitigation2, float Mitigation3,
-	float Mitigation4)
+FVector4f UGameplayUtilities::ApplyMitigation(const FVector4f Damage, const float Mitigation1, const float Mitigation2, const float Mitigation3,
+	const float Mitigation4)
 {
 	return Damage * (FVector4f::One() - FVector4f(Mitigation1, Mitigation2, Mitigation3,Mitigation4)
 		/ FVector4f(1000,1000,1000,1000));
 }
 
-bool UGameplayUtilities::ApplyCriticalHit(FVector4f& Damage, float CriticalChance, float CriticalDefense,
-                                          float CriticalValue)
+bool UGameplayUtilities::ApplyCriticalHit(float& Damage, const float CriticalChance, const float CriticalDefense,
+	const float CriticalValue)
 {
 	if(UUtilityStatics::Roll1000(CriticalChance - CriticalDefense))
 	{
@@ -106,7 +165,18 @@ bool UGameplayUtilities::ApplyCriticalHit(FVector4f& Damage, float CriticalChanc
 	return false;
 }
 
-ECombatRollResult UGameplayUtilities::DoCombatRoll(float HitChance, float EvadeChance,
+bool UGameplayUtilities::ApplyCriticalHit(FVector4f& Damage, const float CriticalChance, const float CriticalDefense,
+                                          const float CriticalValue)
+{
+	if(UUtilityStatics::Roll1000(CriticalChance - CriticalDefense))
+	{
+		Damage = Damage * ((1000 + CriticalValue) / 1000);
+		return true;
+	}
+	return false;
+}
+
+ECombatRollResult UGameplayUtilities::DoCombatRoll(const float HitChance, const float EvadeChance,
 	float GlanceChance)
 {
 	if(UUtilityStatics::Roll1000(HitChance - EvadeChance))

@@ -3,6 +3,8 @@
 
 #include "Components/QuestGiverComponent.h"
 
+#include "Components/QuestReceiverComponent.h"
+
 
 // Sets default values for this component's properties
 UQuestGiverComponent::UQuestGiverComponent()
@@ -14,6 +16,19 @@ UQuestGiverComponent::UQuestGiverComponent()
 	// ...
 }
 
+TArray<UQuestData*> UQuestGiverComponent::GetAvailableQuests(UQuestReceiverComponent* Receiver)
+{
+	TArray<UQuestData*> Quests;
+	for (auto Quest : QuestsOffered)
+	{
+		if (!Receiver->HasQuest(Quest))
+		{
+			Quests.Add(Quest);
+		}
+	}
+	return Quests;
+}
+
 
 // Called when the game starts
 void UQuestGiverComponent::BeginPlay()
@@ -23,14 +38,3 @@ void UQuestGiverComponent::BeginPlay()
 	// ...
 	
 }
-
-
-// Called every frame
-void UQuestGiverComponent::TickComponent(float DeltaTime, ELevelTick TickType,
-                                         FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
-}
-

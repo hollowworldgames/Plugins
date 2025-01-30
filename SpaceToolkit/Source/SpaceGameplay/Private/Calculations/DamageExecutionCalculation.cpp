@@ -13,10 +13,10 @@
 #include "Interfaces/ComponentContainerInterface.h"
 #include "Interfaces/DamageReportInterface.h"
 
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(MaxDamageTag, "Combat.Parameters.MaxDamage", "Max Damage");
+/*UE_DEFINE_GAMEPLAY_TAG_COMMENT(MaxDamageTag, "Combat.Parameters.MaxDamage", "Max Damage");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(MinDamageTag,"Combat.Parameters.MinDamage","Min Damage");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(MaxRangeTag,"Combat.Parameters.MaxRange","Max Range");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(MinRangeTag,"Combat.Parameters.MinRange","Min Range");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(MinRangeTag,"Combat.Parameters.MinRange","Min Range");*/
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(KineticDamageTag,"Combat.Parameters.KineticDamage","Kinetic Damage");
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(EnergyDamageTag,"Combat.Parameters.EnergyDamage","Energy Damage");
 
@@ -31,10 +31,10 @@ UDamageExecutionCalculation::UDamageExecutionCalculation()
 	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGCombatAttributeSet, GlancingBlowChance, Target, false, true);
 	//DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGCombatAttributeSet, GlancingBlowValue, Target, false, true);
 	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGCombatAttributeSet, CriticalDefense, Target, false, true);
-	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGCombatAttributeSet, Mitigation1, Target, false, true);
+	/*DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGCombatAttributeSet, Mitigation1, Target, false, true);
 	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGCombatAttributeSet, Mitigation2, Target, false, true);
 	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGCombatAttributeSet, Mitigation3, Target, false, true);
-	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGCombatAttributeSet, Mitigation4, Target, false, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF2(URPGCombatAttributeSet, Mitigation4, Target, false, true);*/
 	DEFINE_ATTRIBUTE_CAPTUREDEF2(USpaceCombatAttributeSet, FrontShield, Target, false, true);
 	DEFINE_ATTRIBUTE_CAPTUREDEF2(USpaceCombatAttributeSet, FrontMitigation1, Target, false, true);
 	DEFINE_ATTRIBUTE_CAPTUREDEF2(USpaceCombatAttributeSet, FrontMitigation2, Target, false, true);

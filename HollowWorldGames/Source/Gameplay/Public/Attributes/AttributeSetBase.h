@@ -7,12 +7,11 @@
 #include "AttributeMacros.h"
 #include "NativeGameplayTags.h"
 #include "Components/GameplayAbilitySystemComponent.h"
-#include "AbilitySystemComponent.h"
 #include "GameplayTagContainer.h"
 #include "AttributeSetBase.generated.h"
 
 class UGameplayAbilitySystemComponent;
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAttributeChanged, FGameplayTag, AttributeTag, float, NewValue);
+
 
 UCLASS()
 class GAMEPLAY_API UAttributeSetBase : public UAttributeSet

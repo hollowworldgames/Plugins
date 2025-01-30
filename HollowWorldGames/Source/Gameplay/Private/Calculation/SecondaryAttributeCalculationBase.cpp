@@ -109,62 +109,6 @@ float USecondaryAttributeCalculationBase::ComputeAccuracy_Implementation(float L
 	return CalculateAttribute(AccuracyTable, Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Luck);
 }
 
-float USecondaryAttributeCalculationBase::ComputeMitigation1_Implementation(float Level, float Strength, float Agility,
-	float Precision, float Intelligence, float Wisdom, float Luck, float Constitution, float Endurance, float Charisma,
-	float Armor) const
-{
-	return CalculateAttribute(Mitigation1Table, Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Luck);
-}
-
-float USecondaryAttributeCalculationBase::ComputeMitigation2_Implementation(float Level, float Strength, float Agility,
-	float Precision, float Intelligence, float Wisdom, float Luck, float Constitution, float Endurance, float Charisma,
-	float Armor) const
-{
-	return CalculateAttribute(Mitigation2Table, Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Luck);
-}
-
-float USecondaryAttributeCalculationBase::ComputeMitigation3_Implementation(float Level, float Strength, float Agility,
-	float Precision, float Intelligence, float Wisdom, float Luck, float Constitution, float Endurance, float Charisma,
-	float Armor) const
-{
-	return CalculateAttribute(Mitigation3Table, Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Luck);
-}
-
-float USecondaryAttributeCalculationBase::ComputeMitigation4_Implementation(float Level, float Strength, float Agility,
-	float Precision, float Intelligence, float Wisdom, float Luck, float Constitution, float Endurance, float Charisma,
-	float Armor) const
-{
-	return CalculateAttribute(Mitigation4Table, Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Luck);
-}
-
-float USecondaryAttributeCalculationBase::ComputeResistance1_Implementation(float Level, float Strength, float Agility,
-	float Precision, float Intelligence, float Wisdom, float Luck, float Constitution, float Endurance, float Charisma,
-	float Armor) const
-{
-	return CalculateAttribute(Resistance1Table, Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Luck);
-}
-
-float USecondaryAttributeCalculationBase::ComputeResistance2_Implementation(float Level, float Strength, float Agility,
-	float Precision, float Intelligence, float Wisdom, float Luck, float Constitution, float Endurance, float Charisma,
-	float Armor) const
-{
-	return CalculateAttribute(Resistance2Table, Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Luck);
-}
-
-float USecondaryAttributeCalculationBase::ComputeResistance3_Implementation(float Level, float Strength, float Agility,
-	float Precision, float Intelligence, float Wisdom, float Luck, float Constitution, float Endurance, float Charisma,
-	float Armor) const
-{
-	return CalculateAttribute(Resistance3Table, Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Luck);
-}
-
-float USecondaryAttributeCalculationBase::ComputeResistance4_Implementation(float Level, float Strength, float Agility,
-	float Precision, float Intelligence, float Wisdom, float Luck, float Constitution, float Endurance, float Charisma,
-	float Armor) const
-{
-	return CalculateAttribute(Resistance4Table, Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Luck);
-}
-
 void USecondaryAttributeCalculationBase::Execute_Implementation(
 	const FGameplayEffectCustomExecutionParameters& ExecutionParams,
 	FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const
@@ -229,38 +173,6 @@ void USecondaryAttributeCalculationBase::Execute_Implementation(
 	float HitChance = ComputeAccuracy(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
 	HitChance += GetAttributeFromGear(AccuracyTag, Source);
 	WRITE_EXECUTION_ATTRIBUTE(URPGCombatAttributeSet, HitChance, OutExecutionOutput);
-
-	float Mitigation1 = ComputeMitigation1(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
-	Mitigation1 += GetAttributeFromGear(Mitigation1Tag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGCombatAttributeSet, Mitigation1, OutExecutionOutput);
-
-	float Mitigation2 = ComputeMitigation2(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
-	Mitigation2 += GetAttributeFromGear(Mitigation2Tag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGCombatAttributeSet, Mitigation2, OutExecutionOutput);
-
-	float Mitigation3 = ComputeMitigation3(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
-	Mitigation3 += GetAttributeFromGear(Mitigation1Tag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGCombatAttributeSet, Mitigation3, OutExecutionOutput);
-
-	float Mitigation4 = ComputeMitigation4(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
-	Mitigation4 += GetAttributeFromGear(Mitigation4Tag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGCombatAttributeSet, Mitigation4, OutExecutionOutput);
-
-	float Resistance1 = ComputeResistance1(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
-	Resistance1 += GetAttributeFromGear(Resistance1Tag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGCombatAttributeSet, Resistance1, OutExecutionOutput);
-
-	float Resistance2 = ComputeResistance2(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
-	Resistance2 += GetAttributeFromGear(Resistance2Tag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGCombatAttributeSet, Resistance2, OutExecutionOutput);
-
-	float Resistance3 = ComputeResistance3(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
-	Resistance3 += GetAttributeFromGear(Resistance1Tag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGCombatAttributeSet, Resistance3, OutExecutionOutput);
-
-	float Resistance4 = ComputeResistance4(Level, Strength, Agility, Precision, Intelligence, Wisdom, Luck, Constitution, Endurance, Charisma, Armor);
-	Resistance4 += GetAttributeFromGear(Resistance4Tag, Source);
-	WRITE_EXECUTION_ATTRIBUTE(URPGCombatAttributeSet, Resistance4, OutExecutionOutput);
 }
 
 float USecondaryAttributeCalculationBase::CalculateAttribute(TObjectPtr<UCurveTable> Table, float Level, float Strength,
