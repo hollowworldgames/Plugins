@@ -29,11 +29,15 @@ public:
 	virtual void OnLeftMouseDown(AActor * Interactor);
 	virtual void OnRightMouseUp(AActor * Interactor);
     virtual void OnRightMouseDown(AActor * Interactor);
+	virtual void OnTouchUp(AActor * Interactor);
+	virtual void OnTouchDown(AActor * Interactor);
 	virtual void OnMouseLeft(AActor * Interactor);
 	virtual void OnMouseEntered(AActor * Interactor);
 	virtual void SetRightMouse(bool State, AActor * Interactor);
 	virtual void SetLeftMouse(bool State, AActor * Interactor);
+	virtual void SetTouch(bool State, AActor * Interactor);
 protected :
 	bool LeftMouseDown = false;
 	bool RightMouseDown = false;
+	bool TouchDown = false;
 };

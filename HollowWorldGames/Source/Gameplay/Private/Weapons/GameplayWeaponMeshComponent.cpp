@@ -4,3 +4,8 @@
 #include "Weapons/GameplayWeaponMeshComponent.h"
 
 bool UGameplayWeaponMeshComponent::AbilityLaunchOnImpact = true;
+
+float UGameplayWeaponMeshComponent::GetDamage() const
+{
+	return FMath::RandRange(MinDamage, MaxDamage);
+}

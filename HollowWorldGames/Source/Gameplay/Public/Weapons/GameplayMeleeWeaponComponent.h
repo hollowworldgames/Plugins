@@ -14,14 +14,13 @@ class GAMEPLAY_API UGameplayMeleeWeaponComponent : public UGameplayWeaponMeshCom
 {
 	GENERATED_BODY()
 public :
-	void SetCurrentAbility(FGameplayTag Ability);
+	UFUNCTION(BlueprintCallable)
 	void OnMontageStart();
+	UFUNCTION(BlueprintCallable)
 	void OnMontageComplete();
 protected :
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 	virtual void BeginPlay() override;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability")
-	FGameplayTag AbilityTag;
 	bool MontageStarted = false;
 };

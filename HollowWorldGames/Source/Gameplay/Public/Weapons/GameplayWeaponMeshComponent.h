@@ -18,6 +18,7 @@ class GAMEPLAY_API UGameplayWeaponMeshComponent : public USkeletalMeshComponent
 public :
 	void SetCurrentAbility(const FGameplayTag AbilityTag) { CurrentAbility = AbilityTag; }
 	void SetDamage(const float Min, const float Max) { MinDamage = Min; MaxDamage = Max; }
+	float GetDamage() const;
 	static bool AbilityLaunchOnImpact;
 protected :
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Damage)

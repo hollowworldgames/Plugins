@@ -6,42 +6,48 @@
 // Add default functionality here for any IInteractable functions that are not pure virtual.
 void IInteractable::OnLeftMouseUp(AActor * Interactor)
 {
-	LeftMouseDown = false;
+	
 }
 
 void IInteractable::OnLeftMouseDown(AActor * Interactor)
 {
-	LeftMouseDown = true;
+	
 }
 
 void IInteractable::OnRightMouseUp(AActor * Interactor)
 {
-	RightMouseDown = true;
+	
 }
 
 void IInteractable::OnRightMouseDown(AActor * Interactor)
 {
-	RightMouseDown = false;
+	
+}
+
+void IInteractable::OnTouchUp(AActor* Interactor)
+{
+	
+}
+
+void IInteractable::OnTouchDown(AActor* Interactor)
+{
+	
 }
 
 
 void IInteractable::OnMouseLeft(AActor * Interactor)
 {
-	if (LeftMouseDown)
-	{
-		OnLeftMouseUp(Interactor);
-	}
-	if (RightMouseDown)
-	{
-		OnRightMouseUp(Interactor);
-	}
+	LeftMouseDown = false;
+	RightMouseDown = false;
+	TouchDown = false;
 }
 
 void IInteractable::OnMouseEntered(AActor * Interactor)
 {
+	
 }
 
-void IInteractable::SetRightMouse(bool State, AActor * Interactor)
+void IInteractable::SetRightMouse(const bool State, AActor * Interactor)
 {
 	if (!State && RightMouseDown)
 	{
@@ -51,9 +57,10 @@ void IInteractable::SetRightMouse(bool State, AActor * Interactor)
 	{
 		OnRightMouseDown(Interactor);
 	}
+	RightMouseDown = State;
 }
 
-void IInteractable::SetLeftMouse(bool State, AActor * Interactor)
+void IInteractable::SetLeftMouse(const bool State, AActor * Interactor)
 {
 	if (!State && LeftMouseDown)
 	{
@@ -63,4 +70,18 @@ void IInteractable::SetLeftMouse(bool State, AActor * Interactor)
 	{
 		OnLeftMouseDown(Interactor);
 	}
+	LeftMouseDown = State;
+}
+
+void IInteractable::SetTouch(const bool State, AActor* Interactor)
+{
+	if (!State && TouchDown)
+	{
+		OnTouchUp(Interactor);
+	}
+	if (State && !TouchDown)
+	{
+		OnTouchDown(Interactor);
+	}
+	TouchDown = State;
 }

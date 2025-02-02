@@ -19,6 +19,8 @@ class INTERACTIONS_API UMouseInteractorComponent : public UActorComponent
 public:
 	// Sets default values for this component's properties
 	UMouseInteractorComponent();
+	FMouseInteraction& GetRightClickEvent() { return RightClick; }
+	FMouseInteraction& GetLeftClickEvent() { return LeftClick; }
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;

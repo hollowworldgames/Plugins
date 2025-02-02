@@ -4,17 +4,11 @@
 #include "Weapons/GameplayMeleeWeaponComponent.h"
 
 #include "AbilitySystemBlueprintLibrary.h"
-#include "NativeGameplayTags.h"
+
 #include "Abilities/GameplayAbilityTypes.h"
 #include "Interfaces/GameplayActorInterface.h"
+#include "Weapons/GameplayWeaponTags.h"
 
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(ImpactEventTag, "Combat.Event.Impact", "Combat Impact Event");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(MissEventTag, "Combat.Event.Miss", "Combat Miss Event");
-
-void UGameplayMeleeWeaponComponent::SetCurrentAbility(FGameplayTag Ability)
-{
-	AbilityTag = Ability;
-}
 
 void UGameplayMeleeWeaponComponent::OnMontageStart()
 {
@@ -43,8 +37,8 @@ void UGameplayMeleeWeaponComponent::OnHit(UPrimitiveComponent* HitComponent, AAc
 			if (UGameplayAbilitySystemComponent * SourceComponent =Cast<UGameplayAbilitySystemComponent>(
 				UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetOwner())))
 			{
-				SourceComponent->OnAbilityInputPressed(AbilityTag);
-				SourceComponent->OnAbilityInputReleased(AbilityTag);
+				SourceComponent->OnAbilityInputPressed(CurrentAbility);
+				SourceComponent->OnAbilityInputReleased(CurrentAbility);
 				FGameplayEventData Payload;
 				Payload.Instigator = GetOwner();
 				Payload.Target = OtherActor;

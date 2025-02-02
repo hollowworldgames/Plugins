@@ -90,6 +90,7 @@ void UMouseInteractorComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 						{
 							Interactable->SetLeftMouse(Controller->IsInputKeyDown(EKeys::LeftMouseButton), GetOwner());
 							Interactable->SetRightMouse(Controller->IsInputKeyDown(EKeys::RightMouseButton), GetOwner());
+							bool Touch = Controller->IsInputKeyDown(EKeys::TouchKeys[0]);
 						}
 					}
 					else
