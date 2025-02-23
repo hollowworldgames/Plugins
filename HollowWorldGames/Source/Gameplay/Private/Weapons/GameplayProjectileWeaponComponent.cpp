@@ -20,6 +20,6 @@ void UGameplayProjectileWeaponComponent::LaunchProjectile_Server_Implementation(
 	if (AGameplayProjectileActor * Actor = GetWorld()->SpawnActorDeferred<AGameplayProjectileActor>(ProjectileClass, Transform))
 	{
 		Actor->FinishSpawning(Transform);
-		Actor->LaunchAt(ProjectileTarget, Source);
+		Actor->LaunchAt(ProjectileTarget, NewSource, MinDamage, MaxDamage);
 	}
 }

@@ -17,6 +17,10 @@ public:
 	AFantasyCharacterBase();
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	float GetSpeed() const;
+	float GetDirection() const;
+	float GetTurn() const;
+	virtual bool IsAlive() const;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

@@ -14,7 +14,6 @@ class FANTASYCHARACTER_API UFantasyBankAttributeSet : public UAttributeSetBase
 	GENERATED_BODY()
 public :
 	ATTRIBUTE_ACCESSORS(UFantasyBankAttributeSet, Money);
-	ATTRIBUTE_TAG_ACCESSOR(UFantasyBankAttributeSet, Money);
 
 	virtual float GetAttributeValue(FGameplayTag AttributeTag) override;
 	virtual void SetAttributeValue(FGameplayTag Attribute, float Value) override;

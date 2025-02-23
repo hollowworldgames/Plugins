@@ -12,7 +12,8 @@ public class Equipment : ModuleRules
                 "Core",
                 "Gameplay",
                 "GameplayAbilities",
-                "GameplayTags", "GameplayTags"
+                "GameplayTags", 
+                "Inventory"
             }
         );
 

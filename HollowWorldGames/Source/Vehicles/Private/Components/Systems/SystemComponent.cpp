@@ -14,6 +14,20 @@ USystemComponent::USystemComponent()
 	// ...
 }
 
+void USystemComponent::TickComponent(float DeltaTime, enum ELevelTick TickType,
+	FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	if (IsLocallyControlled() || SimulateBoth)
+	{
+		Simulate(DeltaTime);
+	}
+	else
+	{
+		
+	}
+}
+
 
 // Called when the game starts
 void USystemComponent::BeginPlay()
@@ -22,6 +36,10 @@ void USystemComponent::BeginPlay()
 
 	// ...
 	
+}
+
+void USystemComponent::Simulate(float DeltaTime)
+{
 }
 
 bool USystemComponent::IsLocallyControlled() const

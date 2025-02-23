@@ -86,9 +86,12 @@ void ADataCharacter::PossessedBy(AController* NewController)
 		default :
 			break;
 		}
-		DataAccessComponent = Cast<UDataAccessComponent>(AddComponentByClass(DataClass, false, FTransform(), false));
-		DataAccessComponent->SetIsReplicated(true);
-		DataAccessComponent->GetDataLoaded().AddDynamic(this, &ADataCharacter::Multicast_PostLoad);
+		if (DataClass)
+		{
+			DataAccessComponent = Cast<UDataAccessComponent>(AddComponentByClass(DataClass, false, FTransform(), false));
+			DataAccessComponent->SetIsReplicated(true);
+			DataAccessComponent->GetDataLoaded().AddDynamic(this, &ADataCharacter::Multicast_PostLoad);
+		}
 	}
 }
 

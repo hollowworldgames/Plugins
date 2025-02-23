@@ -4,6 +4,7 @@
 #include "Attributes/PrimaryAttributeSet.h"
 
 #include "EditorDirectories.h"
+#include "Attributes/ExperienceAttributeSet.h"
 #include "Attributes/VitalAttributeSet.h"
 #include "GameFramework/Character.h"
 #include "Net/UnrealNetwork.h"
@@ -11,7 +12,7 @@
 
 UPrimaryAttributeCalculation::UPrimaryAttributeCalculation()
 {
-	DEFINE_ATTRIBUTE_CAPTUREDEF2(UVitalAttributeSet, Level, Target, false, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF2(UExperienceAttributeSet, Level, Target, false, true);
 }
 
 void UPrimaryAttributeCalculation::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
@@ -22,15 +23,24 @@ void UPrimaryAttributeCalculation::Execute_Implementation(const FGameplayEffectC
 
 	GET_EXECUTION_ATTRIBUTE(Level, ExecutionParams);
 
-	const float Strength = StrengthCurve.GetValueAtLevel(Level) + Spec.GetSetByCallerMagnitude(StrengthTag);
-	const float Agility = StrengthCurve.GetValueAtLevel(Level) + Spec.GetSetByCallerMagnitude(AgilityTag);
-	const float Precision = StrengthCurve.GetValueAtLevel(Level) + Spec.GetSetByCallerMagnitude(PrecisionTag);
-	const float Wisdom = StrengthCurve.GetValueAtLevel(Level) + Spec.GetSetByCallerMagnitude(WisdomTag);
-	const float Intelligence = StrengthCurve.GetValueAtLevel(Level) + Spec.GetSetByCallerMagnitude(IntelligenceTag);
-	const float Luck = StrengthCurve.GetValueAtLevel(Level) + Spec.GetSetByCallerMagnitude(LuckTag);
-	const float Constitution = StrengthCurve.GetValueAtLevel(Level) + Spec.GetSetByCallerMagnitude(ConstitutionTag);
-	const float Endurance = StrengthCurve.GetValueAtLevel(Level) * Spec.GetSetByCallerMagnitude(EnduranceTag);
-	const float Charisma = StrengthCurve.GetValueAtLevel(Level) * Spec.GetSetByCallerMagnitude(CharismaTag);
+	const float Strength = StrengthCurve.GetValueAtLevel(Level) + Spec.GetSetByCallerMagnitude(StrengthAddendTag)
+		* Spec.GetSetByCallerMagnitude(StrengthMultiplierTag, false, 1.0f);
+	const float Agility = AgilityCurve.GetValueAtLevel(Level) + Spec.GetSetByCallerMagnitude(AgilityAddendTag)
+		* Spec.GetSetByCallerMagnitude(AgilityMultiplierTag, false, 1.0f);
+	const float Precision = PrecisionCurve.GetValueAtLevel(Level) + Spec.GetSetByCallerMagnitude(PrecisionAddendTag)
+		* Spec.GetSetByCallerMagnitude(PrecisionMultiplierTag, false, 1.0f);
+	const float Wisdom = WisdomCurve.GetValueAtLevel(Level) + Spec.GetSetByCallerMagnitude(WisdomAddendTag)
+		* Spec.GetSetByCallerMagnitude(WisdomMultiplierTag, false, 1.0f);
+	const float Intelligence = IntelligenceCurve.GetValueAtLevel(Level) + Spec.GetSetByCallerMagnitude(IntelligenceAddendTag)
+		* Spec.GetSetByCallerMagnitude(IntelligenceMultiplierTag, false, 1.0f);
+	const float Luck = LuckCurve.GetValueAtLevel(Level) + Spec.GetSetByCallerMagnitude(LuckAddendTag)
+		* Spec.GetSetByCallerMagnitude(LuckMultiplierTag, false, 1.0f);
+	const float Constitution = ConstitutionCurve.GetValueAtLevel(Level) + Spec.GetSetByCallerMagnitude(ConstitutionAddendTag)
+		* Spec.GetSetByCallerMagnitude(ConstitutionMultiplierTag, false, 1.0f);
+	const float Endurance = (EnduranceCurve.GetValueAtLevel(Level) + Spec.GetSetByCallerMagnitude(EnduranceAddendTag))
+		* Spec.GetSetByCallerMagnitude(EnduranceMultiplierTag, false, 1.0f);
+	const float Charisma = (CharismaCurve.GetValueAtLevel(Level) + Spec.GetSetByCallerMagnitude(CharismaAddendTag))
+		* Spec.GetSetByCallerMagnitude(CharismaMultiplierTag, false, 1.0f);
 
 	WRITE_EXECUTION_ATTRIBUTE(UPrimaryAttributeSet, Strength, OutExecutionOutput);
 	WRITE_EXECUTION_ATTRIBUTE(UPrimaryAttributeSet, Agility, OutExecutionOutput);

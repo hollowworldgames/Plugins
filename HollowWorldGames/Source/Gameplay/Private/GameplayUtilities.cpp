@@ -3,7 +3,10 @@
 
 #include "GameplayUtilities.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
 #include "UtilityStatics.h"
+#include "Components/GameplayAbilitySystemComponent.h"
+#include "Weapons/GameplayWeaponTags.h"
 
 
 float UGameplayUtilities::ParryValue = 0.4f;
@@ -142,6 +145,24 @@ ECombatRollResult UGameplayUtilities::DoCombatRoll(FVector4f& Damage, const floa
 	return ECombatRollResult::Miss;
 }
 
+ECombatRollResult UGameplayUtilities::DoActionCombatRoll(float& Damage, float Accuracy, const float Mitigation,
+	const float CriticalChance, const float CriticalDefense, const float CriticalValue, const float PenetrationChance, const float PenetrationValue)
+{
+	//do crit here
+	if(ApplyCriticalHit(Damage, CriticalChance, CriticalDefense, CriticalValue))
+	{
+		//critical Hit
+		Damage = ApplyMitigation(Damage, Mitigation);
+		return ECombatRollResult::CriticalHit;
+	}
+	if(UUtilityStatics::Roll1000(PenetrationChance))
+	{
+		Damage = ApplyMitigation(Damage, FMath::Max(Mitigation - PenetrationValue,0));
+		return ECombatRollResult::PenetratingHit;
+	}
+	return ECombatRollResult::Hit;
+}
+
 float UGameplayUtilities::ApplyMitigation(const float Damage, const float Mitigation)
 {
 	return Damage * (1 - Mitigation / 1000);
@@ -187,4 +208,51 @@ ECombatRollResult UGameplayUtilities::DoCombatRoll(const float HitChance, const 
 		}
 	}
 	return ECombatRollResult::Miss;
+}
+
+void UGameplayUtilities::ApplyEffectToTarget(const TSubclassOf<UGameplayEffect>& Effect, const float Level, AActor* Target,
+	const AActor* Source, const TArray<FCustomEffectValue>& CustomValues)
+{
+	UGameplayAbilitySystemComponent * TargetAbilitySystem = Cast<UGameplayAbilitySystemComponent>(
+		UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Target));
+	if(IsValidEnsure(TargetAbilitySystem))
+	{
+		TargetAbilitySystem->ApplyGameplayEffect(Effect, Level, CustomValues, Source);
+	}
+}
+
+void UGameplayUtilities::ApplyEffectToSelf(const TSubclassOf<UGameplayEffect>& Effect, float Level,
+	AActor* Source, const TArray<FCustomEffectValue>& CustomValues)
+{
+	UGameplayAbilitySystemComponent * TargetAbilitySystem = Cast<UGameplayAbilitySystemComponent>(
+		UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Source));
+	if(IsValidEnsure(TargetAbilitySystem))
+	{
+		TargetAbilitySystem->ApplyGameplayEffect(Effect, Level, CustomValues, Source);
+	}
+}
+
+void UGameplayUtilities::RemoveEffect(const TSubclassOf<UGameplayEffect>& Effect, AActor* Source)
+{
+	UGameplayAbilitySystemComponent * TargetAbilitySystem = Cast<UGameplayAbilitySystemComponent>(
+		UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Source));
+	if(IsValidEnsure(TargetAbilitySystem))
+	{
+		TargetAbilitySystem->RemoveGameplayEffect(Effect);
+	}
+}
+
+void UGameplayUtilities::RunAbility(const FGameplayTag Ability, AActor* Target, AActor* Source, const float Magnitude)
+{
+	if (UGameplayAbilitySystemComponent * SourceComponent =Cast<UGameplayAbilitySystemComponent>(
+				UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Source)))
+	{
+		SourceComponent->OnAbilityInputPressed(Ability);
+		SourceComponent->OnAbilityInputReleased(Ability);
+		FGameplayEventData Payload;
+		Payload.Instigator = Source;
+		Payload.Target = Target;
+		Payload.EventMagnitude = Magnitude;
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Source, ImpactEventTag, Payload);
+	}
 }

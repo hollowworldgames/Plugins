@@ -19,21 +19,15 @@ class VEHICLES_API UShieldedVehicleVitalAttributes : public UAttributeSetBase
 	GENERATED_BODY()
 public :
 	ATTRIBUTE_ACCESSORS(UShieldedVehicleVitalAttributes, FuselageHealth);
-	ATTRIBUTE_TAG_ACCESSOR(UShieldedVehicleVitalAttributes, FuselageHealth);
 	ATTRIBUTE_ACCESSORS(UShieldedVehicleVitalAttributes, FuselageMaxHealth);
-	ATTRIBUTE_TAG_ACCESSOR(UShieldedVehicleVitalAttributes, FuselageMaxHealth);
 	ATTRIBUTE_ACCESSORS(UShieldedVehicleVitalAttributes, IncomingFuselageDamage);
 
 	ATTRIBUTE_ACCESSORS(UShieldedVehicleVitalAttributes, ForwardShieldHealth);
-	ATTRIBUTE_TAG_ACCESSOR(UShieldedVehicleVitalAttributes, ForwardShieldHealth);
 	ATTRIBUTE_ACCESSORS(UShieldedVehicleVitalAttributes, ForwardShieldMaxHealth);
-	ATTRIBUTE_TAG_ACCESSOR(UShieldedVehicleVitalAttributes, ForwardShieldMaxHealth);
 	ATTRIBUTE_ACCESSORS(UShieldedVehicleVitalAttributes, IncomingForwardShieldDamage);
 	
 	ATTRIBUTE_ACCESSORS(UShieldedVehicleVitalAttributes, RearShieldHealth);
-	ATTRIBUTE_TAG_ACCESSOR(UShieldedVehicleVitalAttributes, RearShieldHealth);
 	ATTRIBUTE_ACCESSORS(UShieldedVehicleVitalAttributes, RearShieldMaxHealth);
-	ATTRIBUTE_TAG_ACCESSOR(UShieldedVehicleVitalAttributes, RearShieldMaxHealth);
 	ATTRIBUTE_ACCESSORS(UShieldedVehicleVitalAttributes, IncomingRearShieldDamage);
 	
 	virtual float GetAttributeValue(FGameplayTag AttributeTag) override;

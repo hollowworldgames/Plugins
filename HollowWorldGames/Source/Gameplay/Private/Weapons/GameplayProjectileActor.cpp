@@ -4,7 +4,10 @@
 #include "Weapons/GameplayProjectileActor.h"
 
 #include "AbilitySystemBlueprintLibrary.h"
+#include "GameplayUtilities.h"
 #include "Abilities/GameplayAbilityTypes.h"
+#include "Attributes/AttributeTags.h"
+#include "Components/GameplayAbilitySystemComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Weapons/GameplayWeaponTags.h"
 
@@ -21,6 +24,7 @@ AGameplayProjectileActor::AGameplayProjectileActor()
 void AGameplayProjectileActor::BeginPlay()
 {
 	Super::BeginPlay();
+
 	
 }
 
@@ -31,12 +35,15 @@ void AGameplayProjectileActor::Tick(float DeltaTime)
 	Lifetime -= DeltaTime;
 	if (Lifetime < 0.0f)
 	{
-		FGameplayEventData Payload;
-		Payload.Instigator = Source;
-		Payload.Target = nullptr;
-		Payload.OptionalObject = this;
-		Payload.EventMagnitude = 0;
-		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Source, MissEventTag, Payload);
+		if (SendEvent)
+		{
+			FGameplayEventData Payload;
+			Payload.Instigator = Source;
+			Payload.Target = nullptr;
+			Payload.OptionalObject = this;
+			Payload.EventMagnitude = 0;
+			UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Source, MissEventTag, Payload);
+		}
 	}
 }
 
@@ -48,6 +55,11 @@ void AGameplayProjectileActor::LaunchAt(AActor* Target, AActor * NewSource, floa
 	MaxDamage = Max;
 }
 
+FGameplayTag AGameplayProjectileActor::GetComponentFromBone(FName BoneName)
+{
+	return FGameplayTag();
+}
+
 float AGameplayProjectileActor::ComputeDamage(const FVector& Location) const
 {
 	const double Distance = FMath::Clamp(FVector::Dist(Location, LaunchPoint), 0, 1);
@@ -57,12 +69,22 @@ float AGameplayProjectileActor::ComputeDamage(const FVector& Location) const
 void AGameplayProjectileActor::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
                                               UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	FGameplayEventData Payload;
-	Payload.Instigator = Source;
-	Payload.Target = OtherActor;
-	Payload.OptionalObject = this;
-	Payload.EventMagnitude = ComputeDamage(SweepResult.Location);
-	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Source, ImpactEventTag, Payload);
+	if (SendEvent)
+	{
+		FGameplayEventData Payload;
+		Payload.Instigator = Source;
+		Payload.Target = OtherActor;
+		Payload.OptionalObject = this;
+		Payload.TargetTags.AddTag(GetComponentFromBone(SweepResult.BoneName));
+		Payload.EventMagnitude = ComputeDamage(SweepResult.Location);
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Source, ImpactEventTag, Payload);
+	}
+	else
+	{
+		TArray<FCustomEffectValue> CustomValues;
+		CustomValues.Add(FCustomEffectValue(DamageType, ComputeDamage(SweepResult.Location)));
+		UGameplayUtilities::ApplyEffectToTarget(ImpactEffect, ImpactLevel, OtherActor, Source, CustomValues);
+	}
 }
 
 void AGameplayProjectileActor::SetCollisionPrimitive(UPrimitiveComponent* NewCollider)

@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
-#include "GameplayUtilities.h"
+#include "GameplayStructs.h"
 #include "GameplayAbilitySystemComponent.generated.h"
 
 class UAttributeSetBase;
@@ -13,22 +13,6 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAttributeChanged, FGameplayTag, At
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FGameplayEffectAppliedDelegate, FGameplayTagContainer&, Tags);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityNotify, const FGameplayTag& , Ability);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_FiveParams(FDamageNotify, ECombatRollResult, Result, float, Damage, const AActor *, Attacker, const AActor *, Target, FGameplayTag, DamageType);
-
-USTRUCT()
-struct FCustomEffectValue
-{
-	GENERATED_BODY()
-	FCustomEffectValue(){}
-	FCustomEffectValue(FGameplayTag Tag, float NewValue)
-	{
-		ValueTag = Tag;
-		Value = NewValue;
-	}
-	UPROPERTY()
-	FGameplayTag ValueTag;
-	UPROPERTY()
-	float Value = 0;
-};
 
 USTRUCT(BlueprintType)
 struct FGameplayEffectApplied
@@ -84,7 +68,7 @@ public :
 	void RemoveGameplayEffect(TSubclassOf<UGameplayEffect> EffectClass);
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void AddAbilities(TArray<FAbilityData> Abilities, float OverrideLevel = 0);
-	void AddAbility(FAbilityData Ability,bool Locked);
+	void AddAbility(const FAbilityData& Ability,bool Locked);
 	void AddAbility(TSubclassOf<UGameplayAbility> Ability, int Level, FGameplayTag Status, FGameplayTag AbilityTag);
 	bool MapAbility(FGameplayTag Ability, FGameplayTag Input);
 	void UnmapAbility(FGameplayTag Input);
@@ -111,8 +95,9 @@ public :
 	FGameplayTagContainer& GetCooldownTags() { return Cooldowns; }
 	bool HasTag(FGameplayTag GameplayTag) const;
 	UAttributeSetBase * GetAttributeSet(const TSubclassOf<UAttributeSetBase>& SubClass) const;
+	void GetAllAttributeSets(TArray<UAttributeSetBase*>& OutAttributes, const TSubclassOf<UAttributeSetBase>& SubClass) const;
 	float GetAttributeValue(FGameplayTag Attribute) const;
-	void SetAttributeValue(FGameplayTag SkillId, float Level);
+	void SetAttributeValue(FGameplayTag Attribute, float Level) const;
 	FAttributeChanged& GetAttributeChanged() { return OnAttributeChanged; }
 	TArray<FGameplayAbilitySpecHandle> GetActiveAbilities();
 	UPROPERTY(EditDefaultsOnly, BlueprintAssignable, Category=Events)

@@ -8,12 +8,14 @@
 
 float UExperienceAttributeSet::GetAttributeValue(FGameplayTag AttributeTag)
 {
+	GET_IF_TAGMATCHES(Level, AttributeTag);
 	GET_IF_TAGMATCHES(Experience, AttributeTag);
 	return Super::GetAttributeValue(AttributeTag);
 }
 
 void UExperienceAttributeSet::SetAttributeValue(FGameplayTag Attribute, float Value)
 {
+	SET_IF_TAGMATCHES(Level, Attribute, Value);
 	SET_IF_TAGMATCHES(Experience, Attribute, Value);
 	if (Attribute == ExperienceTag)//set level if experience changed
 	{
@@ -32,6 +34,7 @@ void UExperienceAttributeSet::SetAttributeValue(FGameplayTag Attribute, float Va
 FGameplayTag UExperienceAttributeSet::GetAttributeTag(FGameplayAttribute Attribute)
 {
 	CHECK_IF_ATTRIBUTE(Experience, Attribute);
+	CHECK_IF_ATTRIBUTE(Level, Attribute);
 	return Super::GetAttributeTag(Attribute);
 }
 
@@ -39,18 +42,15 @@ void UExperienceAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimePropert
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME_CONDITION_NOTIFY(UExperienceAttributeSet, Experience, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UExperienceAttributeSet, Level, COND_None, REPNOTIFY_Always);
 }
 
 void UExperienceAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
 	Super::PostGameplayEffectExecute(Data);
 
-	bool Found = false;
-	float Level = Data.Target.GetGameplayAttributeValue(UVitalAttributeSet::GetLevelAttribute(), Found);
-	
-	PROCESS_INCOMING_EXPERIENCE_NOTIFY_ONLY(IncomingExperience, Experience, LevelFromXP, Level, OnLevelChanged, Data);
-
-	Data.Target.SetNumericAttributeBase(UVitalAttributeSet::GetLevelAttribute(), Level);
+	PROCESS_INCOMING_EXPERIENCE(IncomingExperience, Experience, LevelFromXP, Level, OnLevelChanged, Data);
 }
 
+ATTRIBUTE_IMPLEMENT(UExperienceAttributeSet, Level);
 ATTRIBUTE_IMPLEMENT(UExperienceAttributeSet, Experience);

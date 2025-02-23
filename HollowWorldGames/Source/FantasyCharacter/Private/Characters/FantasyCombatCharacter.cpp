@@ -2,6 +2,10 @@
 #include "Characters/FantasyCombatCharacter.h"
 
 #include "UtilityStatics.h"
+#include "Attributes/AttributeTags.h"
+#include "UI/GameplayCombatWidgetController.h"
+#include "UI/GameplayVitalWidgetController.h"
+#include "UI/GameplayWidgetController.h"
 #include "Variables/FloatVariableAsset.h"
 
 
@@ -14,10 +18,42 @@ AFantasyCombatCharacter::AFantasyCombatCharacter()
 
 void AFantasyCombatCharacter::OnDeath()
 {
-	GetMesh()->SetSimulatePhysics(true); //ragdoll character
+	Alive = false;
 	if (HasAuthority() && ensure(DestroyDelay))
 	{
-		SetLifeSpan(DestroyDelay->GetValue());
+		if (Respawns)
+		{
+			FTimerHandle TimerHandle;
+			GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this]()
+			{
+				RestoreToLife();
+			}, RespawnDelay, false);
+		}
+		else
+		{
+			SetLifeSpan(DestroyDelay->GetValue());
+		}
+	}
+}
+
+void AFantasyCombatCharacter::Ragdoll()
+{
+	if (IsValidEnsure(GetMesh()))
+	{
+		GetMesh()->SetSimulatePhysics(true);
+	}
+}
+
+void AFantasyCombatCharacter::RestoreToLife()
+{
+	Alive = true;
+	//Restore To Full Health
+	UGameplayAbilitySystemComponent * AbilitySystemComponent = Cast<UGameplayAbilitySystemComponent>(GetAbilitySystemComponent());
+	if (IsValidEnsure(AbilitySystemComponent))
+	{
+		//Restore To Full Health
+		AbilitySystemComponent->SetAttributeValue(HealthTag, AbilitySystemComponent->GetAttributeValue(MaxHealthTag));
+		
 	}
 }
 
@@ -72,6 +108,48 @@ void AFantasyCombatCharacter::ApplyEffect(TSubclassOf<UGameplayEffect> EffectCla
  	}
 }
 
+UGameplayWidgetController* AFantasyCombatCharacter::GetWidgetController(TSubclassOf<UGameplayWidgetController> Class)
+{
+	if (Class->IsChildOf<UGameplayVitalWidgetController>())
+	{
+		if (!VitalController)
+		{
+			VitalController = NewObject<UGameplayVitalWidgetController>(this, VitalControllerClass);
+			if (VitalController)
+			{
+				VitalController->Initialize(this);	
+			}
+		}
+		return VitalController;
+	}
+	if (Class->IsChildOf<UGameplayCombatWidgetController>())
+	{
+		if (!CombatController)
+		{
+			CombatController = NewObject<UGameplayCombatWidgetController>(this, CombatControllerClass);
+			if (CombatController)
+			{
+				CombatController->Initialize(this);	
+			}
+		}
+		return CombatController;
+	}
+	return nullptr;
+}
+
+UAttributeSetBase* AFantasyCombatCharacter::GetAttributeSet(UClass* Class)
+{
+	if (Class->IsChildOf<UAttributeSet>())
+	{
+		const UAttributeSet * AttributeSet = GetAbilitySystemComponent()->GetAttributeSet(Class);
+		if (IsValidEnsure(AttributeSet))
+		{
+			return Cast<UAttributeSetBase>(const_cast<UAttributeSet*>(AttributeSet));
+		}
+	}
+	return nullptr;
+}
+
 void AFantasyCombatCharacter::SetGenericTeamId(const FGenericTeamId& NewTeamID)
 {
 	TeamID = NewTeamID;
@@ -96,4 +174,9 @@ ETeamAttitude::Type AFantasyCombatCharacter::GetTeamAttitudeTowards(const AActor
 		return ETeamAttitude::Neutral;
 	}
 	return IGenericTeamAgentInterface::GetTeamAttitudeTowards(Other);
+}
+
+bool AFantasyCombatCharacter::IsAlive() const
+{
+	return Alive;
 }

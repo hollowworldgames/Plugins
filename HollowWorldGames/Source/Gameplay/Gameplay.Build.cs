@@ -30,7 +30,8 @@ public class Gameplay : ModuleRules
 				"GameplayAbilities",
 				"GameplayTags",
 				"Common",
-				"DataAccess"
+				"DataAccess",
+				"UMG"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -43,7 +44,7 @@ public class Gameplay : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
-				"AIModule"
+				"AIModule", "Equipment"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

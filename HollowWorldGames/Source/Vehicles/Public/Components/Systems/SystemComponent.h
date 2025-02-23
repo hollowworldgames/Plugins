@@ -15,9 +15,13 @@ class VEHICLES_API USystemComponent : public UActorComponent
 public:
 	// Sets default values for this component's properties
 	USystemComponent();
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 protected:
+	virtual void Simulate(float DeltaTime);
 	bool IsLocallyControlled() const;
 	bool IsPlayerControlled() const;
 	// Called when the game starts
 	virtual void BeginPlay() override;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Settings")
+	bool SimulateBoth = false;
 };

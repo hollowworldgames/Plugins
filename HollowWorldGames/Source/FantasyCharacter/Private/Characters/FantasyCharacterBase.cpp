@@ -22,4 +22,24 @@ void AFantasyCharacterBase::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+float AFantasyCharacterBase::GetSpeed() const
+{
+	return GetVelocity().Length();
+}
+
+float AFantasyCharacterBase::GetDirection() const
+{
+	return 0;
+}
+
+float AFantasyCharacterBase::GetTurn() const
+{
+	return 0;
+}
+
+bool AFantasyCharacterBase::IsAlive() const
+{
+	return true;
+}
+
 

@@ -2,6 +2,8 @@
 
 
 #include "Calculation/CombatDOTCalculationBase.h"
+
+#include "GameplayUtilities.h"
 #include "Attributes/RPGAttributeSet.h"
 #include "Attributes/RPGCombatAttributeSet.h"
 #include "Attributes/VitalAttributeSet.h"

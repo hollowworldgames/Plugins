@@ -17,14 +17,10 @@ class GAMEPLAY_API URPGCombatAttributeSet : public UCombatAttributeSet
 	GENERATED_BODY()
 public :
 	ATTRIBUTE_ACCESSORS(URPGCombatAttributeSet, HitChance);
-	ATTRIBUTE_TAG_ACCESSOR(URPGCombatAttributeSet, HitChance);
 	ATTRIBUTE_ACCESSORS(URPGCombatAttributeSet, GlancingBlowChance);
-	ATTRIBUTE_TAG_ACCESSOR(URPGCombatAttributeSet, GlancingBlowChance);
 	ATTRIBUTE_ACCESSORS(URPGCombatAttributeSet, GlancingBlowValue);
-	ATTRIBUTE_TAG_ACCESSOR(URPGCombatAttributeSet, GlancingBlowValue);
 	ATTRIBUTE_ACCESSORS(URPGCombatAttributeSet, EvadeChance);
-	ATTRIBUTE_TAG_ACCESSOR(URPGCombatAttributeSet, EvadeChance);
-
+	
 	virtual float GetAttributeValue(FGameplayTag AttributeTag) override;
 	virtual void SetAttributeValue(FGameplayTag Attribute, float Value) override;
 	virtual FGameplayTag GetAttributeTag(FGameplayAttribute Attribute) override;
@@ -62,11 +58,8 @@ class GAMEPLAY_API URPGMeleeCombatAttributeSet : public URPGCombatAttributeSet
 	GENERATED_BODY()
 public :
 	ATTRIBUTE_ACCESSORS(URPGMeleeCombatAttributeSet, BlockChance);
-	ATTRIBUTE_TAG_ACCESSOR(URPGMeleeCombatAttributeSet, BlockChance);
 	ATTRIBUTE_ACCESSORS(URPGMeleeCombatAttributeSet, BlockValue);
-	ATTRIBUTE_TAG_ACCESSOR(URPGMeleeCombatAttributeSet, BlockValue);
 	ATTRIBUTE_ACCESSORS(URPGMeleeCombatAttributeSet, ParryChance);
-	ATTRIBUTE_TAG_ACCESSOR(URPGMeleeCombatAttributeSet, ParryChance);
 	virtual float GetAttributeValue(FGameplayTag AttributeTag) override;
 	virtual void SetAttributeValue(FGameplayTag Attribute, float Value) override;
 	virtual FGameplayTag GetAttributeTag(FGameplayAttribute Attribute) override;

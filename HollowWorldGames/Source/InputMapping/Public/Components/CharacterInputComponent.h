@@ -15,7 +15,7 @@ INPUTMAPPING_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Input_Character_JumpTag);
 INPUTMAPPING_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Input_Character_InteractTag);
 
 
-UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
+UCLASS(ClassGroup=(Input), meta=(BlueprintSpawnableComponent))
 class INPUTMAPPING_API UCharacterInputComponent : public UPlayerInputComponent
 {
 	GENERATED_BODY()

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "Components/ActorComponent.h"
 #include "InventoryComponent.generated.h"
 
@@ -11,11 +12,13 @@ class IInventoryStorable;
 
 
 USTRUCT(BlueprintType)
-struct FInventoryItem
+struct INVENTORY_API FInventoryItem
 {
 	GENERATED_BODY()
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int64 ItemId = 0;
+	FGameplayTag ItemId;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int64 Id = 0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int Qty = 0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -30,9 +33,10 @@ struct FInventorySlot
 	UPROPERTY()
 	FInventoryItem Item;
 	FInventoryItem RemoveItem();
-	void AddItem(FInventoryItem Storable);
+	void AddItem(const FInventoryItem& Storable);
 	void Swap(FInventorySlot& Slot);
-	bool CanFit(FInventoryItem Storable);
+	bool CanFit(const FInventoryItem& Storable) const;
+	bool IsEmpty() const;
 };
 
 
@@ -44,24 +48,35 @@ class INVENTORY_API UInventoryComponent : public UActorComponent
 public:
 	// Sets default values for this component's properties
 	UInventoryComponent();
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
-	                           FActorComponentTickFunction* ThisTickFunction) override;
-	UFUNCTION(Server, Reliable, BlueprintCallable, Category = "Inventory")
-	void AddToSlot_Server(int Slot, FInventoryItem Item);
-	UFUNCTION(Server, Reliable, BlueprintCallable, Category = "Inventory")
-	void AddToAny_Server(FInventoryItem Item);
+	UFUNCTION(BlueprintCallable, Category="Inventory")
+	void AddToSlot(int Slot, FInventoryItem Item);
+	UFUNCTION(BlueprintCallable, Category="Inventory")
+	void AddToAny(FInventoryItem Item);
 	UFUNCTION(Server, Reliable, BlueprintCallable, Category = "Inventory")
 	void RemoveFromSlot_Server(int Slot);
-	bool CanFit(UObject* Item);
+	UFUNCTION(BlueprintPure, Category="Inventory")
+	bool CanFit(const FInventoryItem& Item) const;
+	bool CanFitInSlot(int Slot, const FInventoryItem& Item) const;
+	UFUNCTION(BlueprintCallable, Category="Inventory")
+	void GetSlots(TArray<FInventoryItem>& Items) const;
+	bool HasInInventory(FGameplayTag Item, int Qty) const;
+	bool IsEmpty(int Slot) const;
+	FInventoryItem GetSlot(int Slot) const;
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	UPROPERTY(EditAnywhere, Replicated, ReplicatedUsing=OnRep_Slots, BlueprintReadOnly, Category=Inventory)
 	TArray<FInventorySlot> Slots;
+	UFUNCTION(Server, Reliable, BlueprintCallable, Category = "Inventory")
+	void AddToSlot_Server(int Slot, FInventoryItem Item);
+	UFUNCTION(Server, Reliable, BlueprintCallable, Category = "Inventory")
+	void AddToAny_Server(FInventoryItem Item);
 	UFUNCTION()
 	void OnRep_Slots(TArray<FInventorySlot>& OldSlots) const;
-	UPROPERTY(EditAnywhere, Replicated, BlueprintReadOnly, Category=Inventory)
+	UPROPERTY(EditAnywhere, Replicated, ReplicatedUsing=OnRep_SlotCount, BlueprintReadOnly, Category=Inventory)
 	int SlotCount = 50;
+	UFUNCTION()
+	void OnRep_SlotCount(int& OldSlotCount) const;
 };
+

@@ -9,6 +9,7 @@
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(PowerGeneratedTag, "Vehicle.Attribute.Power.Generated", "Power Generated")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(PowerMaxGeneratedTag, "Vehicle.Attribute.Power.MaxGenerated", "Power Max Generated")
 
+
 float UPowerAttributeSet::GetAttributeValue(FGameplayTag AttributeTag)
 {
 	return Super::GetAttributeValue(AttributeTag);

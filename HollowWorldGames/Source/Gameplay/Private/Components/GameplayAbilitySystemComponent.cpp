@@ -88,7 +88,7 @@ bool FGameplayEffectApplied::operator==(const FGameplayEffectApplied& Effect) co
 
 
 
-void UGameplayAbilitySystemComponent::ApplyGameplayEffect(TSubclassOf<UGameplayEffect> EffectClass, float Level,
+void UGameplayAbilitySystemComponent::ApplyGameplayEffect(TSubclassOf<UGameplayEffect> EffectClass, const float Level,
                                                           const AActor* Source)
 {
 	if(!IsValid(Source))
@@ -106,7 +106,7 @@ void UGameplayAbilitySystemComponent::ApplyGameplayEffect(TSubclassOf<UGameplayE
 	}
 }
 
-void UGameplayAbilitySystemComponent::ApplyGameplayEffect(TSubclassOf<UGameplayEffect> EffectClass, float Level,
+void UGameplayAbilitySystemComponent::ApplyGameplayEffect(TSubclassOf<UGameplayEffect> EffectClass, const float Level,
 	const TArray<FCustomEffectValue>& Values, const AActor* Source)
 {
 	if(!IsValid(Source))
@@ -150,28 +150,28 @@ void UGameplayAbilitySystemComponent::TickComponent(float DeltaTime, ELevelTick 
                                                     FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	TArray<FGameplayEffectApplied> Remove;
-	for(FGameplayEffectApplied& applied : EffectsApplied)
+	TArray<FGameplayEffectApplied> ToRemove;
+	for(FGameplayEffectApplied& Applied : EffectsApplied)
 	{
-		if(applied.GetDurationType() == EGameplayEffectDurationType::HasDuration)
+		if(Applied.GetDurationType() == EGameplayEffectDurationType::HasDuration)
 		{
-			applied.UpdateDuration(DeltaTime);
-			if(applied.IsExpired())
+			Applied.UpdateDuration(DeltaTime);
+			if(Applied.IsExpired())
 			{
-				Remove.Add(applied);
-				FGameplayTagContainer tags;
-				applied.SpecHandle.Data->GetAllAssetTags(tags);
-				OnEffectRemoved.Broadcast(tags);
+				ToRemove.Add(Applied);
+				FGameplayTagContainer Tags;
+				Applied.SpecHandle.Data->GetAllAssetTags(Tags);
+				OnEffectRemoved.Broadcast(Tags);
 			}
 		}
 	}
-	for(FGameplayEffectApplied& remove : Remove)
+	for(FGameplayEffectApplied& Remove : ToRemove)
 	{
-		EffectsApplied.Remove(remove);
+		EffectsApplied.Remove(Remove);
 	}
 }
 
-void UGameplayAbilitySystemComponent::AddAbilities(TArray<FAbilityData> Abilities, float OverrideLevel)
+void UGameplayAbilitySystemComponent::AddAbilities(TArray<FAbilityData> Abilities, const float OverrideLevel)
 {
 	for(const FAbilityData Ability : Abilities)
 	{
@@ -180,7 +180,7 @@ void UGameplayAbilitySystemComponent::AddAbilities(TArray<FAbilityData> Abilitie
 	}
 }
 
-void UGameplayAbilitySystemComponent::AddAbility(FAbilityData Ability, bool Locked)
+void UGameplayAbilitySystemComponent::AddAbility(const FAbilityData& Ability, const bool Locked)
 {
 	AddAbility(Ability.Ability, Ability.Level, (Locked) ? AbilityLockedTag : AbilityEquippedTag, Ability.Tag);
 }
@@ -522,29 +522,7 @@ FGameplayTag UGameplayAbilitySystemComponent::GetAbilityStatus(FGameplayTag Tag)
 	return AbilityNoneTag;
 }
 
-/*void UGameplayAbilitySystemComponent::EnterCombat()
-{
-	if(!ComponentHasTag(CombatTag.GetTagName()))
-	{
-		LogStart(LogSeverity::Information, true) << "Combat Start" << LogStop();
-		ApplyGameplayEffect(InCombatClass, 1);
-	}
-}
-
-void UGameplayAbilitySystemComponent::ExitCombat()
-{
-	LogStart(LogSeverity::Information, true) << "Combat Stop" << LogStop();
-	FGameplayTagContainer Tags;
-	Tags.AddTag(CombatTag);
-	RemoveActiveEffectsWithGrantedTags(Tags);
-}*/
-
-/*void UGameplayAbilitySystemComponent::SetDeadState()
-{
-	ApplyGameplayEffect(DeadClass, 1);
-}*/
-
-bool UGameplayAbilitySystemComponent::HasTag(FGameplayTag GameplayTag) const
+bool UGameplayAbilitySystemComponent::HasTag(const FGameplayTag GameplayTag) const
 {
 	FGameplayTagContainer Container;
 	GetOwnedGameplayTags(Container);
@@ -557,7 +535,20 @@ UAttributeSetBase* UGameplayAbilitySystemComponent::GetAttributeSet(const TSubcl
 	return Cast<UAttributeSetBase>(Set);
 }
 
-float UGameplayAbilitySystemComponent::GetAttributeValue(FGameplayTag Attribute) const
+void UGameplayAbilitySystemComponent::GetAllAttributeSets(TArray<UAttributeSetBase*>& OutAttributes,
+	const TSubclassOf<UAttributeSetBase>& SubClass) const
+{
+	const TArray<UAttributeSet*> Attributes = GetSpawnedAttributes();
+	for(UAttributeSet * Set : Attributes)
+	{
+		if (Set->IsA(SubClass))
+		{
+			OutAttributes.Add(Cast<UAttributeSetBase>(Set));
+		}
+	}
+}
+
+float UGameplayAbilitySystemComponent::GetAttributeValue(const FGameplayTag Attribute) const
 {
 	const TArray<UAttributeSet*> Attributes = GetSpawnedAttributes();
 	for(UAttributeSet * Set : Attributes)
@@ -574,7 +565,7 @@ float UGameplayAbilitySystemComponent::GetAttributeValue(FGameplayTag Attribute)
 	return 0;
 }
 
-void UGameplayAbilitySystemComponent::SetAttributeValue(FGameplayTag Attribute, float Value)
+void UGameplayAbilitySystemComponent::SetAttributeValue(const FGameplayTag Attribute, const float Value) const
 {
 	const TArray<UAttributeSet*> Attributes = GetSpawnedAttributes();
 	for(UAttributeSet * Set : Attributes)

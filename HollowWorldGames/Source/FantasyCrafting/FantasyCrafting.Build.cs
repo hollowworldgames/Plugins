@@ -24,7 +24,7 @@ public class FantasyCrafting : ModuleRules
                 "Slate",
                 "SlateCore",
                 "GameplayAbilities",
-                "GameplayTags"
+                "GameplayTags", "FantasyCharacter"
             }
         );
     }

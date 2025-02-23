@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTags.h"
 #include "UObject/Interface.h"
 #include "InventoryStorable.generated.h"
 
@@ -22,6 +23,7 @@ class INVENTORY_API IInventoryStorable
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	virtual int GetItemId() = 0;
+	virtual FGameplayTag GetItemType() = 0;
+	virtual FGameplayTag GetItemId() = 0;
 	virtual int GetQty() = 0;
 };

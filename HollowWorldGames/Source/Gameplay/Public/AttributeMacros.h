@@ -7,8 +7,8 @@ GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
 GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
-#define ATTRIBUTE_TAG_ACCESSOR(ClassName, PropertyName) \
-	FGameplayTag Get##PropertyName##Tag() const { return PropertyName##Tag; }
+/*#define ATTRIBUTE_TAG_ACCESSOR(ClassName, PropertyName) \
+	FGameplayTag Get##PropertyName##Tag() const { return PropertyName##Tag; }*/
 
 #define DECLARE_ATTRIBUTE(AttributeName, CategoryName)\
 UPROPERTY(VisibleAnywhere, BlueprintReadOnly, ReplicatedUsing = OnRep_##AttributeName, Category=CategoryName)\
@@ -114,10 +114,10 @@ if(Data.EvaluatedData.Attribute == Get##IncomingExperience##Attribute())\
 		Set##Experience(Get##Experience() + Get##IncomingExperience());\
 		Set##IncomingExperience(0);\
 		float NewLevel = LevelFromExperience.GetValueAtLevel(Get##Experience());\
-		if(NewLevel > Get##Level())\
+		if(Get##Level() != 0 && NewLevel > Get##Level())\
 		{\
 			Set##Level(NewLevel);\
-			OnLevelChanged.Broadcast(NewLevel);\
+			OnLevelChanged.Broadcast(Get##Level##Attribute(), NewLevel);\
 		}\
 	}
 
@@ -127,10 +127,10 @@ if(Data.EvaluatedData.Attribute == Get##IncomingExperience##Attribute())\
 Set##Experience(Get##Experience() + Get##IncomingExperience());\
 Set##IncomingExperience(0);\
 float NewLevel = LevelFromExperience.GetValueAtLevel(GetExperience());\
-if(NewLevel > Level)\
+if(Level != 0 && NewLevel > Level)\
 {\
-	Level = NewLevel;\
-OnLevelChanged.Broadcast(NewLevel);\
+ Level = NewLevel;\
+OnLevelChanged.Broadcast(Data.EvaluatedData.Attribute, NewLevel);\
 }\
 }
 

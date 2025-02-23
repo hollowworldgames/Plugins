@@ -17,7 +17,8 @@ FInventoryItem FInventorySlot::RemoveItem()
 		Item.Qty--;
 		if (Item.Qty < 1)
 		{
-			Item.ItemId = 0;
+			Item.ItemId = FGameplayTag();
+			Item.Id = 0;
 			Item.MaxQty = 0;
 			Item.Qty = 0;
 		}
@@ -26,11 +27,21 @@ FInventoryItem FInventorySlot::RemoveItem()
 	return FInventoryItem();
 }
 
-void FInventorySlot::AddItem(FInventoryItem Storable)
+void FInventorySlot::AddItem(const FInventoryItem& Storable)
 {
-	if(Storable.ItemId == Item.ItemId)
+	if (IsEmpty())
 	{
-		Item.Qty += Storable.Qty;
+		Item.ItemId = Storable.ItemId;
+		Item.Id = Storable.Id;
+		Item.Qty = Storable.Qty;
+		Item.MaxQty = Storable.MaxQty;
+	}
+	else
+	{
+		if(Storable.ItemId.MatchesTagExact(Item.ItemId))
+		{
+			Item.Qty += Storable.Qty;
+		}
 	}
 }
 
@@ -41,13 +52,26 @@ void FInventorySlot::Swap(FInventorySlot& Slot)
 	Slot.Item = Temp;
 }
 
-bool FInventorySlot::CanFit(const FInventoryItem Storable)
+bool FInventorySlot::CanFit(const FInventoryItem& Storable) const
 {
-	if(Item.ItemId == Storable.ItemId && Item.Qty + Storable.Qty < Item.MaxQty)
+	if (IsEmpty())
 	{
-		Item.Qty += Storable.Qty;
+		return true;
+	}
+	if(Item.ItemId.MatchesTagExact(Storable.ItemId) && Item.Qty + Storable.Qty < Item.MaxQty)
+	{
+		return true;
 	}
 	return false;
+}
+
+bool FInventorySlot::IsEmpty() const
+{
+	if (Item.ItemId.IsValid())
+	{
+		return false;
+	}
+	return true;
 }
 
 // Sets default values for this component's properties
@@ -60,9 +84,75 @@ UInventoryComponent::UInventoryComponent()
 	// ...
 }
 
-bool UInventoryComponent::CanFit(UObject* Item)
+void UInventoryComponent::AddToSlot(const int Slot, const FInventoryItem Item)
 {
+	AddToSlot_Server(Slot, Item);
+}
+
+void UInventoryComponent::AddToAny(const FInventoryItem Item)
+{
+	AddToAny_Server(Item);
+}
+
+bool UInventoryComponent::CanFit(const FInventoryItem& Item) const
+{
+	for (auto slot : Slots)
+	{
+		if (slot.CanFit(Item))
+		{
+			return true;
+		}
+	}
 	return false;
+}
+
+bool UInventoryComponent::CanFitInSlot(int Slot, const FInventoryItem& Item) const
+{
+	if (Slot < Slots.Num())
+	{
+		return Slots[Slot].CanFit(Item);
+	}
+	return false;
+}
+
+void UInventoryComponent::GetSlots(TArray<FInventoryItem>& Items) const
+{
+	for (auto Slot : Slots)
+	{
+		Items.Add(Slot.Item);
+	}
+}
+
+bool UInventoryComponent::HasInInventory(const FGameplayTag Item, const int Qty) const
+{
+	int QtyInInventory = 0;
+	for (auto slot : Slots)
+	{
+		if (slot.Item.ItemId.MatchesTagExact(Item))
+		{
+			QtyInInventory += slot.Item.Qty;
+		}
+	}
+	return QtyInInventory >= Qty;
+}
+
+bool UInventoryComponent::IsEmpty(const int Slot) const
+{
+	if (Slot < Slots.Num())
+	{
+		return Slots[Slot].IsEmpty();
+	}
+	return false;
+}
+
+
+FInventoryItem UInventoryComponent::GetSlot(int Slot) const
+{
+	if (Slot < Slots.Num())
+	{
+		return Slots[Slot].Item;
+	}
+	return FInventoryItem();
 }
 
 // Called when the game starts
@@ -86,22 +176,28 @@ void UInventoryComponent::OnRep_Slots(TArray<FInventorySlot>& OldSlots) const
 	
 }
 
-
-// Called every frame
-void UInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType,
-                                        FActorComponentTickFunction* ThisTickFunction)
+void UInventoryComponent::OnRep_SlotCount(int& OldSlotCount) const
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
+	
 }
 
 void UInventoryComponent::AddToAny_Server_Implementation(FInventoryItem Item)
 {
+	for (auto slot : Slots)
+	{
+		if (slot.CanFit(Item))
+		{
+			slot.AddItem(Item);
+		}
+	}
 }
 
 void UInventoryComponent::AddToSlot_Server_Implementation(int Slot, FInventoryItem Item)
 {
+	if (Slot < Slots.Num() && Slots[Slot].CanFit(Item))
+	{
+		Slots[Slot].AddItem(Item);
+	}
 }
 
 

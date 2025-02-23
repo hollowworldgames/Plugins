@@ -25,7 +25,6 @@ UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class FANTASYCHARACTER_API UFantasyLooterComponent : public UActorComponent
 {
 	GENERATED_BODY()
-
 public:
 	// Sets default values for this component's properties
 	UFantasyLooterComponent();

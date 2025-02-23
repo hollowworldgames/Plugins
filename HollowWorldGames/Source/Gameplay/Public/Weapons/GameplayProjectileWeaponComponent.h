@@ -16,7 +16,7 @@ class GAMEPLAY_API UGameplayProjectileWeaponComponent : public UGameplayRangedWe
 public :
 	virtual void LaunchProjectile(AActor* ProjectileTarget, AActor * NewSource) override;
 	UFUNCTION(Server, Reliable)
-	void LaunchProjectile_Server(AActor * ProjectileTarget, AActor * Source, FVector Location, FRotator Rotation);
+	void LaunchProjectile_Server(AActor * ProjectileTarget, AActor * NewSource, FVector Location, FRotator Rotation);
 protected :
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Settings)
 	TSubclassOf<AGameplayProjectileActor> ProjectileClass;

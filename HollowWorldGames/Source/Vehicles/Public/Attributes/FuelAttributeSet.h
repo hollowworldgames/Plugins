@@ -9,6 +9,7 @@
 
 VEHICLES_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(FuelCapacityTag);
 VEHICLES_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(FuelMaxCapacityTag);
+VEHICLES_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(FuelFlowTag);
 
 UCLASS()
 class VEHICLES_API UFuelAttributeSet : public UAttributeSetBase
@@ -16,9 +17,8 @@ class VEHICLES_API UFuelAttributeSet : public UAttributeSetBase
 	GENERATED_BODY()
 public :
 	ATTRIBUTE_ACCESSORS(UFuelAttributeSet, FuelCapacity);
-	ATTRIBUTE_TAG_ACCESSOR(UFuelAttributeSet, FuelCapacity);
 	ATTRIBUTE_ACCESSORS(UFuelAttributeSet, FuelMaxCapacity);
-	ATTRIBUTE_TAG_ACCESSOR(UFuelAttributeSet, FuelMaxCapacity);
+	ATTRIBUTE_ACCESSORS(UFuelAttributeSet, FuelFlow);
 	
 	virtual float GetAttributeValue(FGameplayTag AttributeTag) override;
 	virtual void SetAttributeValue(FGameplayTag Attribute, float Value) override;
@@ -38,4 +38,10 @@ protected :
 
 	UFUNCTION()
 	void OnRep_FuelMaxCapacity(const FGameplayAttributeData& OldFuelMaxCapacity) const;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_FuelFlow, Category = Fuel)
+	FGameplayAttributeData FuelFlow;
+
+	UFUNCTION()
+	void OnRep_FuelFlow(const FGameplayAttributeData& OldFuelFlow) const;
 };

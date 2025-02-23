@@ -4,6 +4,7 @@
 #include "Weapons/GameplayMeleeWeaponComponent.h"
 
 #include "AbilitySystemBlueprintLibrary.h"
+#include "GameplayUtilities.h"
 
 #include "Abilities/GameplayAbilityTypes.h"
 #include "Interfaces/GameplayActorInterface.h"
@@ -34,17 +35,7 @@ void UGameplayMeleeWeaponComponent::OnHit(UPrimitiveComponent* HitComponent, AAc
 	{
 		if (AbilityLaunchOnImpact)
 		{
-			if (UGameplayAbilitySystemComponent * SourceComponent =Cast<UGameplayAbilitySystemComponent>(
-				UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetOwner())))
-			{
-				SourceComponent->OnAbilityInputPressed(CurrentAbility);
-				SourceComponent->OnAbilityInputReleased(CurrentAbility);
-				FGameplayEventData Payload;
-				Payload.Instigator = GetOwner();
-				Payload.Target = OtherActor;
-				Payload.OptionalObject = this;
-				UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetOwner(), ImpactEventTag, Payload);
-			}
+			UGameplayUtilities::RunAbility(CurrentAbility, OtherActor, GetOwner(), FMath::RandRange(MinDamage, MaxDamage));
 		}
 		else
 		{
@@ -54,6 +45,7 @@ void UGameplayMeleeWeaponComponent::OnHit(UPrimitiveComponent* HitComponent, AAc
 				Payload.Instigator = GetOwner();
 				Payload.Target = OtherActor;
 				Payload.OptionalObject = this;
+				Payload.EventMagnitude = FMath::RandRange(MinDamage, MaxDamage); 
 				UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetOwner(), ImpactEventTag, Payload);
 				MontageStarted = false;//avoid sending miss and further hits
 			}

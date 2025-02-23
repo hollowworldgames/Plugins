@@ -8,6 +8,8 @@
 #include "Interfaces/GameplayActorInterface.h"
 #include "FantasyCombatCharacter.generated.h"
 
+class UGameplayVitalWidgetController;
+class UGameplayCombatWidgetController;
 class UFloatVariableAsset;
 
 UCLASS()
@@ -25,12 +27,17 @@ public:
 	virtual TScriptInterface<IGameplayActorInterface> GetAbilityTarget() override;
 	virtual float GetAttributeValue(FGameplayTag Attribute) override;
 	virtual void ApplyEffect(TSubclassOf<UGameplayEffect> EffectClass, float Level, UGameplayAbilitySystemComponent * Source) override;
+	virtual UGameplayWidgetController * GetWidgetController(TSubclassOf<UGameplayWidgetController> Class) override;
+	virtual UAttributeSetBase * GetAttributeSet(UClass * Class) override;
 	virtual void SetGenericTeamId(const FGenericTeamId& NewTeamID) override;
 	virtual FGenericTeamId GetGenericTeamId() const override;
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	virtual ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& Other) const override;
-	bool IsDead() const { return Dead; }
+	virtual bool IsAlive() const override;
 	virtual void OnDeath();
+	UFUNCTION(BlueprintCallable)
+	virtual void Ragdoll();
+	virtual void RestoreToLife();
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -39,7 +46,19 @@ protected:
 	UPROPERTY(VisibleAnywhere, Transient, BlueprintReadOnly, Category = Status)
 	TScriptInterface<IGameplayActorInterface> AbilityTarget;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Status)
-	bool Dead = false;
+	bool Alive = true;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
 	TObjectPtr<UFloatVariableAsset> DestroyDelay;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
+	bool Respawns = false;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
+	float RespawnDelay = 300.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = WidgetControllers)
+	TSubclassOf<UGameplayVitalWidgetController> VitalControllerClass;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = WidgetControllers)
+	TObjectPtr<UGameplayVitalWidgetController> VitalController;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = WidgetControllers)
+	TSubclassOf<UGameplayCombatWidgetController> CombatControllerClass;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = WidgetControllers)
+	TObjectPtr<UGameplayCombatWidgetController> CombatController;
 };

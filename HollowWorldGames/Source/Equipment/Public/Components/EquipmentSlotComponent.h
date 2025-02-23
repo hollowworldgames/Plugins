@@ -15,6 +15,7 @@ UCLASS()
 class EQUIPMENT_API UEquipmentSlotComponent : public USkeletalMeshComponent
 {
 	GENERATED_BODY()
+public :
 	TScriptInterface<IEquippableInterface> GetEquippedItem() const { return Equipped; }
 	void SetEquippedItem(TScriptInterface<IEquippableInterface> Item);
 	FGameplayTag GetSlotTag() const { return SlotTag; }

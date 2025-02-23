@@ -5,10 +5,11 @@
 #include "CoreMinimal.h"
 #include "Characters/FantasyCombatCharacter.h"
 #include "Components/CharacterInputComponent.h"
+#include "Interfaces/InventoryContainer.h"
 #include "FantasyPlayerCharacter.generated.h"
 
 UCLASS()
-class FANTASYCHARACTER_API AFantasyPlayerCharacter : public AFantasyCombatCharacter
+class FANTASYCHARACTER_API AFantasyPlayerCharacter : public AFantasyCombatCharacter, public IInventoryContainer
 {
 	GENERATED_BODY()
 
@@ -17,9 +18,17 @@ public:
 	AFantasyPlayerCharacter();
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual TArray<FInventoryItem> GetInventory() const override;
+	virtual bool HasInInventory(FGameplayTag Item, int Qty) const override;
+	virtual void Store(FInventoryItem Item) override;
+	virtual void Store(FInventoryItem Item, int Slot) override;
+	virtual void Swap(int Source, int Target) override;
+	virtual void Combine(int Source, int Target) override;
+	virtual FInventoryItem Remove(int Slot) override;
+	virtual FInventoryItem GetItem(int Slot) override;
+	virtual bool IsEmpty(int Slot) const override;
 protected:
 	virtual void OnRep_PlayerState() override;
 	// Called when the game starts or when spawned

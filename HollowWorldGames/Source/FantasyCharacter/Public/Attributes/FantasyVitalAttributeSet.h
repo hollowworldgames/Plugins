@@ -15,7 +15,6 @@ class FANTASYCHARACTER_API UFantasyVitalAttributeSet : public UVitalAttributeSet
 	GENERATED_BODY()
 public :
 	ATTRIBUTE_ACCESSORS(UFantasyVitalAttributeSet, Magic);
-	ATTRIBUTE_TAG_ACCESSOR(UFantasyVitalAttributeSet, Magic);
 	ATTRIBUTE_ACCESSORS(UFantasyVitalAttributeSet, MaxMagic);
 	
 	virtual float GetAttributeValue(FGameplayTag AttributeTag) override;

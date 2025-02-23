@@ -3,11 +3,26 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AttributeSet.h"
 #include "GameplayTagContainer.h"
 #include "Attributes/AttributeTags.h"
 #include "Components/ActorComponent.h"
-#include "Components/DataAccessComponent.h"
+#include "Components/GameplayStructs.h"
 #include "CharacterSetterComponent.generated.h"
+
+struct FClassDataRow;
+
+USTRUCT(BlueprintType)
+struct FAttributeTags
+{
+	GENERATED_BODY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Tags)
+	FGameplayTag AttributeTag;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Tags)
+	FGameplayTag AddendTag;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Tags)
+	FGameplayTag MultiplierTag;
+};
 
 
 UCLASS(Abstract, BlueprintType)
@@ -27,14 +42,24 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Character")
 	void SetRace(const FName NewRace);
 	void SetGender(const FGameplayTag NewGender);
+	
 	void SetExperience(const float NewExperience);
 	virtual void LoadFromDataComponent();
 	virtual void WriteToDataComponent();
 	float GetCharacterAttributeBonus(FGameplayTag Attribute) const;
-	void InitializeAttributes() const;
+	
+	virtual void InitializeAttributes();
+	FClassDataRow * GetClassDataRow() const;
+	void SetCharacterToDefaults();
 protected:
+	virtual void LoadCraftingValues(TArray<FCustomEffectValue>& Array);
+	virtual void LoadExperienceValues(TArray<FCustomEffectValue>& Array);
+	virtual void LoadPrimaryValues(TArray<FCustomEffectValue>& Array);
+	virtual void LoadVitalValues(TArray<FCustomEffectValue>& Array);
+	virtual void LoadCombatValues(TArray<FCustomEffectValue>& Array);
+	virtual void LoadSkillValues(TArray<FCustomEffectValue>& Array);
 	UFUNCTION()
-	void OnLevelChanged(float NewLevel);
+	void OnLevelChanged(const FGameplayAttribute& Attribute,float NewLevel);
 	// Called when the game starts
 	virtual void BeginPlay() override;
 	void UpdateClass() const;
@@ -59,4 +84,16 @@ protected:
 	FName Race;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character Settings")
 	TArray<FName> StartingProfessions;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character Settings")
+	FGameplayTagContainer ExperienceTags;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character Settings")
+	FGameplayTagContainer CombatTags;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character Settings")
+	FGameplayTagContainer SkillTags;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character Settings")
+	FGameplayTagContainer CraftingSkillTags;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character Settings")
+	TArray<FAttributeTags>	VitalAttributes;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character Settings")
+	TArray<FAttributeTags>	PrimaryAttributes;
 };

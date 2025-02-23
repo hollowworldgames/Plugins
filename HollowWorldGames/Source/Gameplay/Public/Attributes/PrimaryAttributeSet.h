@@ -22,6 +22,20 @@ protected :
 	FScalableFloat StrengthCurve;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Curve)
 	FScalableFloat AgilityCurve;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Curve)
+	FScalableFloat PrecisionCurve;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Curve)
+	FScalableFloat IntelligenceCurve;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Curve)
+	FScalableFloat WisdomCurve;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Curve)
+	FScalableFloat LuckCurve;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Curve)
+	FScalableFloat ConstitutionCurve;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Curve)
+	FScalableFloat EnduranceCurve;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Curve)
+	FScalableFloat CharismaCurve;
 };
 
 UCLASS()
@@ -30,23 +44,14 @@ class GAMEPLAY_API UPrimaryAttributeSet : public UAttributeSetBase
 	GENERATED_BODY()
 public :
 	ATTRIBUTE_ACCESSORS(UPrimaryAttributeSet, Strength);
-	ATTRIBUTE_TAG_ACCESSOR(UPrimaryAttributeSet, Strength);
 	ATTRIBUTE_ACCESSORS(UPrimaryAttributeSet, Agility);
-	ATTRIBUTE_TAG_ACCESSOR(UPrimaryAttributeSet, Agility);
 	ATTRIBUTE_ACCESSORS(UPrimaryAttributeSet, Precision);
-	ATTRIBUTE_TAG_ACCESSOR(UPrimaryAttributeSet, Precision);
 	ATTRIBUTE_ACCESSORS(UPrimaryAttributeSet, Intelligence);
-	ATTRIBUTE_TAG_ACCESSOR(UPrimaryAttributeSet, Intelligence);
 	ATTRIBUTE_ACCESSORS(UPrimaryAttributeSet, Wisdom);
-	ATTRIBUTE_TAG_ACCESSOR(UPrimaryAttributeSet, Wisdom);
 	ATTRIBUTE_ACCESSORS(UPrimaryAttributeSet, Luck);
-	ATTRIBUTE_TAG_ACCESSOR(UPrimaryAttributeSet, Luck);
 	ATTRIBUTE_ACCESSORS(UPrimaryAttributeSet, Constitution);
-	ATTRIBUTE_TAG_ACCESSOR(UPrimaryAttributeSet, Constitution);
 	ATTRIBUTE_ACCESSORS(UPrimaryAttributeSet, Endurance);
-	ATTRIBUTE_TAG_ACCESSOR(UPrimaryAttributeSet, Endurance);
 	ATTRIBUTE_ACCESSORS(UPrimaryAttributeSet, Charisma);
-	ATTRIBUTE_TAG_ACCESSOR(UPrimaryAttributeSet, Charisma);
 	virtual float GetAttributeValue(FGameplayTag AttributeTag) override;
 	virtual void SetAttributeValue(FGameplayTag Attribute, float Value) override;
 	virtual FGameplayTag GetAttributeTag(FGameplayAttribute Attribute) override;

@@ -18,7 +18,7 @@ AViewableCharacter::AViewableCharacter()
 void AViewableCharacter::CycleViewable()
 {
 	UViewableWorldSubsystem * ViewableWorldSubsystem = GetWorld()->GetSubsystem<UViewableWorldSubsystem>();
-	if(ensure(ViewableWorldSubsystem))
+	if(IsValidEnsure(ViewableWorldSubsystem))
 	{
 		ViewableWorldSubsystem->CycleToNextViewable();
 	}
@@ -27,7 +27,7 @@ void AViewableCharacter::CycleViewable()
 void AViewableCharacter::CycleViewPoint()
 {
 	UViewableWorldSubsystem * ViewableWorldSubsystem = GetWorld()->GetSubsystem<UViewableWorldSubsystem>();
-	if(ensure(ViewableWorldSubsystem))
+	if(IsValidEnsure(ViewableWorldSubsystem))
 	{
 		ViewableWorldSubsystem->CycleToNextViewPoint();
 	}
@@ -48,7 +48,7 @@ void AViewableCharacter::ChangeViewPoint()
 void AViewableCharacter::MakeActiveViewable()
 {
 	APlayerController* controller = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-	if (ensure(controller))
+	if (IsValidEnsure(controller))
 	{
 		controller->SetViewTargetWithBlend(this, 2);//TODO : Change to global setting
 			
@@ -91,7 +91,7 @@ void AViewableCharacter::BeginPlay()
 	if(ViewPoints.Num() > 0)
 	{
 		UViewableWorldSubsystem * ViewableWorldSubsystem = GetWorld()->GetSubsystem<UViewableWorldSubsystem>();
-		if(ensure(ViewableWorldSubsystem))
+		if(IsValidEnsure(ViewableWorldSubsystem))
 		{
 			ViewableWorldSubsystem->AddViewable(TScriptInterface<IViewable>(TObjectPtr<AViewableCharacter>(this)));
 		}
@@ -111,7 +111,7 @@ void AViewableCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
 	UViewableWorldSubsystem * ViewableWorldSubsystem = GetWorld()->GetSubsystem<UViewableWorldSubsystem>();
-	if(ensure(ViewableWorldSubsystem))
+	if(IsValidEnsure(ViewableWorldSubsystem))
 	{
 		ViewableWorldSubsystem->RemoveViewable(TScriptInterface<IViewable>(this));
 	}

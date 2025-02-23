@@ -155,7 +155,7 @@ void UFantasyLooterComponent::TransferToInventory(const TScriptInterface<IInvent
 			FInventoryItem ItemToAdd;
 			ItemToAdd.ItemId = Item->GetItemId();
 			ItemToAdd.Qty = Item->GetQty();
-			InventoryComponent->AddToAny_Server(ItemToAdd);
+			InventoryComponent->AddToAny(ItemToAdd);
 		}
 	}
 	else
@@ -169,7 +169,10 @@ bool UFantasyLooterComponent::CanTransferToInventory(const TScriptInterface<IInv
 	UInventoryComponent * InventoryComponent = GetOwner()->GetComponentByClass<UInventoryComponent>();
 	if (IsValidEnsure(InventoryComponent))
 	{
-		return InventoryComponent->CanFit(Item.GetObject());
+		FInventoryItem ItemToStore;
+		ItemToStore.ItemId = Item->GetItemId();
+		ItemToStore.Qty = Item->GetQty();
+		return InventoryComponent->CanFit(ItemToStore);
 	}
 	return false;
 }

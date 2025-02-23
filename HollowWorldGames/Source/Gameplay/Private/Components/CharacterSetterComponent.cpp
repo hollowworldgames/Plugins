@@ -3,11 +3,16 @@
 
 #include "Components/CharacterSetterComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
-#include "IPropertyTable.h"
+#include "UtilityStatics.h"
 #include "Attributes/AttributeTags.h"
+#include "Attributes/CombatAttributeSet.h"
+#include "Attributes/CraftingAttributeSet.h"
 #include "Attributes/ExperienceAttributeSet.h"
+#include "Attributes/PrimaryAttributeSet.h"
+#include "Attributes/SkillAttributeSet.h"
 #include "Attributes/VitalAttributeSet.h"
 #include "Components/DataAccessComponent.h"
+#include "Components/EquipmentComponent.h"
 #include "Components/GameplayAbilitySystemComponent.h"
 #include "Data/ClassDataRow.h"
 #include "Data/ProfessionDataRow.h"
@@ -15,6 +20,7 @@
 #include "Interfaces/DataComponentInterface.h"
 
 
+class USkillAttributeSet;
 // Sets default values for this component's properties
 UCharacterSetterComponent::UCharacterSetterComponent()
 {
@@ -85,7 +91,7 @@ void UCharacterSetterComponent::SetClass(const FName NewClass)
 
 void UCharacterSetterComponent::AddProfession(const FName Profession) const
 {
-	if (FProfessionDataRow * Row = Professions->FindRow<FProfessionDataRow>(Profession, nullptr))
+	if (const FProfessionDataRow * Row = Professions->FindRow<FProfessionDataRow>(Profession, nullptr))
 	{
 		if (UGameplayAbilitySystemComponent * AbilitySystemComponent = Cast<UGameplayAbilitySystemComponent>(
 			UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetOwner())))
@@ -122,11 +128,17 @@ void UCharacterSetterComponent::SetGender(const FGameplayTag NewGender)
 
 void UCharacterSetterComponent::SetExperience(const float NewExperience)
 {
-	Experience = NewExperience;
 	if (UGameplayAbilitySystemComponent * AbilitySystemComponent = Cast<UGameplayAbilitySystemComponent>(
 			UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetOwner())))
 	{
-		AbilitySystemComponent->SetAttributeValue(ExperienceTag, Experience);
+		Experience = NewExperience;
+		if (const UExperienceAttributeSet * ExperienceAttributes = Cast<UExperienceAttributeSet>(AbilitySystemComponent->GetAttributeSet(UExperienceAttributeSet::StaticClass())))
+		{
+			TArray<FCustomEffectValue> EffectValues;
+			EffectValues.Add(FCustomEffectValue(ExperienceTag, Experience));
+			LoadExperienceValues(EffectValues);
+			ExperienceAttributes->Initialize(AbilitySystemComponent, 1, EffectValues);
+		}
 	}
 }
 
@@ -156,6 +168,7 @@ void UCharacterSetterComponent::LoadFromDataComponent()
              		ExperienceAttributeSet->OnLevelChanged.AddDynamic(this, &UCharacterSetterComponent::OnLevelChanged);
              	}
             }
+			InitializeAttributes();
 		}
 		
 	}
@@ -163,14 +176,30 @@ void UCharacterSetterComponent::LoadFromDataComponent()
 
 void UCharacterSetterComponent::WriteToDataComponent()
 {
-	if (TScriptInterface<IDataComponentInterface> DataInterface = TObjectPtr<AActor>(GetOwner()))
+	const UGameplayAbilitySystemComponent * AbilitySystemComponent = Cast<UGameplayAbilitySystemComponent>(
+									 UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetOwner()));
+	if (!AbilitySystemComponent)
+	{
+		return;
+	}
+	
+	if (const TScriptInterface<IDataComponentInterface> DataInterface = TObjectPtr<AActor>(GetOwner()))
 	{
 		if (UDataAccessComponent * DataComponent = DataInterface->GetDataAccessComponent())
 		{
 			DataComponent->SetFloatAttribute(LevelTag, Level);
+			DataComponent->SetFloatAttribute( ExperienceTag, AbilitySystemComponent->GetAttributeValue(ExperienceTag));
 			DataComponent->SetBoolAttribute(GenderTag, Gender.MatchesTag(MaleTag));
 			DataComponent->SetStringAttribute(ClassTag, Class.ToString());
 			DataComponent->SetStringAttribute(RaceTag, Race.ToString());
+			for (const auto Tag : SkillTags)
+			{
+				DataComponent->SetFloatAttribute( Tag, AbilitySystemComponent->GetAttributeValue(Tag));
+			}
+			for (const auto Tag : CraftingSkillTags)
+			{
+				DataComponent->SetFloatAttribute( Tag, AbilitySystemComponent->GetAttributeValue(Tag));
+			}
 			DataComponent->SaveActorState();
 		}
 	}
@@ -218,20 +247,182 @@ float UCharacterSetterComponent::GetCharacterAttributeBonus(FGameplayTag Attribu
 	return 1.0f;
 }
 
-void UCharacterSetterComponent::InitializeAttributes() const
+void UCharacterSetterComponent::InitializeAttributes()
 {
-	if (FClassDataRow * Row = Classes->FindRow<FClassDataRow>(Class, nullptr))
+	UGameplayAbilitySystemComponent * AbilitySystemComponent = Cast<UGameplayAbilitySystemComponent>(
+			UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetOwner()));
+
+	if (!AbilitySystemComponent)
+		return;
+
+	if (const UPrimaryAttributeSet * PrimaryAttributeSet = Cast<UPrimaryAttributeSet>(AbilitySystemComponent->GetAttributeSet(UPrimaryAttributeSet::StaticClass())))
 	{
-		if (UGameplayAbilitySystemComponent * AbilitySystemComponent = Cast<UGameplayAbilitySystemComponent>(
-			UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetOwner())))
+		TArray<FCustomEffectValue> PrimaryValues;
+		LoadPrimaryValues(PrimaryValues);
+		PrimaryAttributeSet->Initialize(AbilitySystemComponent, Level, PrimaryValues);
+	}
+
+	if (const UVitalAttributeSet * VitalAttributeSet = Cast<UVitalAttributeSet>(AbilitySystemComponent->GetAttributeSet(UVitalAttributeSet::StaticClass())))
+	{
+		TArray<FCustomEffectValue> VitalValues;
+		LoadVitalValues(VitalValues);
+		VitalAttributeSet->Initialize(AbilitySystemComponent, Level, VitalValues);
+	}
+
+	if (const UCombatAttributeSet * CombatAttributeSet = Cast<UCombatAttributeSet>(AbilitySystemComponent->GetAttributeSet(UCombatAttributeSet::StaticClass())))
+	{
+		TArray<FCustomEffectValue> CombatValues;
+		LoadCombatValues(CombatValues);
+		CombatAttributeSet->Initialize(AbilitySystemComponent, Level, CombatValues);
+	}
+
+	TArray<UAttributeSetBase*> SkillAttributeSets;
+
+	AbilitySystemComponent->GetAllAttributeSets(SkillAttributeSets, USkillAttributeSet::StaticClass());
+	AbilitySystemComponent->GetAllAttributeSets(SkillAttributeSets, UCraftingAttributeSet::StaticClass());
+	TArray<FCustomEffectValue> SkillValues;
+	LoadSkillValues(SkillValues);
+	LoadCraftingValues(SkillValues);
+	for (auto Set : SkillAttributeSets)
+	{
+		if (Set)
 		{
-			AbilitySystemComponent->ApplyGameplayEffects(Row->SecondaryEffects, 1);
+			Set->Initialize(AbilitySystemComponent, Level, SkillValues);
 		}
+	}
+			
+	if (const FClassDataRow * Row = Classes->FindRow<FClassDataRow>(Class, nullptr))
+	{
+		AbilitySystemComponent->ApplyGameplayEffects(Row->SecondaryEffects, 1);
 	}
 }
 
-void UCharacterSetterComponent::OnLevelChanged(float NewLevel)
+FClassDataRow* UCharacterSetterComponent::GetClassDataRow() const
 {
-	InitializeAttributes();
+	if (IsValidEnsure(Classes))
+	{
+		return Classes->FindRow<FClassDataRow>(Class, nullptr);
+	}
+	return nullptr;
+}
+
+void UCharacterSetterComponent::SetCharacterToDefaults()
+{
+	UDataAccessComponent * DataAccessComponent = GetOwner()->FindComponentByClass<UDataAccessComponent>();
+	if (!IsValidEnsure(DataAccessComponent))
+	{
+		return;
+	}
+	
+	if (const FClassDataRow * Row = Classes->FindRow<FClassDataRow>(Class, nullptr))
+	{
+		for (auto Skill : Row->InitialSkillValues)
+		{
+			DataAccessComponent->SetFloatAttribute(Skill.Key, Skill.Value);	
+		}
+	}
+	DataAccessComponent->SaveActorState();
+	LoadFromDataComponent();
+}
+
+void UCharacterSetterComponent::LoadCraftingValues(TArray<FCustomEffectValue>& Array)
+{
+	UEquipmentComponent * EquipmentComponent = GetOwner()->FindComponentByClass<UEquipmentComponent>();
+	UDataAccessComponent * DataAccessComponent = GetOwner()->FindComponentByClass<UDataAccessComponent>();
+	if (!IsValidEnsure(EquipmentComponent) || !IsValidEnsure(DataAccessComponent))
+	{
+		return;
+	}
+	
+	for (auto Tag : CraftingSkillTags)
+	{
+		Array.Add(FCustomEffectValue(Tag, DataAccessComponent->GetFloatAttribute(Tag)));
+	}
+}
+
+void UCharacterSetterComponent::LoadExperienceValues(TArray<FCustomEffectValue>& Array)
+{
+	UDataAccessComponent * DataAccessComponent = GetOwner()->FindComponentByClass<UDataAccessComponent>();
+	if (!IsValidEnsure(DataAccessComponent))
+	{
+		return;
+	}
+	
+	for (const auto Tag : ExperienceTags)
+	{
+		Array.Add(FCustomEffectValue(Tag, DataAccessComponent->GetFloatAttribute(Tag)));
+	}
+}
+
+void UCharacterSetterComponent::LoadPrimaryValues(TArray<FCustomEffectValue>& Array)
+{
+	UEquipmentComponent * EquipmentComponent = GetOwner()->FindComponentByClass<UEquipmentComponent>();
+	UDataAccessComponent * DataAccessComponent = GetOwner()->FindComponentByClass<UDataAccessComponent>();
+	if (!IsValidEnsure(EquipmentComponent) || !IsValidEnsure(DataAccessComponent))
+	{
+		return;
+	}
+
+	for (const auto Tags : PrimaryAttributes)
+	{
+		const float Value = EquipmentComponent->GetAttributeFromGear(Tags.AttributeTag);
+		Array.Add(FCustomEffectValue(Tags.AddendTag, DataAccessComponent->GetFloatAttribute(Tags.AttributeTag) + Value));
+		Array.Add(FCustomEffectValue(Tags.MultiplierTag, GetCharacterAttributeBonus(Tags.AttributeTag)));
+	}
+}
+
+void UCharacterSetterComponent::LoadVitalValues(TArray<FCustomEffectValue>& Array)
+{
+	UEquipmentComponent * EquipmentComponent = GetOwner()->FindComponentByClass<UEquipmentComponent>();
+	UDataAccessComponent * DataAccessComponent = GetOwner()->FindComponentByClass<UDataAccessComponent>();
+	if (!IsValidEnsure(EquipmentComponent) || !IsValidEnsure(DataAccessComponent))
+	{
+		return;
+	}
+
+	for (const auto Tags : VitalAttributes)
+	{
+		const float Value = EquipmentComponent->GetAttributeFromGear(Tags.AttributeTag);
+		Array.Add(FCustomEffectValue(Tags.AddendTag, DataAccessComponent->GetFloatAttribute(Tags.AttributeTag) + Value));
+		Array.Add(FCustomEffectValue(Tags.MultiplierTag, GetCharacterAttributeBonus(Tags.AttributeTag)));
+	}
+}
+
+void UCharacterSetterComponent::LoadCombatValues(TArray<FCustomEffectValue>& Array)
+{
+	UEquipmentComponent * EquipmentComponent = GetOwner()->FindComponentByClass<UEquipmentComponent>();
+	UDataAccessComponent * DataAccessComponent = GetOwner()->FindComponentByClass<UDataAccessComponent>();
+	if (!IsValidEnsure(EquipmentComponent) || !IsValidEnsure(DataAccessComponent))
+	{
+		return;
+	}
+
+	for (auto Tag : CombatTags)
+	{
+		const float Value = EquipmentComponent->GetAttributeFromGear(Tag);
+		Array.Add(FCustomEffectValue(Tag, DataAccessComponent->GetFloatAttribute(Tag) + Value));
+	}
+}
+
+void UCharacterSetterComponent::LoadSkillValues(TArray<FCustomEffectValue>& Array)
+{
+	UDataAccessComponent * DataAccessComponent = GetOwner()->FindComponentByClass<UDataAccessComponent>();
+	if (!IsValidEnsure(DataAccessComponent))
+	{
+		return;
+	}
+	
+	for (const auto Tag : SkillTags)
+	{
+		Array.Add(FCustomEffectValue(Tag, DataAccessComponent->GetFloatAttribute(Tag)));
+	}
+}
+
+void UCharacterSetterComponent::OnLevelChanged(const FGameplayAttribute& Attribute, float NewLevel)
+{
+	if (Attribute == UExperienceAttributeSet::GetLevelAttribute())
+	{
+		InitializeAttributes();
+	}
 }
 

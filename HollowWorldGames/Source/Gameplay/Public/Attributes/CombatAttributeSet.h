@@ -16,17 +16,11 @@ class GAMEPLAY_API UCombatAttributeSet : public UAttributeSetBase
 	GENERATED_BODY()
 public :
 	ATTRIBUTE_ACCESSORS(UCombatAttributeSet, Penetration);
-	ATTRIBUTE_TAG_ACCESSOR(UCombatAttributeSet, Penetration);
 	ATTRIBUTE_ACCESSORS(UCombatAttributeSet, PenetrationValue);
-	ATTRIBUTE_TAG_ACCESSOR(UCombatAttributeSet, PenetrationValue);
 	ATTRIBUTE_ACCESSORS(UCombatAttributeSet, CriticalChance);
-	ATTRIBUTE_TAG_ACCESSOR(UCombatAttributeSet, CriticalChance);
 	ATTRIBUTE_ACCESSORS(UCombatAttributeSet, CriticalValue);
-	ATTRIBUTE_TAG_ACCESSOR(UCombatAttributeSet, CriticalValue);
 	ATTRIBUTE_ACCESSORS(UCombatAttributeSet, CriticalDefense);
-	ATTRIBUTE_TAG_ACCESSOR(UCombatAttributeSet, CriticalDefense);
 	ATTRIBUTE_ACCESSORS(UCombatAttributeSet, Armor);
-	ATTRIBUTE_TAG_ACCESSOR(UCombatAttributeSet, Armor);
 	
 	virtual float GetAttributeValue(FGameplayTag AttributeTag) override;
 	virtual void SetAttributeValue(FGameplayTag Attribute, float Value) override;

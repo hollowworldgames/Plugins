@@ -9,7 +9,10 @@ public class Inventory : ModuleRules
         PublicDependencyModuleNames.AddRange(
             new string[]
             {
-                "Core", "Interactions",
+                "Core",
+                "Interactions",
+                "GameplayTags",
+                "Common",
             }
         );
 
@@ -19,8 +22,7 @@ public class Inventory : ModuleRules
                 "CoreUObject",
                 "Engine",
                 "Slate",
-                "SlateCore",
-                "Common"
+                "SlateCore"
             }
         );
     }

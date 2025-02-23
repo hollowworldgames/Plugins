@@ -3,6 +3,10 @@
 
 #include "Components/EquipmentComponent.h"
 
+#include "NativeGameplayTags.h"
+#include "Interfaces/EquippableInterface.h"
+#include "Components/EquipmentSlotComponent.h"
+
 
 // Sets default values for this component's properties
 UEquipmentComponent::UEquipmentComponent()
@@ -12,6 +16,45 @@ UEquipmentComponent::UEquipmentComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
+}
+
+void UEquipmentComponent::EquipInSlot(const FGameplayTag SlotToAdd, TScriptInterface<IEquippableInterface> Item)
+{
+	for (const auto Slot : EquipmentSlots)
+	{
+		if (Slot->GetSlotTag().MatchesTag(SlotToAdd))
+		{
+			Slot->SetEquippedItem(Item);
+			break;
+		}
+	}
+}
+
+TScriptInterface<IEquippableInterface> UEquipmentComponent::GetEquipmentInSlot(const FGameplayTag SlotToAdd) const
+{
+	TScriptInterface<IEquippableInterface> EquipmentInSlot;
+	for (const auto Slot : EquipmentSlots)
+	{
+		if (Slot->GetSlotTag().MatchesTag(SlotToAdd))
+		{
+			EquipmentInSlot = Slot;
+			break;
+		}
+	}
+	return EquipmentInSlot;
+}
+
+float UEquipmentComponent::GetAttributeFromGear(const FGameplayTag& Tag)
+{
+	float Attribute = 0.0f;
+	for (const auto Slot : EquipmentSlots)
+	{
+		if (const TScriptInterface<IEquippableInterface> Equipment = Slot->GetEquippedItem())
+		{
+			Attribute += Equipment->GetAttribute(Tag);
+		}
+	}
+	return Attribute;
 }
 
 
@@ -24,13 +67,4 @@ void UEquipmentComponent::BeginPlay()
 	
 }
 
-
-// Called every frame
-void UEquipmentComponent::TickComponent(float DeltaTime, ELevelTick TickType,
-                                        FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
-}
 

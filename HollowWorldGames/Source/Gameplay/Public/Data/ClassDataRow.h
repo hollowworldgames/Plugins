@@ -49,4 +49,6 @@ public :
 	float EnduranceBonus = 1;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=AttributeBonus)
 	float CharismaBonus = 1;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=AttributeBonus)
+	TMap<FGameplayTag, float> InitialSkillValues;
 };

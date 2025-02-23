@@ -3,6 +3,7 @@
 
 #include "Calculation/SecondaryAttributeCalculationBase.h"
 
+#include "Attributes/ExperienceAttributeSet.h"
 #include "Attributes/PrimaryAttributeSet.h"
 #include "Attributes/RPGAttributeSet.h"
 #include "Attributes/RPGCombatAttributeSet.h"
@@ -13,7 +14,7 @@
 
 USecondaryAttributeCalculationBase::USecondaryAttributeCalculationBase()
 {
-	DEFINE_ATTRIBUTE_CAPTUREDEF2(UVitalAttributeSet, Level, Source, false, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF2(UExperienceAttributeSet, Level, Source, false, true);
 	DEFINE_ATTRIBUTE_CAPTUREDEF2(UPrimaryAttributeSet, Strength, Source, false, true);
 	DEFINE_ATTRIBUTE_CAPTUREDEF2(UPrimaryAttributeSet, Agility, Source, false, true);
 	DEFINE_ATTRIBUTE_CAPTUREDEF2(UPrimaryAttributeSet, Precision, Source, false, true);

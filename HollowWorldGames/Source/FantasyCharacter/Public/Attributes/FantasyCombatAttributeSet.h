@@ -30,24 +30,15 @@ class FANTASYCHARACTER_API UFantasyCombatAttributeSet : public URPGMeleeCombatAt
 	GENERATED_BODY()
 public :
 	ATTRIBUTE_ACCESSORS(UFantasyCombatAttributeSet, PhysicalMitigation);
-	ATTRIBUTE_TAG_ACCESSOR(UFantasyCombatAttributeSet, PhysicalMitigation);
 	ATTRIBUTE_ACCESSORS(UFantasyCombatAttributeSet, ElementalMitigation);
-	ATTRIBUTE_TAG_ACCESSOR(UFantasyCombatAttributeSet, ElementalMitigation);
 	ATTRIBUTE_ACCESSORS(UFantasyCombatAttributeSet, MagicalMitigation);
-	ATTRIBUTE_TAG_ACCESSOR(UFantasyCombatAttributeSet, MagicalMitigation);
 	ATTRIBUTE_ACCESSORS(UFantasyCombatAttributeSet, PhysicalResistance);
-	ATTRIBUTE_TAG_ACCESSOR(UFantasyCombatAttributeSet, PhysicalResistance);
 	ATTRIBUTE_ACCESSORS(UFantasyCombatAttributeSet, ElementalResistance);
-	ATTRIBUTE_TAG_ACCESSOR(UFantasyCombatAttributeSet, ElementalResistance);
 	ATTRIBUTE_ACCESSORS(UFantasyCombatAttributeSet, MagicalResistance);
-	ATTRIBUTE_TAG_ACCESSOR(UFantasyCombatAttributeSet, MagicalResistance);
 	ATTRIBUTE_ACCESSORS(UFantasyCombatAttributeSet, PhysicalDamage);
-	ATTRIBUTE_TAG_ACCESSOR(UFantasyCombatAttributeSet, PhysicalDamage);
 	ATTRIBUTE_ACCESSORS(UFantasyCombatAttributeSet, ElementalDamage);
-	ATTRIBUTE_TAG_ACCESSOR(UFantasyCombatAttributeSet, ElementalDamage);
 	ATTRIBUTE_ACCESSORS(UFantasyCombatAttributeSet, MagicalDamage);
-	ATTRIBUTE_TAG_ACCESSOR(UFantasyCombatAttributeSet, MagicalDamage);
-
+	
 	virtual float GetAttributeValue(FGameplayTag AttributeTag) override;
 	virtual void SetAttributeValue(FGameplayTag Attribute, float Value) override;
 	virtual FGameplayTag GetAttributeTag(FGameplayAttribute Attribute) override;

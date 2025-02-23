@@ -20,20 +20,19 @@ class GAMEPLAY_API UVitalAttributeSet : public UAttributeSetBase
 {
 	GENERATED_BODY()
 public :
-	ATTRIBUTE_ACCESSORS(UVitalAttributeSet, Level);
-	ATTRIBUTE_TAG_ACCESSOR(UVitalAttributeSet, Level);
+	//ATTRIBUTE_ACCESSORS(UVitalAttributeSet, Level);
+	//ATTRIBUTE_TAG_ACCESSOR(UVitalAttributeSet, Level);
 	ATTRIBUTE_ACCESSORS(UVitalAttributeSet, Health);
-	ATTRIBUTE_TAG_ACCESSOR(UVitalAttributeSet, Health);
 	ATTRIBUTE_ACCESSORS(UVitalAttributeSet, MaxHealth);
-	ATTRIBUTE_TAG_ACCESSOR(UVitalAttributeSet, MaxHealth);
 	ATTRIBUTE_ACCESSORS(UVitalAttributeSet, Energy);
-	ATTRIBUTE_TAG_ACCESSOR(UVitalAttributeSet, Energy);
 	ATTRIBUTE_ACCESSORS(UVitalAttributeSet, MaxEnergy);
-	ATTRIBUTE_TAG_ACCESSOR(UVitalAttributeSet, MaxEnergy);
+	ATTRIBUTE_ACCESSORS(UVitalAttributeSet, Mana);
+	ATTRIBUTE_ACCESSORS(UVitalAttributeSet, MaxMana);
 	ATTRIBUTE_ACCESSORS(UVitalAttributeSet, IncomingDamage);
-	ATTRIBUTE_TAG_ACCESSOR(UVitalAttributeSet, IncomingDamage);
 	ATTRIBUTE_ACCESSORS(UVitalAttributeSet, IncomingHealing);
-	ATTRIBUTE_TAG_ACCESSOR(UVitalAttributeSet, IncomingHealing);
+	ATTRIBUTE_ACCESSORS(UVitalAttributeSet, HealthRegen);
+	ATTRIBUTE_ACCESSORS(UVitalAttributeSet, EnergyRegen);
+	ATTRIBUTE_ACCESSORS(UVitalAttributeSet, ManaRegen);
 	UPROPERTY()
 	FOnDead OnDead;
 	UPROPERTY()
@@ -44,12 +43,6 @@ public :
 protected :
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_Level, Category=Health)
-	FGameplayAttributeData Level;
-
-	UFUNCTION()
-	void OnRep_Level(const FGameplayAttributeData& OldLevel) const;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_Health, Category=Health)
 	FGameplayAttributeData Health;
@@ -72,6 +65,18 @@ protected :
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_MaxEnergy, Category=Health)
 	FGameplayAttributeData MaxEnergy;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_Mana, Category=Health)
+	FGameplayAttributeData Mana;
+
+	UFUNCTION()
+	void OnRep_Mana(const FGameplayAttributeData& OldMana) const;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_MaxMana, Category=Health)
+	FGameplayAttributeData MaxMana;
+
+	UFUNCTION()
+	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const;
+	
 	UFUNCTION()
 	void OnRep_MaxEnergy(const FGameplayAttributeData& OldMaxEnergy) const;
 
@@ -81,4 +86,21 @@ protected :
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Health)
 	FGameplayAttributeData IncomingHealing;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_HealthRegen, Category=Health)
+	FGameplayAttributeData HealthRegen;
+
+	UFUNCTION()
+	void OnRep_HealthRegen(const FGameplayAttributeData& OldHealthRegen) const;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_EnergyRegen, Category=Health)
+	FGameplayAttributeData EnergyRegen;
+
+	UFUNCTION()
+	void OnRep_EnergyRegen(const FGameplayAttributeData& OldEnergyRegen) const;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, ReplicatedUsing=OnRep_ManaRegen, Category=Mana)
+	FGameplayAttributeData ManaRegen;
+
+	UFUNCTION()
+	void OnRep_ManaRegen(const FGameplayAttributeData& OldManaRegen) const;
 };

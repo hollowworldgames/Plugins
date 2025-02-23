@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "UObject/Object.h"
 #include "InventoryStorableItemRow.generated.h"
 
@@ -15,11 +16,7 @@ struct INVENTORY_API FInventoryStorableItemRow : public FTableRowBase
 	GENERATED_BODY()
 public :
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Identity")
-	FName Name;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Identity")
-	FName Category;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Identity")
-	FName Type;
+	FGameplayTag ItemTag;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Identity")
 	FString Description;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Identity")

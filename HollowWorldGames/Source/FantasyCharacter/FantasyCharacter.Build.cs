@@ -19,7 +19,8 @@ public class FantasyCharacter : ModuleRules
                 "InputMapping",
                 "Quests",
                 "FantasyCrafting",
-                "AIModule"
+                "AIModule",
+                "Interactions"
             }
         );
 
@@ -32,7 +33,7 @@ public class FantasyCharacter : ModuleRules
                 "SlateCore",
                 "GameplayAbilities",
                 "GameplayTags",
-                
+                "EnhancedInput"
             }
         );
     }

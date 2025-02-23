@@ -9,15 +9,15 @@
 VEHICLES_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(PowerGeneratedTag);
 VEHICLES_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(PowerMaxGeneratedTag);
 
+
 UCLASS()
 class VEHICLES_API UPowerAttributeSet : public UAttributeSetBase
 {
 	GENERATED_BODY()
 public :
 	ATTRIBUTE_ACCESSORS(UPowerAttributeSet, PowerGenerated);
-	ATTRIBUTE_TAG_ACCESSOR(UPowerAttributeSet, PowerGenerated);
 	ATTRIBUTE_ACCESSORS(UPowerAttributeSet, PowerMaxGenerated);
-	ATTRIBUTE_TAG_ACCESSOR(UPowerAttributeSet, PowerMaxGenerated);
+	
 	
 	virtual float GetAttributeValue(FGameplayTag AttributeTag) override;
 	virtual void SetAttributeValue(FGameplayTag Attribute, float Value) override;
